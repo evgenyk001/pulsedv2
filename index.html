@@ -2,796 +2,316 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>PULSE.DV — Premium Real Estate Marketplace</title>
-<meta name="description" content="PULSE.DV — премиальный маркетплейс недвижимости Приморского края с 3D-визуализацией">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>PULSE.DV — Ultra Premium Real Estate Marketplace</title>
+<meta name="description" content="PULSE.DV — кинематографичный маркетплейс недвижимости Приморского края с WebGL-атмосферой">
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Unbounded:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.css">
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  /* ===== RESET & ROOT — ULTRA PREMIUM EDITION ===== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --r: #E8192C; --r2: #FF3344; --rg: rgba(232,25,44,0.12); --rg-glow: rgba(232,25,44,0.3);
+    --bg: #FFFFFF; --bg2: #F7F7F9; --bg3: #EEEEF2; --bg4: #E5E5EA;
+    --br: rgba(0,0,0,0.08); --brr: rgba(232,25,44,0.25);
+    --t: #111111; --t2: rgba(0,0,0,0.6); --t3: rgba(0,0,0,0.4); --t4: rgba(0,0,0,0.2);
+    --fh: 'Unbounded', sans-serif; --fb: 'Inter', sans-serif;
+    --e1: cubic-bezier(0.19, 1, 0.22, 1); --e2: cubic-bezier(0.76, 0, 0.24, 1); --e3: cubic-bezier(0.33, 1, 0.68, 1);
+    --shadow-sm: 0 4px 20px rgba(0,0,0,0.04); --shadow-md: 0 8px 32px rgba(0,0,0,0.08);
+    --shadow-lg: 0 20px 48px rgba(0,0,0,0.12); --shadow-xl: 0 32px 64px rgba(0,0,0,0.16);
+    --glass-blur: blur(16px); --glass-bg: rgba(255,255,255,0.72);
+  }
+  html { overflow-x: hidden; scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--t); font-family: var(--fb); line-height: 1.5; overflow-x: hidden; cursor: none; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  ::-webkit-scrollbar { width: 4px; background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--r); border-radius: 4px; }
 
-:root {
-  --r: #E8192C;
-  --r2: #FF3344;
-  --rg: rgba(232,25,44,0.12);
-  --rg-glow: rgba(232,25,44,0.25);
-  --bg: #FFFFFF;
-  --bg2: #F7F7F9;
-  --bg3: #EEEEF2;
-  --bg4: #E5E5EA;
-  --br: rgba(0,0,0,0.08);
-  --brr: rgba(232,25,44,0.25);
-  --t: #111111;
-  --t2: rgba(0,0,0,0.6);
-  --t3: rgba(0,0,0,0.4);
-  --t4: rgba(0,0,0,0.2);
-  --fh: 'Unbounded', sans-serif;
-  --fb: 'Inter', sans-serif;
-  --e1: cubic-bezier(0.19, 1, 0.22, 1);
-  --e2: cubic-bezier(0.76, 0, 0.24, 1);
-  --e3: cubic-bezier(0.33, 1, 0.68, 1);
-  --shadow-sm: 0 4px 20px rgba(0,0,0,0.04);
-  --shadow-md: 0 8px 32px rgba(0,0,0,0.08);
-  --shadow-lg: 0 20px 48px rgba(0,0,0,0.12);
-  --shadow-xl: 0 32px 64px rgba(0,0,0,0.16);
-}
+  /* ===== PREMIUM CURSOR SYSTEM ===== */
+  #c-dot { position: fixed; width: 8px; height: 8px; background: var(--r); border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%); transition: all 0.1s; filter: blur(0px); }
+  #c-ring { position: fixed; width: 44px; height: 44px; border: 2px solid rgba(232,25,44,0.5); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.4s var(--e1), height 0.4s var(--e1), border-color 0.3s, background 0.3s, backdrop-filter 0.3s; backdrop-filter: blur(4px); background: rgba(232,25,44,0.02); }
+  #c-ring.active { width: 80px; height: 80px; border-color: var(--r); background: rgba(232,25,44,0.12); backdrop-filter: blur(8px); }
+  #c-ring.click { width: 56px; height: 56px; background: rgba(232,25,44,0.2); transform: translate(-50%, -50%) scale(0.9); }
+  @media (max-width: 768px) { #c-dot, #c-ring { display: none; } body { cursor: auto; } }
 
-html { overflow-x: hidden; scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--t); font-family: var(--fb); line-height: 1.5; overflow-x: hidden; cursor: none; }
-a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
-::-webkit-scrollbar { width: 4px; background: var(--bg2); }
-::-webkit-scrollbar-thumb { background: var(--r); border-radius: 4px; }
+  /* ===== PREMIUM LOADER ===== */
+  #loader { position: fixed; inset: 0; z-index: 10000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.5s; }
+  #loader.out { animation: loaderOut 0.8s var(--e2) forwards; }
+  @keyframes loaderOut { to { transform: translateY(-100%); opacity: 0; visibility: hidden; } }
+  .loader-logo { font-family: var(--fh); font-size: clamp(48px, 12vw, 140px); font-weight: 900; color: var(--r); letter-spacing: -0.02em; margin-bottom: 24px; animation: loaderLogoPulse 1.5s var(--e3) infinite alternate; }
+  @keyframes loaderLogoPulse { 0% { opacity: 0.5; transform: scale(0.98); letter-spacing: -0.02em; } 100% { opacity: 1; transform: scale(1.02); letter-spacing: 0.02em; } }
+  .loader-slogan { font-family: var(--fh); font-size: clamp(12px, 3vw, 20px); font-weight: 400; color: var(--t2); letter-spacing: 0.3em; text-transform: uppercase; position: relative; overflow: hidden; margin-bottom: 40px; }
+  .loader-slogan span { display: inline-block; opacity: 0; transform: translateY(100%); animation: sloganReveal 0.4s var(--e1) forwards; }
+  @keyframes sloganReveal { to { opacity: 1; transform: translateY(0); } }
+  .loader-bar { width: 240px; height: 2px; background: var(--br); border-radius: 2px; overflow: hidden; }
+  .loader-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--r), var(--r2)); transition: width 2s var(--e3); }
+  .loader-percent { font-family: var(--fh); font-size: 12px; font-weight: 600; color: var(--t3); margin-top: 12px; }
 
-/* ===== PREMIUM CURSOR ===== */
-#c-dot {
-  position: fixed; width: 8px; height: 8px; background: var(--r);
-  border-radius: 50%; pointer-events: none; z-index: 10000;
-  transform: translate(-50%, -50%); transition: all 0.1s;
-}
-#c-ring {
-  position: fixed; width: 44px; height: 44px;
-  border: 2px solid rgba(232,25,44,0.4); border-radius: 50%;
-  pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
-  transition: width 0.4s var(--e1), height 0.4s var(--e1), border-color 0.3s, background 0.3s;
-}
-#c-ring.active {
-  width: 72px; height: 72px; border-color: var(--r);
-  background: rgba(232,25,44,0.08); backdrop-filter: blur(4px);
-}
-@media (max-width: 768px) { #c-dot, #c-ring { display: none; } body { cursor: auto; } }
+  /* ===== SCROLL PROGRESS ===== */
+  .scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: rgba(232,25,44,0.2); z-index: 1001; transform-origin: 0%; transform: scaleX(0); }
+  .scroll-progress-bar { height: 100%; background: linear-gradient(90deg, var(--r), var(--r2)); width: 100%; }
 
-/* ===== PREMIUM LOADER ===== */
-#loader {
-  position: fixed; inset: 0; z-index: 10000; background: var(--bg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-}
-#loader.out { animation: loaderOut 0.8s var(--e2) forwards; }
-@keyframes loaderOut { to { transform: translateY(-100%); opacity: 0; visibility: hidden; } }
-.loader-logo {
-  font-family: var(--fh); font-size: clamp(48px, 12vw, 140px);
-  font-weight: 900; color: var(--r); letter-spacing: -0.02em; margin-bottom: 24px;
-  animation: loaderLogoPulse 1.5s var(--e3) infinite alternate;
-}
-@keyframes loaderLogoPulse { 0% { opacity: 0.5; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1.02); } }
-.loader-slogan {
-  font-family: var(--fh); font-size: clamp(12px, 3vw, 20px);
-  font-weight: 400; color: var(--t2); letter-spacing: 0.3em;
-  text-transform: uppercase; position: relative; overflow: hidden;
-}
-.loader-slogan span {
-  display: inline-block; opacity: 0; transform: translateY(100%);
-  animation: sloganReveal 0.4s var(--e1) forwards;
-}
-.loader-slogan span:nth-child(1) { animation-delay: 0.05s; }
-.loader-slogan span:nth-child(2) { animation-delay: 0.1s; }
-.loader-slogan span:nth-child(3) { animation-delay: 0.15s; }
-.loader-slogan span:nth-child(4) { animation-delay: 0.2s; }
-.loader-slogan span:nth-child(5) { animation-delay: 0.25s; }
-.loader-slogan span:nth-child(6) { animation-delay: 0.3s; }
-.loader-slogan span:nth-child(7) { animation-delay: 0.35s; }
-.loader-slogan span:nth-child(8) { animation-delay: 0.4s; }
-@keyframes sloganReveal { to { opacity: 1; transform: translateY(0); } }
-.loader-bar {
-  width: 200px; height: 2px; background: var(--br); border-radius: 2px;
-  margin-top: 40px; overflow: hidden;
-}
-.loader-bar-fill {
-  width: 0%; height: 100%; background: var(--r);
-  transition: width 2s var(--e3);
-}
-.loader-percent {
-  font-family: var(--fh); font-size: 12px; font-weight: 600;
-  color: var(--t3); margin-top: 12px;
-}
+  /* ===== GLASS NAVIGATION ===== */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; height: 80px; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--br); transition: all 0.3s var(--e3); }
+  nav.scrolled { box-shadow: var(--shadow-md); background: rgba(255,255,255,0.96); }
+  .nav-logo { font-family: var(--fh); font-size: 22px; font-weight: 800; letter-spacing: 0.1em; cursor: pointer; color: var(--t); transition: all 0.3s; }
+  .nav-logo:hover { letter-spacing: 0.12em; color: var(--r); }
+  .nl-dot { color: var(--r); }
+  .nav-links { display: flex; gap: 40px; align-items: center; }
+  .nav-links a { font-family: var(--fh); font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3); transition: all 0.25s; cursor: pointer; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 2px; background: var(--r); transition: width 0.3s var(--e1); }
+  .nav-links a:hover { color: var(--t); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-market-dropdown { position: relative; }
+  .dropdown-content { position: absolute; top: 100%; left: 0; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 20px; padding: 16px 0; min-width: 260px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s; z-index: 501; box-shadow: var(--shadow-md); }
+  .nav-market-dropdown:hover .dropdown-content { opacity: 1; visibility: visible; transform: translateY(0); }
+  .dropdown-content a { display: flex; align-items: center; gap: 12px; padding: 12px 24px; font-family: var(--fh); font-size: 10px; letter-spacing: 0.08em; color: var(--t2); transition: all 0.2s; }
+  .dropdown-content a:hover { color: var(--r); background: rgba(232,25,44,0.05); padding-left: 32px; }
+  .dropdown-content svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.5; }
+  .nav-btn { font-family: var(--fh); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 28px; border: 1.5px solid var(--r); border-radius: 100px; color: var(--r); background: transparent; transition: all 0.3s var(--e3); cursor: pointer; position: relative; overflow: hidden; }
+  .nav-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--r); transition: left 0.4s var(--e1); z-index: -1; }
+  .nav-btn:hover { color: #fff; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .nav-btn:hover::before { left: 0; }
+  .nav-burger { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
+  .nav-burger span { display: block; width: 24px; height: 2px; background: var(--t); transition: all 0.3s; border-radius: 2px; }
+  @media (max-width: 900px) { nav { padding: 0 24px; height: 70px; } .nav-links, .nav-btn { display: none; } .nav-burger { display: flex; } }
+  .mob { position: fixed; inset: 0; z-index: 499; background: var(--bg); backdrop-filter: blur(20px); padding: 100px 32px; transform: translateX(100%); transition: transform 0.55s var(--e2); }
+  .mob.open { transform: none; }
+  .mob a { font-family: var(--fh); font-size: 28px; font-weight: 700; padding: 20px 0; border-bottom: 1px solid var(--br); color: var(--t2); display: block; cursor: pointer; transition: all 0.2s; }
+  .mob a:hover { color: var(--r); padding-left: 10px; }
 
-/* ===== SCROLL PROGRESS ===== */
-.scroll-progress {
-  position: fixed; top: 0; left: 0; right: 0; height: 3px;
-  background: rgba(232,25,44,0.2); z-index: 1001;
-  transform-origin: 0%; transform: scaleX(0);
-}
-.scroll-progress-bar { height: 100%; background: var(--r); width: 100%; }
+  /* ===== CINEMATIC HERO ===== */
+  #hero { position: relative; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; padding: 0 48px; background: radial-gradient(ellipse at 20% 30%, #FFFFFF, #F2F2F5); }
+  @media (max-width: 768px) { #hero { padding: 0 24px; } }
+  .hero-content { max-width: 1200px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+  .hero-h1 { font-family: var(--fh); font-size: clamp(40px, 7vw, 80px); font-weight: 800; line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 28px; color: var(--t); }
+  .hero-h1 .char { display: inline-block; opacity: 0; transform: translateY(100%) rotateX(90deg); animation: charReveal 0.5s var(--e1) forwards; }
+  @keyframes charReveal { to { opacity: 1; transform: translateY(0) rotateX(0); } }
+  .red-t { color: var(--r); text-shadow: 0 0 20px var(--rg); }
+  .hero-sub { font-size: 18px; color: var(--t2); max-width: 540px; line-height: 1.6; margin-bottom: 40px; opacity: 0; transform: translateY(30px); animation: fadeUp 0.6s var(--e3) 0.2s forwards; }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .btn-fill { display: inline-flex; align-items: center; gap: 12px; padding: 14px 36px; border-radius: 100px; background: var(--r); color: #fff; border: none; font-family: var(--fh); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.3s var(--e3); cursor: pointer; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+  .btn-fill::after { content: '→'; transition: transform 0.3s; display: inline-block; }
+  .btn-fill:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); background: var(--r2); }
+  .btn-fill:hover::after { transform: translateX(6px); }
+  .btn-outline { display: inline-flex; align-items: center; gap: 12px; padding: 13px 36px; border-radius: 100px; background: transparent; border: 1.5px solid var(--br); color: var(--t); font-family: var(--fh); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.3s var(--e3); cursor: pointer; backdrop-filter: blur(4px); }
+  .btn-outline:hover { border-color: var(--r); background: rgba(232,25,44,0.05); transform: translateX(6px); box-shadow: var(--shadow-sm); }
+  .hero-stats { display: flex; gap: 24px; margin-top: 48px; flex-wrap: wrap; }
+  .stat-card { background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 28px; padding: 20px 28px; min-width: 140px; transition: all 0.3s; box-shadow: var(--shadow-sm); cursor: pointer; position: relative; overflow: hidden; }
+  .stat-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 20%, rgba(232,25,44,0.06), transparent); opacity: 0; transition: opacity 0.4s; }
+  .stat-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--brr); }
+  .stat-card:hover::before { opacity: 1; }
+  .stat-val { font-family: var(--fh); font-size: 34px; font-weight: 800; color: var(--t); background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .stat-val .r { color: var(--r); background: none; -webkit-background-clip: unset; background-clip: unset; color: var(--r); }
+  .stat-lbl { font-family: var(--fh); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3); margin-top: 8px; }
+  @media (max-width: 768px) { .hero-stats { gap: 12px; } .stat-card { padding: 12px 20px; min-width: 110px; } .stat-val { font-size: 22px; } }
 
-/* ===== GLASS NAVIGATION ===== */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-  height: 80px; padding: 0 48px; display: flex; align-items: center;
-  justify-content: space-between; background: rgba(255,255,255,0.96);
-  backdrop-filter: blur(20px); border-bottom: 1px solid var(--br);
-  transition: all 0.3s var(--e3);
-}
-nav.scrolled { box-shadow: var(--shadow-md); }
-.nav-logo {
-  font-family: var(--fh); font-size: 22px; font-weight: 800;
-  letter-spacing: 0.1em; cursor: pointer; color: var(--t);
-}
-.nl-dot { color: var(--r); }
-.nav-links { display: flex; gap: 40px; align-items: center; }
-.nav-links a {
-  font-family: var(--fh); font-size: 10px; font-weight: 600;
-  letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3);
-  transition: all 0.25s; cursor: pointer; position: relative;
-}
-.nav-links a::after {
-  content: ''; position: absolute; bottom: -6px; left: 0;
-  width: 0; height: 2px; background: var(--r);
-  transition: width 0.3s var(--e1);
-}
-.nav-links a:hover { color: var(--t); }
-.nav-links a:hover::after { width: 100%; }
-.nav-market-dropdown { position: relative; }
-.dropdown-content {
-  position: absolute; top: 100%; left: 0;
-  background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
-  border: 1px solid var(--br); border-radius: 20px;
-  padding: 16px 0; min-width: 260px; opacity: 0;
-  visibility: hidden; transform: translateY(-10px);
-  transition: all 0.3s; z-index: 501; box-shadow: var(--shadow-md);
-}
-.nav-market-dropdown:hover .dropdown-content {
-  opacity: 1; visibility: visible; transform: translateY(0);
-}
-.dropdown-content a {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 24px; font-family: var(--fh); font-size: 10px;
-  letter-spacing: 0.08em; color: var(--t2); transition: all 0.2s;
-}
-.dropdown-content a:hover {
-  color: var(--r); background: rgba(232,25,44,0.05);
-  padding-left: 32px;
-}
-.dropdown-content svg {
-  width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.5;
-}
-.nav-btn {
-  font-family: var(--fh); font-size: 10px; font-weight: 700;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 12px 28px; border: 1.5px solid var(--r);
-  border-radius: 100px; color: var(--r); background: transparent;
-  transition: all 0.3s var(--e3); cursor: pointer;
-}
-.nav-btn:hover { background: var(--r); color: #fff; box-shadow: 0 4px 15px var(--rg); transform: translateY(-2px); }
-.nav-burger { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
-.nav-burger span { display: block; width: 24px; height: 2px; background: var(--t); transition: all 0.3s; }
-@media (max-width: 900px) {
-  nav { padding: 0 24px; height: 70px; }
-  .nav-links, .nav-btn { display: none; }
-  .nav-burger { display: flex; }
-}
-.mob {
-  position: fixed; inset: 0; z-index: 499; background: var(--bg);
-  padding: 100px 32px; transform: translateX(100%);
-  transition: transform 0.55s var(--e2);
-}
-.mob.open { transform: none; }
-.mob a {
-  font-family: var(--fh); font-size: 28px; font-weight: 700;
-  padding: 20px 0; border-bottom: 1px solid var(--br);
-  color: var(--t2); display: block; cursor: pointer;
-}
-.mob a:hover { color: var(--r); padding-left: 10px; }
+  /* ===== MORTGAGE BANNER ===== */
+  .mortgage-banner { background: linear-gradient(135deg, var(--bg2), var(--bg3)); border: 1px solid var(--br); border-radius: 40px; padding: 48px 48px; margin: 40px 0; box-shadow: var(--shadow-md); position: relative; overflow: hidden; transition: all 0.4s; }
+  .mortgage-banner::before { content: ''; position: absolute; top: -50%; right: -20%; width: 60%; height: 200%; background: radial-gradient(circle, rgba(232,25,44,0.06), transparent); pointer-events: none; }
+  .mortgage-banner:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--brr); }
+  .mortgage-banner h3 { font-family: var(--fh); font-size: clamp(22px, 3.5vw, 30px); font-weight: 800; margin-bottom: 12px; }
+  .mortgage-banner p { font-size: 15px; color: var(--t2); margin-bottom: 32px; }
+  .mortgage-grid { display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 32px; }
+  .mortgage-card { background: var(--bg); border-radius: 24px; padding: 24px 32px; flex: 1; min-width: 160px; transition: all 0.4s var(--e3); cursor: pointer; border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+  .mortgage-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(232,25,44,0.03), transparent); opacity: 0; transition: opacity 0.4s; }
+  .mortgage-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--brr); }
+  .mortgage-card:hover::before { opacity: 1; }
+  .mortgage-rate { font-family: var(--fh); font-size: clamp(42px, 7vw, 64px); font-weight: 900; color: var(--r); line-height: 1; text-shadow: 0 0 20px var(--rg); }
+  .mortgage-title { font-family: var(--fh); font-size: 15px; font-weight: 700; margin-top: 14px; }
+  .mortgage-desc { font-size: 12px; color: var(--t3); margin-top: 6px; }
+  @media (max-width: 900px) { .mortgage-banner { padding: 32px 24px; } .mortgage-grid { gap: 16px; } }
 
-/* ===== CINEMATIC HERO ===== */
-#hero {
-  position: relative; min-height: 90vh; display: flex;
-  flex-direction: column; justify-content: center;
-  overflow: hidden; padding: 0 48px;
-  background: linear-gradient(135deg, #F8F8FA, #FFFFFF);
-}
-@media (max-width: 768px) { #hero { padding: 0 24px; } }
-.hero-content {
-  max-width: 1200px; margin: 0 auto; width: 100%;
-  position: relative; z-index: 2;
-}
-.hero-h1 {
-  font-family: var(--fh); font-size: clamp(40px, 7vw, 80px);
-  font-weight: 800; line-height: 1.1; letter-spacing: -0.03em;
-  margin-bottom: 28px; color: var(--t);
-}
-.hero-h1 .char {
-  display: inline-block; opacity: 0;
-  transform: translateY(100%) rotateX(90deg);
-  animation: charReveal 0.5s var(--e1) forwards;
-}
-@keyframes charReveal { to { opacity: 1; transform: translateY(0) rotateX(0); } }
-.red-t { color: var(--r); }
-.hero-sub {
-  font-size: 18px; color: var(--t2); max-width: 540px;
-  line-height: 1.6; margin-bottom: 40px;
-  opacity: 0; transform: translateY(30px);
-  animation: fadeUp 0.6s var(--e3) 0.2s forwards;
-}
-@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-.btn-fill {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 14px 36px; border-radius: 100px; background: var(--r);
-  color: #fff; border: none; font-family: var(--fh);
-  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; transition: all 0.3s var(--e3);
-  cursor: pointer; box-shadow: var(--shadow-sm);
-}
-.btn-fill::after { content: '→'; transition: transform 0.3s; display: inline-block; }
-.btn-fill:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); background: var(--r2); }
-.btn-fill:hover::after { transform: translateX(4px); }
-.btn-outline {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 13px 36px; border-radius: 100px; background: transparent;
-  border: 1.5px solid var(--br); color: var(--t);
-  font-family: var(--fh); font-size: 11px; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  transition: all 0.3s var(--e3); cursor: pointer;
-}
-.btn-outline:hover { border-color: var(--r); background: rgba(232,25,44,0.05); transform: translateX(6px); }
-.hero-stats {
-  display: flex; gap: 24px; margin-top: 48px; flex-wrap: wrap;
-}
-.stat-card {
-  background: var(--bg); border: 1px solid var(--br);
-  border-radius: 28px; padding: 20px 28px; min-width: 140px;
-  transition: all 0.3s; box-shadow: var(--shadow-sm);
-  cursor: pointer; position: relative; overflow: hidden;
-}
-.stat-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, transparent, rgba(232,25,44,0.03), transparent);
-  transform: translateX(-100%); transition: transform 0.6s;
-}
-.stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--brr); }
-.stat-card:hover::before { transform: translateX(100%); }
-.stat-val {
-  font-family: var(--fh); font-size: 32px; font-weight: 800;
-  color: var(--t);
-}
-.stat-val .r { color: var(--r); }
-.stat-lbl {
-  font-family: var(--fh); font-size: 10px; font-weight: 500;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--t3); margin-top: 8px;
-}
-@media (max-width: 768px) {
-  .hero-stats { gap: 12px; }
-  .stat-card { padding: 12px 20px; min-width: 110px; }
-  .stat-val { font-size: 22px; }
-}
+  /* ===== SECTIONS BASE ===== */
+  section { padding: 100px 48px; position: relative; }
+  .w { max-width: 1400px; margin: 0 auto; width: 100%; }
+  .s-eye { font-family: var(--fh); font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--r); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .s-eye::before { content: ''; width: 36px; height: 2px; background: linear-gradient(90deg, var(--r), var(--r2)); border-radius: 2px; }
+  .s-h2 { font-family: var(--fh); font-size: clamp(34px, 5.5vw, 58px); font-weight: 800; line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 20px; }
+  .s-sub { font-size: 16px; color: var(--t2); max-width: 560px; line-height: 1.7; }
+  @media (max-width: 768px) { section { padding: 60px 24px; } }
 
-/* ===== MORTGAGE BANNER ===== */
-.mortgage-banner {
-  background: linear-gradient(135deg, var(--bg2), var(--bg3));
-  border: 1px solid var(--br); border-radius: 40px;
-  padding: 48px 48px; margin: 40px 0; box-shadow: var(--shadow-md);
-  position: relative; overflow: hidden;
-}
-.mortgage-banner::before {
-  content: ''; position: absolute; top: -50%; right: -20%;
-  width: 60%; height: 200%; background: radial-gradient(circle, rgba(232,25,44,0.05), transparent);
-  pointer-events: none;
-}
-.mortgage-banner h3 {
-  font-family: var(--fh); font-size: clamp(22px, 3.5vw, 30px);
-  font-weight: 800; margin-bottom: 12px;
-}
-.mortgage-banner p { font-size: 15px; color: var(--t2); margin-bottom: 32px; }
-.mortgage-grid {
-  display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 32px;
-}
-.mortgage-card {
-  background: var(--bg); border-radius: 24px; padding: 24px 32px;
-  flex: 1; min-width: 160px; transition: all 0.4s var(--e3);
-  cursor: pointer; border: 1px solid var(--br); box-shadow: var(--shadow-sm);
-}
-.mortgage-card:hover {
-  transform: translateY(-8px); box-shadow: var(--shadow-lg);
-  border-color: var(--brr);
-}
-.mortgage-rate {
-  font-family: var(--fh); font-size: clamp(42px, 7vw, 64px);
-  font-weight: 900; color: var(--r); line-height: 1;
-}
-.mortgage-title {
-  font-family: var(--fh); font-size: 15px; font-weight: 700;
-  margin-top: 14px;
-}
-.mortgage-desc { font-size: 12px; color: var(--t3); margin-top: 6px; }
-@media (max-width: 900px) {
-  .mortgage-banner { padding: 32px 24px; }
-  .mortgage-grid { gap: 16px; }
-}
+  /* ===== SERVICES GRID ===== */
+  #services { background: var(--bg2); }
+  .srv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+  @media (max-width: 1000px) { .srv-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .srv-grid { grid-template-columns: 1fr; } }
+  .srv-card { background: var(--bg); border-radius: 28px; padding: 36px 28px; transition: all 0.5s var(--e3); cursor: pointer; position: relative; border: 1px solid var(--br); box-shadow: var(--shadow-sm); overflow: hidden; }
+  .srv-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(232,25,44,0.06), transparent); opacity: 0; transition: opacity 0.5s; }
+  .srv-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-xl); border-color: var(--brr); }
+  .srv-card:hover::before { opacity: 1; }
+  .srv-icon { font-size: 48px; margin-bottom: 24px; display: block; transition: transform 0.4s var(--e3); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.04)); }
+  .srv-card:hover .srv-icon { transform: scale(1.12) translateY(-6px); }
+  .srv-name { font-family: var(--fh); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  .srv-txt { font-size: 13px; color: var(--t2); line-height: 1.65; }
 
-/* ===== SECTIONS BASE ===== */
-section { padding: 100px 48px; }
-.w { max-width: 1400px; margin: 0 auto; width: 100%; }
-.s-eye {
-  font-family: var(--fh); font-size: 10px; font-weight: 700;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--r);
-  margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
-}
-.s-eye::before {
-  content: ''; width: 36px; height: 2px; background: var(--r);
-  border-radius: 2px;
-}
-.s-h2 {
-  font-family: var(--fh); font-size: clamp(34px, 5.5vw, 58px);
-  font-weight: 800; line-height: 1.1; letter-spacing: -0.025em;
-  margin-bottom: 20px;
-}
-.s-sub {
-  font-size: 16px; color: var(--t2); max-width: 560px; line-height: 1.7;
-}
-@media (max-width: 768px) { section { padding: 60px 24px; } }
+  /* ===== STATS ROW ===== */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; background: var(--bg2); border-radius: 40px; padding: 48px; }
+  @media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 32px; } }
+  .stat-c { background: var(--bg); border-radius: 24px; padding: 36px 24px; text-align: center; transition: all 0.4s; border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+  .stat-c::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, var(--r), var(--r2)); transition: width 0.5s var(--e1); }
+  .stat-c:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--brr); }
+  .stat-c:hover::after { width: 100%; }
+  .stat-n { font-family: var(--fh); font-size: clamp(48px, 7vw, 72px); font-weight: 900; color: var(--t); margin-bottom: 8px; background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .stat-suf { color: var(--r); background: none; -webkit-background-clip: unset; background-clip: unset; color: var(--r); }
+  .stat-lbl { font-family: var(--fh); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3); }
 
-/* ===== SERVICES GRID ===== */
-#services { background: var(--bg2); }
-.srv-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 24px; margin-top: 56px;
-}
-@media (max-width: 1000px) { .srv-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .srv-grid { grid-template-columns: 1fr; } }
-.srv-card {
-  background: var(--bg); border-radius: 28px; padding: 36px 28px;
-  transition: all 0.5s var(--e3); cursor: pointer; position: relative;
-  border: 1px solid var(--br); box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-.srv-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(232,25,44,0.03), transparent);
-  opacity: 0; transition: opacity 0.5s;
-}
-.srv-card:hover {
-  transform: translateY(-8px); box-shadow: var(--shadow-xl);
-  border-color: var(--brr);
-}
-.srv-card:hover::before { opacity: 1; }
-.srv-icon {
-  font-size: 44px; margin-bottom: 24px; display: block;
-  transition: transform 0.4s var(--e3);
-}
-.srv-card:hover .srv-icon { transform: scale(1.1) translateY(-4px); }
-.srv-name {
-  font-family: var(--fh); font-size: 16px; font-weight: 700;
-  margin-bottom: 12px;
-}
-.srv-txt { font-size: 13px; color: var(--t2); line-height: 1.65; }
+  /* ===== CITIES GRID ===== */
+  #cities { background: var(--bg); }
+  .city-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  @media (max-width: 900px) { .city-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .city-grid { grid-template-columns: 1fr; } }
+  .city-card { aspect-ratio: 4/3; position: relative; overflow: hidden; border-radius: 28px; cursor: pointer; box-shadow: var(--shadow-sm); transition: all 0.5s var(--e3); }
+  .city-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-xl); }
+  .city-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--e3); }
+  .city-card:hover img { transform: scale(1.1); filter: brightness(0.85); }
+  .city-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%); }
+  .city-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transform: translateY(0); transition: transform 0.3s; }
+  .city-card:hover .city-info { transform: translateY(-5px); }
+  .city-name { font-family: var(--fh); font-size: 24px; font-weight: 700; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+  .city-count { font-family: var(--fh); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--r); margin-top: 6px; }
+  .city-hover { position: absolute; top: 0; left: 0; right: 0; padding: 28px; color: #fff; font-size: 14px; opacity: 0; transform: translateY(-15px); transition: all 0.4s var(--e3); background: linear-gradient(135deg, rgba(0,0,0,0.6), transparent); }
+  .city-card:hover .city-hover { opacity: 1; transform: translateY(0); }
+  .city-arrow { position: absolute; top: 24px; right: 24px; width: 42px; height: 42px; border: 1.5px solid rgba(255,255,255,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; opacity: 0; transform: scale(0.7); transition: all 0.3s; color: #fff; backdrop-filter: blur(4px); }
+  .city-card:hover .city-arrow { opacity: 1; transform: scale(1); }
 
-/* ===== STATS ROW ===== */
-.stats-row {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 24px; background: var(--bg2); border-radius: 40px;
-  padding: 48px;
-}
-@media (max-width: 700px) {
-  .stats-row { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 32px; }
-}
-.stat-c {
-  background: var(--bg); border-radius: 24px; padding: 36px 24px;
-  text-align: center; transition: all 0.4s; border: 1px solid var(--br);
-  box-shadow: var(--shadow-sm);
-}
-.stat-c:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--brr); }
-.stat-n {
-  font-family: var(--fh); font-size: clamp(48px, 7vw, 72px);
-  font-weight: 900; color: var(--t); margin-bottom: 8px;
-}
-.stat-suf { color: var(--r); }
-.stat-lbl {
-  font-family: var(--fh); font-size: 10px; font-weight: 500;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3);
-}
+  /* ===== PROPERTIES GRID ===== */
+  .props-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  @media (max-width: 960px) { .props-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .props-grid { grid-template-columns: 1fr; } }
+  .pc { background: var(--bg); border-radius: 28px; overflow: hidden; cursor: pointer; transition: all 0.5s var(--e3); border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; }
+  .pc:hover { transform: translateY(-12px); box-shadow: var(--shadow-xl); border-color: var(--brr); }
+  .pc-img { aspect-ratio: 16/11; overflow: hidden; position: relative; }
+  .pc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--e3); }
+  .pc:hover .pc-img img { transform: scale(1.08); }
+  .pc-badge { position: absolute; top: 16px; left: 16px; font-family: var(--fh); font-size: 9px; font-weight: 800; padding: 6px 14px; border-radius: 100px; z-index: 2; backdrop-filter: blur(8px); }
+  .b-new { background: var(--r); color: #fff; box-shadow: 0 0 15px var(--rg); }
+  .b-hot { background: #fff; color: #000; box-shadow: var(--shadow-sm); }
+  .pc-fav { position: absolute; top: 16px; right: 16px; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.85); border: 1px solid var(--br); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(4px); z-index: 2; font-size: 16px; }
+  .pc-fav:hover { background: var(--r); color: #fff; border-color: var(--r); transform: scale(1.12); }
+  .pc-body { padding: 24px; }
+  .pc-type { font-family: var(--fh); font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--r); margin-bottom: 10px; }
+  .pc-name { font-family: var(--fh); font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .pc-loc { font-size: 12px; color: var(--t3); margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
+  .pc-specs { display: flex; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--br); margin-bottom: 16px; }
+  .spec { font-size: 12px; color: var(--t2); display: flex; align-items: center; gap: 6px; }
+  .pc-foot { display: flex; justify-content: space-between; align-items: center; }
+  .pc-price { font-family: var(--fh); font-size: 22px; font-weight: 800; background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .pc-status { padding: 5px 12px; border: 1px solid var(--br); border-radius: 100px; font-size: 9px; font-weight: 600; }
+  .pc-status.ok { border-color: #4ADE80; color: #4ADE80; background: rgba(74,222,128,0.05); }
 
-/* ===== CITIES GRID ===== */
-#cities { background: var(--bg); }
-.city-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 24px; margin-top: 56px;
-}
-@media (max-width: 900px) { .city-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .city-grid { grid-template-columns: 1fr; } }
-.city-card {
-  aspect-ratio: 4/3; position: relative; overflow: hidden;
-  border-radius: 28px; cursor: pointer; box-shadow: var(--shadow-sm);
-  transition: all 0.5s var(--e3);
-}
-.city-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-xl); }
-.city-card img {
-  width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.8s var(--e3);
-}
-.city-card:hover img { transform: scale(1.08); }
-.city-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
-}
-.city-info {
-  position: absolute; bottom: 0; left: 0; right: 0; padding: 28px;
-}
-.city-name {
-  font-family: var(--fh); font-size: 24px; font-weight: 700; color: #fff;
-}
-.city-count {
-  font-family: var(--fh); font-size: 11px; font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--r);
-  margin-top: 6px;
-}
-.city-hover {
-  position: absolute; top: 0; left: 0; right: 0; padding: 28px;
-  color: #fff; font-size: 14px; opacity: 0; transform: translateY(-15px);
-  transition: all 0.4s var(--e3);
-}
-.city-card:hover .city-hover { opacity: 1; transform: translateY(0); }
-.city-arrow {
-  position: absolute; top: 24px; right: 24px; width: 40px; height: 40px;
-  border: 1px solid rgba(255,255,255,0.3); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; opacity: 0; transform: scale(0.7);
-  transition: all 0.3s; color: #fff;
-}
-.city-card:hover .city-arrow { opacity: 1; transform: scale(1); }
+  /* ===== FILTER CHIPS ===== */
+  .chips { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+  .chip { font-family: var(--fh); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 26px; border: 1px solid var(--br); border-radius: 100px; background: var(--bg); color: var(--t3); cursor: pointer; transition: all 0.3s; }
+  .chip:hover, .chip.active { border-color: var(--r); color: var(--r); background: rgba(232,25,44,0.05); transform: translateY(-3px); box-shadow: var(--shadow-sm); }
 
-/* ===== PROPERTIES GRID ===== */
-.props-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 24px; margin-top: 56px;
-}
-@media (max-width: 960px) { .props-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .props-grid { grid-template-columns: 1fr; } }
-.pc {
-  background: var(--bg); border-radius: 28px; overflow: hidden;
-  cursor: pointer; transition: all 0.5s var(--e3);
-  border: 1px solid var(--br); box-shadow: var(--shadow-sm);
-}
-.pc:hover { transform: translateY(-8px); box-shadow: var(--shadow-xl); border-color: var(--brr); }
-.pc-img {
-  aspect-ratio: 16/11; overflow: hidden; position: relative;
-}
-.pc-img img {
-  width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.7s var(--e3);
-}
-.pc:hover .pc-img img { transform: scale(1.05); }
-.pc-badge {
-  position: absolute; top: 16px; left: 16px;
-  font-family: var(--fh); font-size: 9px; font-weight: 800;
-  padding: 6px 14px; border-radius: 100px; z-index: 2;
-}
-.b-new { background: var(--r); color: #fff; box-shadow: 0 0 15px var(--rg); }
-.b-hot { background: #fff; color: #000; box-shadow: var(--shadow-sm); }
-.pc-fav {
-  position: absolute; top: 16px; right: 16px; width: 36px; height: 36px;
-  border-radius: 50%; background: rgba(255,255,255,0.9);
-  border: 1px solid var(--br); display: flex; align-items: center;
-  justify-content: center; cursor: pointer; transition: all 0.3s;
-  backdrop-filter: blur(4px);
-}
-.pc-fav:hover { background: var(--r); color: #fff; border-color: var(--r); transform: scale(1.1); }
-.pc-body { padding: 24px; }
-.pc-type {
-  font-family: var(--fh); font-size: 9px; font-weight: 700;
-  letter-spacing: 0.15em; text-transform: uppercase; color: var(--r);
-  margin-bottom: 10px;
-}
-.pc-name {
-  font-family: var(--fh); font-size: 18px; font-weight: 700;
-  margin-bottom: 6px;
-}
-.pc-loc {
-  font-size: 12px; color: var(--t3); margin-bottom: 16px;
-  display: flex; align-items: center; gap: 6px;
-}
-.pc-specs {
-  display: flex; gap: 16px; padding-bottom: 16px;
-  border-bottom: 1px solid var(--br); margin-bottom: 16px;
-}
-.spec {
-  font-size: 12px; color: var(--t2); display: flex;
-  align-items: center; gap: 6px;
-}
-.pc-foot { display: flex; justify-content: space-between; align-items: center; }
-.pc-price {
-  font-family: var(--fh); font-size: 22px; font-weight: 800;
-}
-.pc-status {
-  padding: 5px 12px; border: 1px solid var(--br);
-  border-radius: 100px; font-size: 9px; font-weight: 600;
-}
-.pc-status.ok { border-color: #4ADE80; color: #4ADE80; }
+  /* ===== HOW STEPS ===== */
+  .how-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+  @media (max-width: 900px) { .how-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .how-grid { grid-template-columns: 1fr; } }
+  .how-card { background: var(--bg); border-radius: 28px; padding: 36px 28px; transition: all 0.5s var(--e3); border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+  .how-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 4px; background: linear-gradient(90deg, var(--r), var(--r2)); transition: width 0.5s var(--e1); }
+  .how-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: var(--brr); }
+  .how-card:hover::after { width: 100%; }
+  .how-n { font-family: var(--fh); font-size: 68px; font-weight: 900; color: rgba(232,25,44,0.08); margin-bottom: 20px; transition: all 0.3s; }
+  .how-card:hover .how-n { color: rgba(232,25,44,0.2); transform: scale(1.05); }
+  .how-title { font-family: var(--fh); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  .how-txt { font-size: 13px; color: var(--t2); line-height: 1.65; }
 
-/* ===== FILTER CHIPS ===== */
-.chips {
-  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px;
-}
-.chip {
-  font-family: var(--fh); font-size: 10px; font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 10px 26px; border: 1px solid var(--br);
-  border-radius: 100px; background: var(--bg); color: var(--t3);
-  cursor: pointer; transition: all 0.3s;
-}
-.chip:hover, .chip.active {
-  border-color: var(--r); color: var(--r);
-  background: rgba(232,25,44,0.05); transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
-}
+  /* ===== WIZARD ===== */
+  .wiz-wrap { max-width: 820px; margin: 56px auto 0; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 48px; overflow: hidden; box-shadow: var(--shadow-md); transition: all 0.3s; }
+  .wiz-prog { height: 4px; background: var(--br); }
+  .wiz-fill { height: 100%; background: linear-gradient(90deg, var(--r), var(--r2)); transition: width 0.5s var(--e3); width: 25%; }
+  .wiz-step { padding: 52px; display: none; }
+  .wiz-step.active { display: block; animation: fadeInScale 0.5s var(--e3); }
+  @keyframes fadeInScale { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+  .wiz-q { font-family: var(--fh); font-size: clamp(22px, 4.5vw, 30px); font-weight: 700; text-align: center; margin-bottom: 40px; background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .wiz-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 36px; }
+  .wo { padding: 24px 20px; border: 1px solid var(--br); border-radius: 24px; background: var(--bg); cursor: pointer; transition: all 0.3s; text-align: center; }
+  .wo:hover, .wo.selected { border-color: var(--r); background: rgba(232,25,44,0.05); transform: translateY(-6px) scale(1.02); box-shadow: var(--shadow-md); }
+  .wo-icon { font-size: 34px; margin-bottom: 12px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
+  .wo-lbl { font-family: var(--fh); font-size: 13px; font-weight: 700; }
+  .wiz-nav { display: flex; gap: 16px; justify-content: center; }
+  .w-next { padding: 15px 44px; background: linear-gradient(135deg, var(--r), var(--r2)); color: #fff; border: none; border-radius: 100px; font-family: var(--fh); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; cursor: pointer; transition: all 0.3s; box-shadow: var(--shadow-sm); }
+  .w-next:hover { transform: scale(1.03); box-shadow: var(--shadow-md); }
+  .w-back { padding: 14px 36px; background: transparent; border: 1.5px solid var(--br); border-radius: 100px; font-family: var(--fh); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--t2); cursor: pointer; transition: all 0.3s; }
+  .w-back:hover { border-color: var(--r); color: var(--r); transform: translateX(-5px); }
 
-/* ===== HOW STEPS ===== */
-.how-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 24px; margin-top: 56px;
-}
-@media (max-width: 900px) { .how-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .how-grid { grid-template-columns: 1fr; } }
-.how-card {
-  background: var(--bg); border-radius: 28px; padding: 36px 28px;
-  transition: all 0.5s var(--e3); border: 1px solid var(--br);
-  box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
-}
-.how-card::after {
-  content: ''; position: absolute; bottom: 0; left: 0;
-  width: 0; height: 3px; background: var(--r);
-  transition: width 0.5s var(--e1);
-}
-.how-card:hover {
-  transform: translateY(-6px); box-shadow: var(--shadow-md);
-  border-color: var(--brr);
-}
-.how-card:hover::after { width: 100%; }
-.how-n {
-  font-family: var(--fh); font-size: 64px; font-weight: 900;
-  color: rgba(232,25,44,0.1); margin-bottom: 20px;
-  transition: all 0.3s;
-}
-.how-card:hover .how-n { color: rgba(232,25,44,0.2); transform: scale(1.05); }
-.how-title {
-  font-family: var(--fh); font-size: 16px; font-weight: 700;
-  margin-bottom: 12px;
-}
-.how-txt { font-size: 13px; color: var(--t2); line-height: 1.65; }
+  /* ===== FAQ ===== */
+  .faq-list { margin-top: 56px; border-top: 1px solid var(--br); }
+  .faq-item { border-bottom: 1px solid var(--br); transition: all 0.3s; }
+  .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; cursor: pointer; font-family: var(--fh); font-size: 16px; font-weight: 600; gap: 20px; transition: color 0.3s; }
+  .faq-item.open .faq-q { color: var(--r); }
+  .faq-ico { width: 32px; height: 32px; border: 1.5px solid var(--br); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; font-size: 16px; }
+  .faq-item.open .faq-ico { transform: rotate(45deg); border-color: var(--r); color: var(--r); background: rgba(232,25,44,0.05); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.5s var(--e3); }
+  .faq-item.open .faq-a { max-height: 200px; padding-bottom: 24px; }
+  .faq-a p { font-size: 14px; color: var(--t2); line-height: 1.7; }
 
-/* ===== WIZARD ===== */
-.wiz-wrap {
-  max-width: 820px; margin: 56px auto 0;
-  background: var(--bg); border: 1px solid var(--br);
-  border-radius: 40px; overflow: hidden; box-shadow: var(--shadow-md);
-}
-.wiz-prog { height: 4px; background: var(--br); }
-.wiz-fill {
-  height: 100%; background: var(--r); transition: width 0.5s var(--e3);
-  width: 25%;
-}
-.wiz-step { padding: 52px; display: none; }
-.wiz-step.active { display: block; }
-.wiz-q {
-  font-family: var(--fh); font-size: clamp(22px, 4.5vw, 30px);
-  font-weight: 700; text-align: center; margin-bottom: 40px;
-}
-.wiz-opts {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px; margin-bottom: 36px;
-}
-.wo {
-  padding: 24px 20px; border: 1px solid var(--br);
-  border-radius: 24px; background: var(--bg2); cursor: pointer;
-  transition: all 0.3s; text-align: center;
-}
-.wo:hover, .wo.selected {
-  border-color: var(--r); background: rgba(232,25,44,0.05);
-  transform: translateY(-5px); box-shadow: var(--shadow-md);
-}
-.wo-icon { font-size: 32px; margin-bottom: 12px; }
-.wo-lbl {
-  font-family: var(--fh); font-size: 13px; font-weight: 700;
-}
-.wiz-nav {
-  display: flex; gap: 16px; justify-content: center;
-}
-.w-next {
-  padding: 15px 44px; background: var(--r); color: #fff;
-  border: none; border-radius: 100px; font-family: var(--fh);
-  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
-  cursor: pointer; transition: all 0.3s;
-}
-.w-next:hover { transform: scale(1.02); box-shadow: 0 8px 25px var(--rg); }
-.w-back {
-  padding: 14px 36px; background: transparent;
-  border: 1.5px solid var(--br); border-radius: 100px;
-  font-family: var(--fh); font-size: 11px; font-weight: 600;
-  letter-spacing: 0.12em; color: var(--t2); cursor: pointer;
-  transition: all 0.3s;
-}
-.w-back:hover { border-color: var(--r); color: var(--r); transform: translateX(-4px); }
+  /* ===== CONTACT ===== */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+  @media (max-width: 1000px) { .contact-grid { grid-template-columns: 1fr; gap: 56px; } }
+  .cont-form { display: flex; flex-direction: column; gap: 18px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+  .fi { background: var(--bg2); border: 1px solid var(--br); border-radius: 20px; padding: 15px 20px; font-size: 14px; outline: none; transition: all 0.3s; }
+  .fi:focus { border-color: var(--r); box-shadow: 0 0 0 3px var(--rg); transform: scale(1.01); }
+  .ch-list { display: flex; flex-direction: column; gap: 14px; margin-top: 32px; }
+  .ch { display: flex; align-items: center; gap: 16px; padding: 16px 24px; border: 1px solid var(--br); border-radius: 24px; transition: all 0.3s; cursor: pointer; background: var(--bg2); }
+  .ch:hover { border-color: var(--r); background: rgba(232,25,44,0.04); transform: translateX(10px); }
+  .ch-ico { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; background: rgba(232,25,44,0.05); }
+  .ch-info strong { font-family: var(--fh); font-size: 14px; font-weight: 700; display: block; }
+  .ch-info span { font-size: 12px; color: var(--t3); }
 
-/* ===== FAQ ===== */
-.faq-list {
-  margin-top: 56px; border-top: 1px solid var(--br);
-}
-.faq-item { border-bottom: 1px solid var(--br); }
-.faq-q {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 24px 0; cursor: pointer; font-family: var(--fh);
-  font-size: 16px; font-weight: 600; gap: 20px;
-  transition: color 0.3s;
-}
-.faq-item.open .faq-q { color: var(--r); }
-.faq-ico {
-  width: 30px; height: 30px; border: 1.5px solid var(--br);
-  border-radius: 50%; display: flex; align-items: center;
-  justify-content: center; transition: all 0.3s; font-size: 16px;
-}
-.faq-item.open .faq-ico {
-  transform: rotate(45deg); border-color: var(--r);
-  color: var(--r); background: rgba(232,25,44,0.05);
-}
-.faq-a {
-  max-height: 0; overflow: hidden; transition: max-height 0.5s var(--e3);
-}
-.faq-item.open .faq-a { max-height: 200px; padding-bottom: 24px; }
-.faq-a p { font-size: 14px; color: var(--t2); line-height: 1.7; }
+  /* ===== FOOTER ===== */
+  footer { background: var(--bg2); border-top: 1px solid var(--br); padding: 80px 48px 48px; margin-top: 80px; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 56px; }
+  @media (max-width: 900px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 40px; } }
+  .foot-brand p { font-size: 13px; color: var(--t3); max-width: 280px; margin-top: 18px; line-height: 1.7; }
+  .foot-col h5 { font-family: var(--fh); font-size: 9px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--r); margin-bottom: 22px; }
+  .foot-col a { display: block; font-size: 13px; color: var(--t3); margin-bottom: 12px; cursor: pointer; transition: all 0.2s; }
+  .foot-col a:hover { color: var(--r); transform: translateX(6px); }
+  .foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid var(--br); margin-top: 56px; flex-wrap: wrap; gap: 16px; }
+  .socs { display: flex; gap: 14px; }
+  .soc { width: 40px; height: 40px; border: 1px solid var(--br); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+  .soc:hover { border-color: var(--r); color: var(--r); transform: translateY(-5px) rotate(360deg); background: rgba(232,25,44,0.05); }
 
-/* ===== CONTACT ===== */
-.contact-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-}
-@media (max-width: 1000px) { .contact-grid { grid-template-columns: 1fr; gap: 56px; } }
-.cont-form {
-  display: flex; flex-direction: column; gap: 18px;
-}
-.row2 {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
-}
-@media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
-.fi {
-  background: var(--bg2); border: 1px solid var(--br);
-  border-radius: 20px; padding: 15px 20px; font-size: 14px;
-  outline: none; transition: all 0.3s;
-}
-.fi:focus {
-  border-color: var(--r); box-shadow: 0 0 0 3px var(--rg);
-  transform: scale(1.01);
-}
-.ch-list {
-  display: flex; flex-direction: column; gap: 14px; margin-top: 32px;
-}
-.ch {
-  display: flex; align-items: center; gap: 16px; padding: 16px 24px;
-  border: 1px solid var(--br); border-radius: 24px; transition: all 0.3s;
-  cursor: pointer; background: var(--bg2);
-}
-.ch:hover {
-  border-color: var(--r); background: rgba(232,25,44,0.05);
-  transform: translateX(8px);
-}
-.ch-ico {
-  width: 48px; height: 48px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-}
-.ch-info strong {
-  font-family: var(--fh); font-size: 14px; font-weight: 700;
-  display: block;
-}
-.ch-info span { font-size: 12px; color: var(--t3); }
+  /* ===== FLOATING BUTTONS ===== */
+  .floats { position: fixed; bottom: 30px; right: 30px; z-index: 300; display: flex; flex-direction: column; gap: 14px; }
+  .flt { width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: var(--shadow-md); transition: all 0.3s; cursor: pointer; backdrop-filter: blur(8px); }
+  .flt:hover { transform: scale(1.12) rotate(8deg); box-shadow: var(--shadow-lg); }
+  .flt-wa { background: #25D366; color: #fff; }
+  .flt-tg { background: #2AABEE; color: #fff; }
 
-/* ===== FOOTER ===== */
-footer {
-  background: var(--bg2); border-top: 1px solid var(--br);
-  padding: 80px 48px 48px; margin-top: 80px;
-}
-.foot-grid {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 56px;
-}
-@media (max-width: 900px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 40px; } }
-.foot-brand p {
-  font-size: 13px; color: var(--t3); max-width: 280px;
-  margin-top: 18px; line-height: 1.7;
-}
-.foot-col h5 {
-  font-family: var(--fh); font-size: 9px; font-weight: 800;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--r);
-  margin-bottom: 22px;
-}
-.foot-col a {
-  display: block; font-size: 13px; color: var(--t3);
-  margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
-}
-.foot-col a:hover { color: var(--r); transform: translateX(6px); }
-.foot-bottom {
-  display: flex; justify-content: space-between; align-items: center;
-  padding-top: 32px; border-top: 1px solid var(--br);
-  margin-top: 56px; flex-wrap: wrap; gap: 16px;
-}
-.socs { display: flex; gap: 14px; }
-.soc {
-  width: 38px; height: 38px; border: 1px solid var(--br);
-  border-radius: 50%; display: flex; align-items: center;
-  justify-content: center; transition: all 0.3s;
-}
-.soc:hover { border-color: var(--r); color: var(--r); transform: translateY(-4px); }
+  /* ===== MODAL ===== */
+  .modal { position: fixed; inset: 0; z-index: 800; background: rgba(255,255,255,0.98); backdrop-filter: blur(24px); overflow-y: auto; transform: translateX(100%); transition: transform 0.55s var(--e2); }
+  .modal.open { transform: none; }
+  .modal-inner { max-width: 1280px; margin: 0 auto; padding: 80px 40px; }
+  .modal-back { background: none; border: none; font-family: var(--fh); font-size: 10px; font-weight: 600; margin-bottom: 36px; cursor: pointer; color: var(--t3); transition: all 0.2s; }
+  .modal-back:hover { color: var(--r); transform: translateX(-6px); }
 
-/* ===== FLOATING BUTTONS ===== */
-.floats {
-  position: fixed; bottom: 30px; right: 30px;
-  z-index: 300; display: flex; flex-direction: column; gap: 14px;
-}
-.flt {
-  width: 56px; height: 56px; border-radius: 50%; display: flex;
-  align-items: center; justify-content: center; font-size: 24px;
-  box-shadow: var(--shadow-md); transition: all 0.3s;
-  cursor: pointer;
-}
-.flt:hover { transform: scale(1.12) rotate(5deg); }
-.flt-wa { background: #25D366; color: #fff; }
-.flt-tg { background: #2AABEE; color: #fff; }
+  /* ===== PAGES ===== */
+  .pg { display: none; }
+  .pg.active { display: block; }
+  #pg-catalog { padding: 100px 48px 80px; }
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+  @media (max-width: 800px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+  .tm { background: var(--bg); border-radius: 28px; padding: 36px; text-align: center; transition: all 0.3s; border: 1px solid var(--br); box-shadow: var(--shadow-sm); }
+  .tm:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: var(--brr); }
+  .tm-ava { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; margin: 0 auto 20px; border: 2px solid var(--brr); transition: transform 0.3s; }
+  .tm:hover .tm-ava { transform: scale(1.02); }
+  .tm-name { font-family: var(--fh); font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .tm-role { font-family: var(--fh); font-size: 9px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--r); }
 
-/* ===== MODAL ===== */
-.modal {
-  position: fixed; inset: 0; z-index: 800;
-  background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
-  overflow-y: auto; transform: translateX(100%);
-  transition: transform 0.55s var(--e2);
-}
-.modal.open { transform: none; }
-.modal-inner {
-  max-width: 1280px; margin: 0 auto; padding: 80px 40px;
-}
-.modal-back {
-  background: none; border: none; font-family: var(--fh);
-  font-size: 10px; font-weight: 600; margin-bottom: 36px;
-  cursor: pointer; color: var(--t3); transition: all 0.2s;
-}
-.modal-back:hover { color: var(--r); transform: translateX(-6px); }
-
-/* ===== PAGES ===== */
-.pg { display: none; }
-.pg.active { display: block; }
-#pg-catalog { padding: 100px 48px 80px; }
-.team-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
-  margin-top: 56px;
-}
-@media (max-width: 800px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
-.tm {
-  background: var(--bg); border-radius: 28px; padding: 36px;
-  text-align: center; transition: all 0.3s; border: 1px solid var(--br);
-  box-shadow: var(--shadow-sm);
-}
-.tm:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--brr); }
-.tm-ava {
-  width: 100px; height: 100px; border-radius: 50%; overflow: hidden;
-  margin: 0 auto 20px; border: 2px solid var(--brr);
-}
-.tm-name {
-  font-family: var(--fh); font-size: 17px; font-weight: 700;
-  margin-bottom: 6px;
-}
-.tm-role {
-  font-family: var(--fh); font-size: 9px; font-weight: 600;
-  letter-spacing: 0.15em; text-transform: uppercase; color: var(--r);
-}
+  /* ===== ANIMATION UTILITIES ===== */
+  .scroll-reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: all 0.8s var(--e1); }
+  .scroll-reveal.revealed { opacity: 1; transform: translateY(0) scale(1); }
+  .scroll-reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.7s var(--e1); }
+  .scroll-reveal-left.revealed { opacity: 1; transform: translateX(0); }
+  .scroll-reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.7s var(--e1); }
+  .scroll-reveal-right.revealed { opacity: 1; transform: translateX(0); }
+  .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; } .delay-4 { transition-delay: 0.4s; }
 </style>
 </head>
 <body>
@@ -801,10 +321,7 @@ footer {
 
 <div id="loader">
   <div class="loader-logo">PULSE.DV</div>
-  <div class="loader-slogan">
-    <span>п</span><span>р</span><span>е</span><span>м</span><span>и</span><span>а</span><span>л</span><span>ь</span><span>н</span><span>а</span><span>я</span>
-    <span>н</span><span>е</span><span>д</span><span>в</span><span>и</span><span>ж</span><span>и</span><span>м</span><span>о</span><span>с</span><span>т</span><span>ь</span>
-  </div>
+  <div class="loader-slogan"><span>п</span><span>р</span><span>е</span><span>м</span><span>и</span><span>а</span><span>л</span><span>ь</span><span>н</span><span>а</span><span>я</span> <span>н</span><span>е</span><span>д</span><span>в</span><span>и</span><span>ж</span><span>и</span><span>м</span><span>о</span><span>с</span><span>т</span><span>ь</span></div>
   <div class="loader-bar"><div class="loader-bar-fill" id="loaderFill"></div></div>
   <div class="loader-percent" id="loaderPercent">0%</div>
 </div>
@@ -814,16 +331,7 @@ footer {
 <nav id="nav">
   <div class="nav-logo" onclick="goPage('home')">PULSE<span class="nl-dot">.</span>DV</div>
   <div class="nav-links">
-    <div class="nav-market-dropdown">
-      <a>Маркет</a>
-      <div class="dropdown-content">
-        <a onclick="goPage('catalog'); filterMarket('buy')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-6 9 6v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Покупка квартиры</a>
-        <a onclick="goPage('catalog'); filterMarket('rent')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M4.93 19.07l2.83-2.83M12 22v-4M19.07 19.07l-2.83-2.83M22 12h-4M19.07 4.93l-2.83 2.83"/><circle cx="12" cy="12" r="4"/></svg>Аренда</a>
-        <a onclick="goPage('catalog'); filterMarket('land')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Земельный участок</a>
-        <a onclick="goPage('catalog'); filterMarket('commercial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M8 4v4M16 4v4"/></svg>Коммерция</a>
-        <a onclick="goPage('catalog'); filterMarket('secondary')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12H4M12 4v16"/><circle cx="12" cy="12" r="10"/></svg>Вторичный рынок</a>
-      </div>
-    </div>
+    <div class="nav-market-dropdown"><a>Маркет</a><div class="dropdown-content"><a onclick="goPage('catalog'); filterMarket('buy')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-6 9 6v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Покупка квартиры</a><a onclick="goPage('catalog'); filterMarket('rent')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v4M4.93 4.93l2.83 2.83M2 12h4M4.93 19.07l2.83-2.83M12 22v-4M19.07 19.07l-2.83-2.83M22 12h-4M19.07 4.93l-2.83 2.83"/><circle cx="12" cy="12" r="4"/></svg>Аренда</a><a onclick="goPage('catalog'); filterMarket('land')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Земельный участок</a><a onclick="goPage('catalog'); filterMarket('commercial')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M8 4v4M16 4v4"/></svg>Коммерция</a><a onclick="goPage('catalog'); filterMarket('secondary')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12H4M12 4v16"/><circle cx="12" cy="12" r="10"/></svg>Вторичный рынок</a></div></div>
     <a onclick="goSec('cities')">Города</a>
     <a onclick="goSec('services')">Услуги</a>
     <a onclick="goPage('about')">О нас</a>
@@ -843,61 +351,62 @@ footer {
   <div style="margin-top: 36px;"><button class="btn-fill" style="width: 100%;" onclick="goSec('contact');toggleMob()">Консультация →</button></div>
 </div>
 
+<!-- HOME PAGE -->
 <div id="pg-home" class="pg active">
-
-<section id="hero">
-  <div class="hero-content">
-    <h1 class="hero-h1" id="heroTitle">Недвижимость<br>Приморья — <span class="red-t">просто</span><br>и выгодно</h1>
-    <p class="hero-sub">Покупка, продажа, аренда — полный спектр услуг во Владивостоке, Уссурийске, Артёме и по всему Приморскому краю.</p>
-    <div class="hero-buttons" style="display: flex; gap: 20px; flex-wrap: wrap;">
-      <button class="btn-fill" onclick="goPage('catalog')">Смотреть новостройки →</button>
-      <button class="btn-outline" onclick="goSec('wizard')">Подобрать за 2 минуты</button>
+  <section id="hero">
+    <div class="hero-content">
+      <h1 class="hero-h1" id="heroTitle">Недвижимость<br>Приморья — <span class="red-t">просто</span><br>и выгодно</h1>
+      <p class="hero-sub">Покупка, продажа, аренда — полный спектр услуг во Владивостоке, Уссурийске, Артёме и по всему Приморскому краю.</p>
+      <div class="hero-buttons" style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <button class="btn-fill" onclick="goPage('catalog')">Смотреть новостройки →</button>
+        <button class="btn-outline" onclick="goSec('wizard')">Подобрать за 2 минуты</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card"><div class="stat-val">500<span class="r">+</span></div><div class="stat-lbl">Сделок с 2021</div></div>
+        <div class="stat-card"><div class="stat-val">4</div><div class="stat-lbl">Города Приморья</div></div>
+        <div class="stat-card"><div class="stat-val">98<span class="r">%</span></div><div class="stat-lbl">Довольных клиентов</div></div>
+      </div>
     </div>
-    <div class="hero-stats">
-      <div class="stat-card"><div class="stat-val">500<span class="r">+</span></div><div class="stat-lbl">Сделок с 2021</div></div>
-      <div class="stat-card"><div class="stat-val">4</div><div class="stat-lbl">Города Приморья</div></div>
-      <div class="stat-card"><div class="stat-val">98<span class="r">%</span></div><div class="stat-lbl">Довольных клиентов</div></div>
+  </section>
+
+  <div class="w" style="padding: 0 48px;">
+    <div class="mortgage-banner scroll-reveal">
+      <h3>🏦 Ипотечные программы Дальнего Востока</h3>
+      <p>Помогаем оформить под ключ с лучшими условиями. Работаем со всеми банками.</p>
+      <div class="mortgage-grid">
+        <div class="mortgage-card"><div class="mortgage-rate">2%</div><div class="mortgage-title">Дальневосточная</div><div class="mortgage-desc">Для жителей ДФО</div></div>
+        <div class="mortgage-card"><div class="mortgage-rate">6%</div><div class="mortgage-title">Семейная</div><div class="mortgage-desc">Для семей с детьми</div></div>
+        <div class="mortgage-card"><div class="mortgage-rate">8%</div><div class="mortgage-title">IT-ипотека</div><div class="mortgage-desc">Для IT-специалистов</div></div>
+        <div class="mortgage-card"><div class="mortgage-rate">12%</div><div class="mortgage-title">Стандартная</div><div class="mortgage-desc">Без подтверждения дохода</div></div>
+      </div>
+      <button class="btn-fill" onclick="goSec('contact')">Узнать подробнее →</button>
     </div>
   </div>
-</section>
 
-<div class="w" style="padding: 0 48px;">
-  <div class="mortgage-banner">
-    <h3>🏦 Ипотечные программы Дальнего Востока</h3>
-    <p>Помогаем оформить под ключ с лучшими условиями. Работаем со всеми банками.</p>
-    <div class="mortgage-grid">
-      <div class="mortgage-card"><div class="mortgage-rate">2%</div><div class="mortgage-title">Дальневосточная</div><div class="mortgage-desc">Для жителей ДФО</div></div>
-      <div class="mortgage-card"><div class="mortgage-rate">6%</div><div class="mortgage-title">Семейная</div><div class="mortgage-desc">Для семей с детьми</div></div>
-      <div class="mortgage-card"><div class="mortgage-rate">8%</div><div class="mortgage-title">IT-ипотека</div><div class="mortgage-desc">Для IT-специалистов</div></div>
-      <div class="mortgage-card"><div class="mortgage-rate">12%</div><div class="mortgage-title">Стандартная</div><div class="mortgage-desc">Без подтверждения дохода</div></div>
-    </div>
-    <button class="btn-fill" onclick="goSec('contact')">Узнать подробнее →</button>
-  </div>
+  <section id="services"><div class="w"><div class="s-eye scroll-reveal">Что мы делаем</div><h2 class="s-h2 scroll-reveal delay-1">Полный спектр услуг</h2><div class="srv-grid"><div class="srv-card scroll-reveal"><span class="srv-icon">🏢</span><div class="srv-name">Продажа новостроек</div><div class="srv-txt">Работаем со всеми застройщиками Приморья</div></div><div class="srv-card scroll-reveal delay-1"><span class="srv-icon">🔑</span><div class="srv-name">Вторичный рынок</div><div class="srv-txt">Быстро и безопасно</div></div><div class="srv-card scroll-reveal delay-2"><span class="srv-icon">📋</span><div class="srv-name">Аренда</div><div class="srv-txt">Подбор жилья под ключ</div></div><div class="srv-card scroll-reveal delay-3"><span class="srv-icon">⚖️</span><div class="srv-name">Юридическое сопровождение</div><div class="srv-txt">Без рисков</div></div><div class="srv-card scroll-reveal delay-4"><span class="srv-icon">🏦</span><div class="srv-name">Ипотека</div><div class="srv-txt">Подбор лучших программ</div></div><div class="srv-card scroll-reveal"><span class="srv-icon">📊</span><div class="srv-name">Инвестиции</div><div class="srv-txt">Расчёт доходности</div></div><div class="srv-card scroll-reveal delay-1"><span class="srv-icon">🏠</span><div class="srv-name">Управление объектами</div><div class="srv-txt">Доход без хлопот</div></div><div class="srv-card scroll-reveal delay-2"><span class="srv-icon">🌊</span><div class="srv-name">Загородная недвижимость</div><div class="srv-txt">Дома, дачи, участки</div></div></div></div></section>
+
+  <div class="w"><div class="stats-row"><div class="stat-c scroll-reveal"><div class="stat-n"><span class="cnt" data-n="500">0</span><span class="stat-suf">+</span></div><div class="stat-lbl">Сделок с 2021</div></div><div class="stat-c scroll-reveal delay-1"><div class="stat-n"><span class="cnt" data-n="4">0</span></div><div class="stat-lbl">Города</div></div><div class="stat-c scroll-reveal delay-2"><div class="stat-n"><span class="cnt" data-n="98">0</span><span class="stat-suf">%</span></div><div class="stat-lbl">Довольных клиентов</div></div><div class="stat-c scroll-reveal delay-3"><div class="stat-n"><span class="cnt" data-n="3">0</span></div><div class="stat-lbl">Года на рынке</div></div></div></div>
+
+  <section id="cities"><div class="w"><div class="s-eye scroll-reveal">Приморский край</div><h2 class="s-h2 scroll-reveal delay-1">Работаем по всему региону</h2><div class="city-grid"><div class="city-card scroll-reveal"><img src="https://images.unsplash.com/photo-1573747806894-09f8f5bfc3a3?w=700&q=80" alt="Владивосток"><div class="city-hover">Деловая столица Дальнего Востока</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Владивосток</div><div class="city-count">120+ объектов</div></div></div><div class="city-card scroll-reveal delay-1"><img src="https://images.unsplash.com/photo-1546449377-80f9cdfe4900?w=700&q=80" alt="Уссурийск"><div class="city-hover">Крупный транспортный узел</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Уссурийск</div><div class="city-count">48+ объектов</div></div></div><div class="city-card scroll-reveal delay-2"><img src="https://images.unsplash.com/photo-1555636222-cae831e670b3?w=700&q=80" alt="Артём"><div class="city-hover">Спутник Владивостока</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Артём</div><div class="city-count">35+ объектов</div></div></div><div class="city-card scroll-reveal"><img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=700&q=80" alt="Находка"><div class="city-hover">Портовый город</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Находка</div><div class="city-count">22+ объекта</div></div></div><div class="city-card scroll-reveal delay-1"><img src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=700&q=80" alt="Арсеньев"><div class="city-hover">Доступные цены</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Арсеньев</div><div class="city-count">14+ объектов</div></div></div><div class="city-card scroll-reveal delay-2" style="background: linear-gradient(135deg, rgba(232,25,44,0.08), rgba(232,25,44,0.02)); cursor: pointer;" onclick="goSec('contact')"><div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;"><div style="font-size: 44px; margin-bottom: 14px;">🗺️</div><div class="city-name" style="font-size: 20px; color: var(--t);">Другие города</div><div class="city-count">Работаем везде</div></div></div></div></div></section>
+
+  <section id="featured"><div class="w"><div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 32px;"><div><div class="s-eye scroll-reveal">Новостройки</div><h2 class="s-h2 scroll-reveal delay-1">Актуальные объекты</h2></div><button class="btn-outline scroll-reveal" onclick="goPage('catalog')">Весь каталог →</button></div><div class="chips scroll-reveal"><button class="chip active" onclick="filterHome(this,'all')">Все</button><button class="chip" onclick="filterHome(this,'vlad')">Владивосток</button><button class="chip" onclick="filterHome(this,'uss')">Уссурийск</button><button class="chip" onclick="filterHome(this,'art')">Артём</button><button class="chip" onclick="filterHome(this,'new')">Новинки</button></div><div class="props-grid" id="homeGrid"></div></div></section>
+
+  <section id="how"><div class="w"><div class="s-eye scroll-reveal">Как мы работаем</div><h2 class="s-h2 scroll-reveal delay-1">Покупка без лишних шагов</h2><div class="how-grid"><div class="how-card scroll-reveal"><div class="how-n">01</div><div class="how-title">Заявка</div><div class="how-txt">Оставляете запрос — менеджер перезвонит за 15 минут</div></div><div class="how-card scroll-reveal delay-1"><div class="how-n">02</div><div class="how-title">Подборка</div><div class="how-txt">Готовим объекты под ваш бюджет</div></div><div class="how-card scroll-reveal delay-2"><div class="how-n">03</div><div class="how-title">Просмотр</div><div class="how-txt">Очные или видео-туры</div></div><div class="how-card scroll-reveal delay-3"><div class="how-n">04</div><div class="how-title">Сделка</div><div class="how-txt">Юридическое сопровождение</div></div></div></div></section>
+
+  <section id="wizard"><div class="w"><div class="s-eye scroll-reveal" style="justify-content: center;">Подбор объекта</div><h2 class="s-h2 scroll-reveal delay-1" style="text-align: center;">За 2 минуты — ваш вариант</h2><div class="wiz-wrap scroll-reveal"><div class="wiz-prog"><div class="wiz-fill" id="wizFill"></div></div><div class="wiz-step active" id="ws1"><div class="wiz-q">Что вам нужно?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'goal','buy')"><div class="wo-icon">🏠</div><div class="wo-lbl">Купить</div></div><div class="wo" onclick="pickWiz(this,'goal','invest')"><div class="wo-icon">📈</div><div class="wo-lbl">Инвестиция</div></div><div class="wo" onclick="pickWiz(this,'goal','rent')"><div class="wo-icon">🔑</div><div class="wo-lbl">Аренда</div></div><div class="wo" onclick="pickWiz(this,'goal','sell')"><div class="wo-icon">💸</div><div class="wo-lbl">Продать</div></div></div><div class="wiz-nav"><button class="w-next" onclick="nextWiz(2)">Далее →</button></div></div><div class="wiz-step" id="ws2"><div class="wiz-q">Город?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'city','vlad')"><div class="wo-icon">🌊</div><div class="wo-lbl">Владивосток</div></div><div class="wo" onclick="pickWiz(this,'city','uss')"><div class="wo-icon">🏙️</div><div class="wo-lbl">Уссурийск</div></div><div class="wo" onclick="pickWiz(this,'city','art')"><div class="wo-icon">✈️</div><div class="wo-lbl">Артём</div></div><div class="wo" onclick="pickWiz(this,'city','other')"><div class="wo-icon">🗺️</div><div class="wo-lbl">Другой</div></div></div><div class="wiz-nav"><button class="w-back" onclick="prevWiz(1)">← Назад</button><button class="w-next" onclick="nextWiz(3)">Далее →</button></div></div><div class="wiz-step" id="ws3"><div class="wiz-q">Бюджет?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'budget','<5')"><div class="wo-icon">💰</div><div class="wo-lbl">до ₽5M</div></div><div class="wo" onclick="pickWiz(this,'budget','5-8')"><div class="wo-icon">💎</div><div class="wo-lbl">₽5–8M</div></div><div class="wo" onclick="pickWiz(this,'budget','8-15')"><div class="wo-icon">🏆</div><div class="wo-lbl">₽8–15M</div></div><div class="wo" onclick="pickWiz(this,'budget','>15')"><div class="wo-icon">👑</div><div class="wo-lbl">от ₽15M</div></div></div><div class="wiz-nav"><button class="w-back" onclick="prevWiz(2)">← Назад</button><button class="w-next" onclick="nextWiz(4)">Далее →</button></div></div><div class="wiz-step" id="ws4" style="text-align: center;"><div style="font-size: 64px; margin-bottom: 24px;">🎯</div><div class="wiz-q" style="margin-bottom: 20px;">Готово!</div><p style="margin-bottom: 32px;">По вашим параметрам есть <strong style="color: var(--r);">8 объектов</strong>. Менеджер свяжется.</p><div class="wiz-nav"><button class="btn-fill" onclick="goSec('contact')">Получить подборку →</button><button class="btn-outline" onclick="goPage('catalog')">Смотреть каталог</button></div></div></div></div></section>
+
+  <section id="faq"><div class="w"><div class="s-eye scroll-reveal">Вопросы</div><h2 class="s-h2 scroll-reveal delay-1">Часто спрашивают</h2><div class="faq-list"><div class="faq-item scroll-reveal"><div class="faq-q" onclick="toggleFaq(this)">Сколько стоят услуги при покупке новостройки?<span class="faq-ico">+</span></div><div class="faq-a"><p>Бесплатно для покупателя. Комиссия оплачивается застройщиком.</p></div></div><div class="faq-item scroll-reveal delay-1"><div class="faq-q" onclick="toggleFaq(this)">Работаете с ипотекой?<span class="faq-ico">+</span></div><div class="faq-a"><p>Да. ДВ-ипотека 2%, Семейная 6%, IT-ипотека 8%, стандартная до 12%.</p></div></div><div class="faq-item scroll-reveal delay-2"><div class="faq-q" onclick="toggleFaq(this)">Что такое дальневосточная ипотека?<span class="faq-ico">+</span></div><div class="faq-a"><p>Госпрограмма для жителей ДФО со ставкой до 2%.</p></div></div><div class="faq-item scroll-reveal delay-3"><div class="faq-q" onclick="toggleFaq(this)">Можно купить дистанционно?<span class="faq-ico">+</span></div><div class="faq-a"><p>Да. Онлайн-показы и сделки с ЭЦП.</p></div></div></div></div></section>
+
+  <section id="contact"><div class="w"><div class="contact-grid"><div class="scroll-reveal-left"><div class="s-eye">Контакты</div><h2 class="s-h2">Напишите нам сейчас</h2><p class="s-sub" style="margin-bottom: 36px;">Ответим за 15 минут. Консультация бесплатно.</p><div class="ch-list"><div class="ch" onclick="window.open('https://wa.me/79001234567')"><div class="ch-ico" style="background: rgba(37,211,102,0.1); color: #25D366;">💬</div><div class="ch-info"><strong>WhatsApp</strong><span>Написать сейчас</span></div><span style="margin-left: auto;">→</span></div><div class="ch" onclick="window.open('https://t.me/pulsedv')"><div class="ch-ico" style="background: rgba(42,171,238,0.1); color: #2AABEE;">✈️</div><div class="ch-info"><strong>Telegram</strong><span>@pulsedv</span></div><span style="margin-left: auto;">→</span></div><div class="ch" onclick="window.location.href='tel:+74232123456'"><div class="ch-ico" style="background: rgba(232,25,44,0.1); color: var(--r);">📞</div><div class="ch-info"><strong>+7 (423) 212-34-56</strong><span>Ежедневно 9–21</span></div><span style="margin-left: auto;">→</span></div></div><div style="margin-top: 28px; padding: 24px; border: 1px solid var(--br); border-radius: 28px; background: var(--glass-bg); backdrop-filter: var(--glass-blur);"><div class="s-eye" style="margin-bottom: 10px;">Офис</div><p>г. Владивосток, ул. Светланская, 123<br>Пн–Вс 9:00–21:00</p></div></div><div class="scroll-reveal-right"><form class="cont-form" onsubmit="submitForm(event)"><div class="row2"><input class="fi" type="text" placeholder="Ваше имя" required><input class="fi" type="tel" placeholder="+7 (___) ___-__-__" required></div><input class="fi" type="email" placeholder="Email"><select class="fi"><option>Что интересует?</option><option>Покупка новостройки</option><option>Вторичный рынок</option><option>Аренда</option><option>Ипотека</option></select><textarea class="fi" placeholder="Комментарий" rows="3"></textarea><button type="submit" class="btn-fill" style="width: 100%; justify-content: center;">Отправить заявку</button></form></div></div></div></section>
+
+  <footer><div class="foot-grid"><div class="foot-brand"><div class="nav-logo">PULSE<span class="nl-dot">.</span>DV</div><p>Агентство недвижимости Приморского края. Работаем с 2021 года.</p></div><div class="foot-col"><h5>Маркет</h5><a onclick="goPage('catalog')">Новостройки</a><a onclick="goPage('catalog')">Вторичный рынок</a><a onclick="goPage('catalog')">Аренда</a><a onclick="goPage('catalog')">Земельные участки</a></div><div class="foot-col"><h5>Компания</h5><a onclick="goPage('about')">О нас</a><a onclick="goPage('about')">Команда</a><a href="#">Блог</a></div><div class="foot-col"><h5>Услуги</h5><a href="#">Ипотека</a><a href="#">ДВ-ипотека 2%</a><a href="#">Юр. сопровождение</a></div></div><div class="foot-bottom"><p>© 2025 PULSE.DV — Все права защищены</p><div class="socs"><a class="soc" href="#">vk</a><a class="soc" href="#">tg</a><a class="soc" href="#">wa</a></div></div></footer>
 </div>
 
-<section id="services"><div class="w"><div class="s-eye">Что мы делаем</div><h2 class="s-h2">Полный спектр услуг</h2><div class="srv-grid"><div class="srv-card"><span class="srv-icon">🏢</span><div class="srv-name">Продажа новостроек</div><div class="srv-txt">Работаем со всеми застройщиками Приморья</div></div><div class="srv-card"><span class="srv-icon">🔑</span><div class="srv-name">Вторичный рынок</div><div class="srv-txt">Быстро и безопасно</div></div><div class="srv-card"><span class="srv-icon">📋</span><div class="srv-name">Аренда</div><div class="srv-txt">Подбор жилья под ключ</div></div><div class="srv-card"><span class="srv-icon">⚖️</span><div class="srv-name">Юридическое сопровождение</div><div class="srv-txt">Без рисков</div></div><div class="srv-card"><span class="srv-icon">🏦</span><div class="srv-name">Ипотека</div><div class="srv-txt">Подбор лучших программ</div></div><div class="srv-card"><span class="srv-icon">📊</span><div class="srv-name">Инвестиции</div><div class="srv-txt">Расчёт доходности</div></div><div class="srv-card"><span class="srv-icon">🏠</span><div class="srv-name">Управление объектами</div><div class="srv-txt">Доход без хлопот</div></div><div class="srv-card"><span class="srv-icon">🌊</span><div class="srv-name">Загородная недвижимость</div><div class="srv-txt">Дома, дачи, участки</div></div></div></div></section>
+<!-- CATALOG PAGE -->
+<div id="pg-catalog" class="pg"><div><div class="w" style="margin-bottom: 48px;"><button class="modal-back" onclick="goPage('home')">← На главную</button><div class="s-eye">Каталог</div><h1 class="s-h2">Новостройки Приморского края</h1><p class="s-sub">Актуальная база объектов. Обновляется регулярно.</p></div><div class="w" style="margin-bottom: 40px;"><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; padding: 32px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 32px;"><div><div class="s-eye" style="margin-bottom: 10px;">Город</div><select class="fi" id="catCity" onchange="filterCatalog()"><option value="">Все города</option><option value="vlad">Владивосток</option><option value="uss">Уссурийск</option><option value="art">Артём</option></select></div><div><div class="s-eye" style="margin-bottom: 10px;">Тип</div><select class="fi" id="catType" onchange="filterCatalog()"><option value="">Все типы</option><option value="studio">Студия</option><option value="1k">1-комн.</option><option value="2k">2-комн.</option><option value="3k">3-комн.</option></select></div><div><div class="s-eye" style="margin-bottom: 10px;">Бюджет</div><select class="fi" id="catBudget" onchange="filterCatalog()"><option value="">Любой</option><option value="4">до ₽4M</option><option value="8">₽4–8M</option><option value="15">₽8–15M</option><option value="20">от ₽15M</option></select></div><div><div class="s-eye" style="margin-bottom: 10px;">Комнаты</div><select class="fi" id="catRooms" onchange="filterCatalog()"><option value="">Любое</option><option value="1">1 комната</option><option value="2">2 комнаты</option><option value="3">3+ комнаты</option></select></div><div style="display: flex; align-items: flex-end;"><button class="btn-fill" style="width: 100%; justify-content: center;" onclick="filterCatalog()">Применить</button></div></div></div><div class="props-grid w" id="catalogGrid"></div><div id="catalogEmpty" style="display: none; text-align: center; padding: 80px;"><div style="font-size: 52px; margin-bottom: 20px;">🔍</div><p>Ничего не найдено. Попробуйте изменить фильтры.</p></div></div><footer><div class="foot-bottom"><p>© 2025 PULSE.DV</p><button class="btn-outline" onclick="goPage('home')">← Главная</button></div></footer></div>
 
-<div class="w"><div class="stats-row"><div class="stat-c"><div class="stat-n"><span class="cnt" data-n="500">0</span><span class="stat-suf">+</span></div><div class="stat-lbl">Сделок с 2021</div></div><div class="stat-c"><div class="stat-n"><span class="cnt" data-n="4">0</span></div><div class="stat-lbl">Города</div></div><div class="stat-c"><div class="stat-n"><span class="cnt" data-n="98">0</span><span class="stat-suf">%</span></div><div class="stat-lbl">Довольных клиентов</div></div><div class="stat-c"><div class="stat-n"><span class="cnt" data-n="3">0</span></div><div class="stat-lbl">Года на рынке</div></div></div></div>
-
-<section id="cities"><div class="w"><div class="s-eye">Приморский край</div><h2 class="s-h2">Работаем по всему региону</h2><div class="city-grid"><div class="city-card"><img src="https://images.unsplash.com/photo-1573747806894-09f8f5bfc3a3?w=700&q=80" alt="Владивосток"><div class="city-hover">Деловая столица Дальнего Востока</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Владивосток</div><div class="city-count">120+ объектов</div></div></div><div class="city-card"><img src="https://images.unsplash.com/photo-1546449377-80f9cdfe4900?w=700&q=80" alt="Уссурийск"><div class="city-hover">Крупный транспортный узел</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Уссурийск</div><div class="city-count">48+ объектов</div></div></div><div class="city-card"><img src="https://images.unsplash.com/photo-1555636222-cae831e670b3?w=700&q=80" alt="Артём"><div class="city-hover">Спутник Владивостока</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Артём</div><div class="city-count">35+ объектов</div></div></div><div class="city-card"><img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=700&q=80" alt="Находка"><div class="city-hover">Портовый город</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Находка</div><div class="city-count">22+ объекта</div></div></div><div class="city-card"><img src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=700&q=80" alt="Арсеньев"><div class="city-hover">Доступные цены</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Арсеньев</div><div class="city-count">14+ объектов</div></div></div><div class="city-card" style="background: linear-gradient(135deg, rgba(232,25,44,0.08), rgba(232,25,44,0.02)); cursor: pointer;" onclick="goSec('contact')"><div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;"><div style="font-size: 44px; margin-bottom: 14px;">🗺️</div><div class="city-name" style="font-size: 20px; color: var(--t);">Другие города</div><div class="city-count">Работаем везде</div></div></div></div></div></section>
-
-<section id="featured"><div class="w"><div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 32px;"><div><div class="s-eye">Новостройки</div><h2 class="s-h2">Актуальные объекты</h2></div><button class="btn-outline" onclick="goPage('catalog')">Весь каталог →</button></div><div class="chips"><button class="chip active" onclick="filterHome(this,'all')">Все</button><button class="chip" onclick="filterHome(this,'vlad')">Владивосток</button><button class="chip" onclick="filterHome(this,'uss')">Уссурийск</button><button class="chip" onclick="filterHome(this,'art')">Артём</button><button class="chip" onclick="filterHome(this,'new')">Новинки</button></div><div class="props-grid" id="homeGrid"></div></div></section>
-
-<section id="how"><div class="w"><div class="s-eye">Как мы работаем</div><h2 class="s-h2">Покупка без лишних шагов</h2><div class="how-grid"><div class="how-card"><div class="how-n">01</div><div class="how-title">Заявка</div><div class="how-txt">Оставляете запрос — менеджер перезвонит за 15 минут</div></div><div class="how-card"><div class="how-n">02</div><div class="how-title">Подборка</div><div class="how-txt">Готовим объекты под ваш бюджет</div></div><div class="how-card"><div class="how-n">03</div><div class="how-title">Просмотр</div><div class="how-txt">Очные или видео-туры</div></div><div class="how-card"><div class="how-n">04</div><div class="how-title">Сделка</div><div class="how-txt">Юридическое сопровождение</div></div></div></div></section>
-
-<section id="wizard"><div class="w"><div class="s-eye" style="justify-content: center;">Подбор объекта</div><h2 class="s-h2" style="text-align: center;">За 2 минуты — ваш вариант</h2><div class="wiz-wrap"><div class="wiz-prog"><div class="wiz-fill" id="wizFill"></div></div><div class="wiz-step active" id="ws1"><div class="wiz-q">Что вам нужно?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'goal','buy')"><div class="wo-icon">🏠</div><div class="wo-lbl">Купить</div></div><div class="wo" onclick="pickWiz(this,'goal','invest')"><div class="wo-icon">📈</div><div class="wo-lbl">Инвестиция</div></div><div class="wo" onclick="pickWiz(this,'goal','rent')"><div class="wo-icon">🔑</div><div class="wo-lbl">Аренда</div></div><div class="wo" onclick="pickWiz(this,'goal','sell')"><div class="wo-icon">💸</div><div class="wo-lbl">Продать</div></div></div><div class="wiz-nav"><button class="w-next" onclick="nextWiz(2)">Далее →</button></div></div><div class="wiz-step" id="ws2"><div class="wiz-q">Город?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'city','vlad')"><div class="wo-icon">🌊</div><div class="wo-lbl">Владивосток</div></div><div class="wo" onclick="pickWiz(this,'city','uss')"><div class="wo-icon">🏙️</div><div class="wo-lbl">Уссурийск</div></div><div class="wo" onclick="pickWiz(this,'city','art')"><div class="wo-icon">✈️</div><div class="wo-lbl">Артём</div></div><div class="wo" onclick="pickWiz(this,'city','other')"><div class="wo-icon">🗺️</div><div class="wo-lbl">Другой</div></div></div><div class="wiz-nav"><button class="w-back" onclick="prevWiz(1)">← Назад</button><button class="w-next" onclick="nextWiz(3)">Далее →</button></div></div><div class="wiz-step" id="ws3"><div class="wiz-q">Бюджет?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'budget','<5')"><div class="wo-icon">💰</div><div class="wo-lbl">до ₽5M</div></div><div class="wo" onclick="pickWiz(this,'budget','5-8')"><div class="wo-icon">💎</div><div class="wo-lbl">₽5–8M</div></div><div class="wo" onclick="pickWiz(this,'budget','8-15')"><div class="wo-icon">🏆</div><div class="wo-lbl">₽8–15M</div></div><div class="wo" onclick="pickWiz(this,'budget','>15')"><div class="wo-icon">👑</div><div class="wo-lbl">от ₽15M</div></div></div><div class="wiz-nav"><button class="w-back" onclick="prevWiz(2)">← Назад</button><button class="w-next" onclick="nextWiz(4)">Далее →</button></div></div><div class="wiz-step" id="ws4" style="text-align: center;"><div style="font-size: 64px; margin-bottom: 24px;">🎯</div><div class="wiz-q" style="margin-bottom: 20px;">Готово!</div><p style="margin-bottom: 32px;">По вашим параметрам есть <strong style="color: var(--r);">8 объектов</strong>. Менеджер свяжется.</p><div class="wiz-nav"><button class="btn-fill" onclick="goSec('contact')">Получить подборку →</button><button class="btn-outline" onclick="goPage('catalog')">Смотреть каталог</button></div></div></div></div></section>
-
-<section id="faq"><div class="w"><div class="s-eye">Вопросы</div><h2 class="s-h2">Часто спрашивают</h2><div class="faq-list"><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Сколько стоят услуги при покупке новостройки?<span class="faq-ico">+</span></div><div class="faq-a"><p>Бесплатно для покупателя. Комиссия оплачивается застройщиком.</p></div></div><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Работаете с ипотекой?<span class="faq-ico">+</span></div><div class="faq-a"><p>Да. ДВ-ипотека 2%, Семейная 6%, IT-ипотека 8%, стандартная до 12%.</p></div></div><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Что такое дальневосточная ипотека?<span class="faq-ico">+</span></div><div class="faq-a"><p>Госпрограмма для жителей ДФО со ставкой до 2%.</p></div></div><div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Можно купить дистанционно?<span class="faq-ico">+</span></div><div class="faq-a"><p>Да. Онлайн-показы и сделки с ЭЦП.</p></div></div></div></div></section>
-
-<section id="contact"><div class="w"><div class="contact-grid"><div class=""><div class="s-eye">Контакты</div><h2 class="s-h2">Напишите нам сейчас</h2><p class="s-sub" style="margin-bottom: 36px;">Ответим за 15 минут. Консультация бесплатно.</p><div class="ch-list"><div class="ch" onclick="window.open('https://wa.me/79001234567')"><div class="ch-ico" style="background: rgba(37,211,102,0.1); color: #25D366;">💬</div><div class="ch-info"><strong>WhatsApp</strong><span>Написать сейчас</span></div><span style="margin-left: auto;">→</span></div><div class="ch" onclick="window.open('https://t.me/pulsedv')"><div class="ch-ico" style="background: rgba(42,171,238,0.1); color: #2AABEE;">✈️</div><div class="ch-info"><strong>Telegram</strong><span>@pulsedv</span></div><span style="margin-left: auto;">→</span></div><div class="ch" onclick="window.location.href='tel:+74232123456'"><div class="ch-ico" style="background: rgba(232,25,44,0.1); color: var(--r);">📞</div><div class="ch-info"><strong>+7 (423) 212-34-56</strong><span>Ежедневно 9–21</span></div><span style="margin-left: auto;">→</span></div></div><div style="margin-top: 28px; padding: 24px; border: 1px solid var(--br); border-radius: 28px;"><div class="s-eye" style="margin-bottom: 10px;">Офис</div><p>г. Владивосток, ул. Светланская, 123<br>Пн–Вс 9:00–21:00</p></div></div><div class=""><form class="cont-form" onsubmit="submitForm(event)"><div class="row2"><input class="fi" type="text" placeholder="Ваше имя" required><input class="fi" type="tel" placeholder="+7 (___) ___-__-__" required></div><input class="fi" type="email" placeholder="Email"><select class="fi"><option>Что интересует?</option><option>Покупка новостройки</option><option>Вторичный рынок</option><option>Аренда</option><option>Ипотека</option></select><textarea class="fi" placeholder="Комментарий" rows="3"></textarea><button type="submit" class="btn-fill" style="width: 100%; justify-content: center;">Отправить заявку</button></form></div></div></div></section>
-
-<footer><div class="foot-grid"><div class="foot-brand"><div class="nav-logo">PULSE<span class="nl-dot">.</span>DV</div><p>Агентство недвижимости Приморского края. Работаем с 2021 года.</p></div><div class="foot-col"><h5>Маркет</h5><a onclick="goPage('catalog')">Новостройки</a><a onclick="goPage('catalog')">Вторичный рынок</a><a onclick="goPage('catalog')">Аренда</a><a onclick="goPage('catalog')">Земельные участки</a></div><div class="foot-col"><h5>Компания</h5><a onclick="goPage('about')">О нас</a><a onclick="goPage('about')">Команда</a><a href="#">Блог</a></div><div class="foot-col"><h5>Услуги</h5><a href="#">Ипотека</a><a href="#">ДВ-ипотека 2%</a><a href="#">Юр. сопровождение</a></div></div><div class="foot-bottom"><p>© 2025 PULSE.DV — Все права защищены</p><div class="socs"><a class="soc" href="#">vk</a><a class="soc" href="#">tg</a><a class="soc" href="#">wa</a></div></div></footer>
-
-</div>
-
-<div id="pg-catalog" class="pg"><div><div class="w" style="margin-bottom: 48px;"><button class="modal-back" onclick="goPage('home')">← На главную</button><div class="s-eye">Каталог</div><h1 class="s-h2">Новостройки Приморского края</h1><p class="s-sub">Актуальная база объектов. Обновляется регулярно.</p></div><div class="w" style="margin-bottom: 40px;"><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; padding: 32px; background: var(--bg2); border: 1px solid var(--br); border-radius: 32px;"><div><div class="s-eye" style="margin-bottom: 10px;">Город</div><select class="fi" id="catCity" onchange="filterCatalog()"><option value="">Все города</option><option value="vlad">Владивосток</option><option value="uss">Уссурийск</option><option value="art">Артём</option></select></div><div><div class="s-eye" style="margin-bottom: 10px;">Тип</div><select class="fi" id="catType" onchange="filterCatalog()"><option value="">Все типы</option><option value="studio">Студия</option><option value="1k">1-комн.</option><option value="2k">2-комн.</option><option value="3k">3-комн.</option></select></div><div><div class="s-eye" style="margin-bottom: 10px;">Бюджет</div><select class="fi" id="catBudget" onchange="filterCatalog()"><option value="">Любой</option><option value="4">до ₽4M</option><option value="8">₽4–8M</option><option value="15">₽8–15M</option><option value="20">от ₽15M</option></select></div><div><div class="s-eye" style="margin-bottom: 10px;">Комнаты</div><select class="fi" id="catRooms" onchange="filterCatalog()"><option value="">Любое</option><option value="1">1 комната</option><option value="2">2 комнаты</option><option value="3">3+ комнаты</option></select></div><div style="display: flex; align-items: flex-end;"><button class="btn-fill" style="width: 100%; justify-content: center;" onclick="filterCatalog()">Применить</button></div></div></div><div class="props-grid w" id="catalogGrid"></div><div id="catalogEmpty" style="display: none; text-align: center; padding: 80px;"><div style="font-size: 52px; margin-bottom: 20px;">🔍</div><p>Ничего не найдено. Попробуйте изменить фильтры.</p></div></div><footer><div class="foot-bottom"><p>© 2025 PULSE.DV</p><button class="btn-outline" onclick="goPage('home')">← Главная</button></div></footer></div>
-
-<div id="pg-about" class="pg"><div style="padding: 120px 48px 80px;"><div class="w"><div class="s-eye">О компании</div><h1 class="s-h2">PULSE.DV — это Приморье и <span style="color: var(--r);">недвижимость</span></h1><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 60px;"><div style="background: var(--bg2); border-radius: 32px; padding: 52px;"><div class="s-eye">Миссия</div><p style="font-size: 16px; color: var(--t2); line-height: 1.7;">Дать каждому жителю Дальнего Востока решить жилищный вопрос.</p></div><div style="background: var(--bg2); border-radius: 32px; padding: 52px;"><div class="s-eye">Ценности</div><p style="font-size: 16px; color: var(--t2); line-height: 1.7;">Честность, скорость, ответственность. Бесплатно для покупателей новостроек.</p></div></div></div></div><div style="padding: 80px 48px; background: var(--bg2);"><div class="w"><div class="s-eye">Команда</div><h2 class="s-h2">Люди которые помогают</h2><div class="team-grid"><div class="tm"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=160&q=80" alt=""></div><div class="tm-name">Антон Власов</div><div class="tm-role">Основатель & CEO</div></div><div class="tm"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=160&q=80" alt=""></div><div class="tm-name">Мария Ли</div><div class="tm-role">Руководитель продаж</div></div><div class="tm"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=160&q=80" alt=""></div><div class="tm-name">Денис Сорокин</div><div class="tm-role">Юрист</div></div><div class="tm"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=160&q=80" alt=""></div><div class="tm-name">Алина Кох</div><div class="tm-role">Ипотечный брокер</div></div></div></div></div><footer><div class="foot-bottom"><p>© 2025 PULSE.DV</p><button class="btn-outline" onclick="goPage('home')">← Главная</button></div></footer></div>
+<!-- ABOUT PAGE -->
+<div id="pg-about" class="pg"><div style="padding: 120px 48px 80px;"><div class="w"><div class="s-eye scroll-reveal">О компании</div><h1 class="s-h2 scroll-reveal delay-1">PULSE.DV — это Приморье и <span style="color: var(--r);">недвижимость</span></h1><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 60px;"><div class="scroll-reveal" style="background: var(--bg2); border-radius: 32px; padding: 52px;"><div class="s-eye">Миссия</div><p style="font-size: 16px; color: var(--t2); line-height: 1.7;">Дать каждому жителю Дальнего Востока решить жилищный вопрос.</p></div><div class="scroll-reveal delay-1" style="background: var(--bg2); border-radius: 32px; padding: 52px;"><div class="s-eye">Ценности</div><p style="font-size: 16px; color: var(--t2); line-height: 1.7;">Честность, скорость, ответственность. Бесплатно для покупателей новостроек.</p></div></div></div></div><div style="padding: 80px 48px; background: var(--bg2);"><div class="w"><div class="s-eye scroll-reveal">Команда</div><h2 class="s-h2 scroll-reveal delay-1">Люди которые помогают</h2><div class="team-grid"><div class="tm scroll-reveal"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=160&q=80" alt=""></div><div class="tm-name">Антон Власов</div><div class="tm-role">Основатель & CEO</div></div><div class="tm scroll-reveal delay-1"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=160&q=80" alt=""></div><div class="tm-name">Мария Ли</div><div class="tm-role">Руководитель продаж</div></div><div class="tm scroll-reveal delay-2"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=160&q=80" alt=""></div><div class="tm-name">Денис Сорокин</div><div class="tm-role">Юрист</div></div><div class="tm scroll-reveal delay-3"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=160&q=80" alt=""></div><div class="tm-name">Алина Кох</div><div class="tm-role">Ипотечный брокер</div></div></div></div></div><footer><div class="foot-bottom"><p>© 2025 PULSE.DV</p><button class="btn-outline" onclick="goPage('home')">← Главная</button></div></footer></div>
 
 <div class="floats"><a class="flt flt-wa" href="https://wa.me/79001234567">💬</a><a class="flt flt-tg" href="https://t.me/pulsedv">✈️</a></div>
 <div class="modal" id="propModal"></div>
@@ -908,239 +417,311 @@ footer {
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 
 <script>
-const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, wheelMultiplier: 0.8 });
-function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
-requestAnimationFrame(raf);
+  // LENIS SMOOTH SCROLL
+  const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, wheelMultiplier: 0.8 });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
 
-const PROPERTIES = [
-  {id:1,name:"ЖК «Приморский»",city:"vlad",cityName:"Владивосток",type:"1k",typeName:"1-комн.",dev:"ГК Меридиан",area:"42",rooms:"1",floor:"7/18",price:"₽5.2M",priceNum:5200000,status:"Сдача 2025",badge:"new",img:"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80"},
-  {id:2,name:"ЖК «Океан»",city:"vlad",cityName:"Владивосток",type:"2k",typeName:"2-комн.",dev:"ПримСтрой",area:"68",rooms:"2",floor:"12/24",price:"₽9.8M",priceNum:9800000,status:"Сдача 2024",badge:"hot",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80"},
-  {id:3,name:"ЖК «Восток»",city:"uss",cityName:"Уссурийск",type:"studio",typeName:"Студия",dev:"ПримСтрой",area:"28",rooms:"С",floor:"4/10",price:"₽3.1M",priceNum:3100000,status:"Сдача 2025",badge:"",img:"https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=600&q=80"},
-  {id:4,name:"ЖК «Сопка»",city:"art",cityName:"Артём",type:"2k",typeName:"2-комн.",dev:"Дальпитерстрой",area:"72",rooms:"2",floor:"9/16",price:"₽6.4M",priceNum:6400000,status:"Сдача 2026",badge:"new",img:"https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80"},
-  {id:5,name:"ЖК «Бухта»",city:"vlad",cityName:"Владивосток",type:"3k",typeName:"3-комн.",dev:"ГК Меридиан",area:"96",rooms:"3",floor:"15/20",price:"₽14.5M",priceNum:14500000,status:"Сдача 2025",badge:"",img:"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80"},
-  {id:6,name:"ЖК «Рассвет»",city:"uss",cityName:"Уссурийск",type:"1k",typeName:"1-комн.",dev:"ПримСтрой",area:"38",rooms:"1",floor:"5/12",price:"₽3.9M",priceNum:3900000,status:"Сдача 2024",badge:"hot",img:"https://images.unsplash.com/photo-1524230572899-a752b3835840?w=600&q=80"},
-  {id:7,name:"ЖК «Золотой Рог»",city:"vlad",cityName:"Владивосток",type:"2k",typeName:"2-комн.",dev:"ГК Меридиан",area:"85",rooms:"2",floor:"14/20",price:"₽12.8M",priceNum:12800000,status:"Сдача 2025",badge:"",img:"https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&q=80"},
-  {id:8,name:"ЖК «Панорама»",city:"uss",cityName:"Уссурийск",type:"3k",typeName:"3-комн.",dev:"ПримСтрой",area:"110",rooms:"3",floor:"8/12",price:"₽8.2M",priceNum:8200000,status:"Сдача 2024",badge:"hot",img:"https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80"},
-];
+  // DATA
+  const PROPERTIES = [
+    {id:1,name:"ЖК «Приморский»",city:"vlad",cityName:"Владивосток",type:"1k",typeName:"1-комн.",dev:"ГК Меридиан",area:"42",rooms:"1",floor:"7/18",price:"₽5.2M",priceNum:5200000,status:"Сдача 2025",badge:"new",img:"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80"},
+    {id:2,name:"ЖК «Океан»",city:"vlad",cityName:"Владивосток",type:"2k",typeName:"2-комн.",dev:"ПримСтрой",area:"68",rooms:"2",floor:"12/24",price:"₽9.8M",priceNum:9800000,status:"Сдача 2024",badge:"hot",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80"},
+    {id:3,name:"ЖК «Восток»",city:"uss",cityName:"Уссурийск",type:"studio",typeName:"Студия",dev:"ПримСтрой",area:"28",rooms:"С",floor:"4/10",price:"₽3.1M",priceNum:3100000,status:"Сдача 2025",badge:"",img:"https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=600&q=80"},
+    {id:4,name:"ЖК «Сопка»",city:"art",cityName:"Артём",type:"2k",typeName:"2-комн.",dev:"Дальпитерстрой",area:"72",rooms:"2",floor:"9/16",price:"₽6.4M",priceNum:6400000,status:"Сдача 2026",badge:"new",img:"https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80"},
+    {id:5,name:"ЖК «Бухта»",city:"vlad",cityName:"Владивосток",type:"3k",typeName:"3-комн.",dev:"ГК Меридиан",area:"96",rooms:"3",floor:"15/20",price:"₽14.5M",priceNum:14500000,status:"Сдача 2025",badge:"",img:"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80"},
+    {id:6,name:"ЖК «Рассвет»",city:"uss",cityName:"Уссурийск",type:"1k",typeName:"1-комн.",dev:"ПримСтрой",area:"38",rooms:"1",floor:"5/12",price:"₽3.9M",priceNum:3900000,status:"Сдача 2024",badge:"hot",img:"https://images.unsplash.com/photo-1524230572899-a752b3835840?w=600&q=80"},
+    {id:7,name:"ЖК «Золотой Рог»",city:"vlad",cityName:"Владивосток",type:"2k",typeName:"2-комн.",dev:"ГК Меридиан",area:"85",rooms:"2",floor:"14/20",price:"₽12.8M",priceNum:12800000,status:"Сдача 2025",badge:"",img:"https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&q=80"},
+    {id:8,name:"ЖК «Панорама»",city:"uss",cityName:"Уссурийск",type:"3k",typeName:"3-комн.",dev:"ПримСтрой",area:"110",rooms:"3",floor:"8/12",price:"₽8.2M",priceNum:8200000,status:"Сдача 2024",badge:"hot",img:"https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80"},
+  ];
 
-function renderCard(p){
-  return `<div class="pc" onclick="showProperty(${p.id})"><div class="pc-img"><img src="${p.img}" loading="lazy"/>${p.badge?`<div class="pc-badge ${p.badge==='new'?'b-new':'b-hot'}">${p.badge==='new'?'Новинка':'Топ'}</div>`:''}<div class="pc-fav" onclick="event.stopPropagation();this.classList.toggle('on')">♥</div></div><div class="pc-body"><div class="pc-type">${p.typeName} · ${p.cityName}</div><div class="pc-name">${p.name}</div><div class="pc-loc">📍 ${p.cityName} · ${p.dev}</div><div class="pc-specs"><div class="spec">📐 ${p.area} м²</div><div class="spec">🏢 ${p.floor} эт.</div></div><div class="pc-foot"><div class="pc-price">${p.price}</div><div class="pc-status ok">${p.status}</div></div></div></div>`;
-}
-
-document.getElementById('homeGrid').innerHTML = PROPERTIES.filter(p=>p.badge==='new' || p.badge==='hot').slice(0,6).map(renderCard).join('');
-document.getElementById('catalogGrid').innerHTML = PROPERTIES.map(renderCard).join('');
-
-function filterHome(btn, f){
-  document.querySelectorAll('#featured .chip').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  let list = f==='all' ? PROPERTIES : f==='new' ? PROPERTIES.filter(p=>p.badge==='new') : PROPERTIES.filter(p=>p.city===f);
-  document.getElementById('homeGrid').innerHTML = list.slice(0,6).map(renderCard).join('');
-}
-function filterCatalog(){
-  const city = document.getElementById('catCity').value;
-  const type = document.getElementById('catType').value;
-  const budget = document.getElementById('catBudget').value;
-  const rooms = document.getElementById('catRooms').value;
-  let list = PROPERTIES;
-  if(city) list = list.filter(p=>p.city===city);
-  if(type) list = list.filter(p=>p.type===type);
-  if(budget==='4') list = list.filter(p=>p.priceNum<4000000);
-  else if(budget==='8') list = list.filter(p=>p.priceNum>=4000000 && p.priceNum<8000000);
-  else if(budget==='15') list = list.filter(p=>p.priceNum>=8000000 && p.priceNum<15000000);
-  else if(budget==='20') list = list.filter(p=>p.priceNum>=15000000);
-  if(rooms && rooms !== '') list = list.filter(p=>p.rooms === rooms);
-  document.getElementById('catalogGrid').innerHTML = list.map(renderCard).join('');
-  document.getElementById('catalogEmpty').style.display = list.length ? 'none' : 'flex';
-}
-function filterMarket(type){ goPage('catalog'); setTimeout(()=>{ filterCatalog(); }, 100); }
-
-function goPage(page){
-  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
-  document.getElementById(`pg-${page}`).classList.add('active');
-  lenis.scrollTo(0, { immediate: true });
-  setTimeout(()=>initGSAP(), 100);
-}
-function goSec(id){
-  if(document.querySelector('.pg.active').id !== 'pg-home'){
-    goPage('home');
-    setTimeout(()=>{const el=document.getElementById(id); if(el) lenis.scrollTo(el, { offset: -80 })}, 150);
-  } else {
-    const el=document.getElementById(id);
-    if(el) lenis.scrollTo(el, { offset: -80 });
+  function renderCard(p) {
+    return `<div class="pc" onclick="showProperty(${p.id})"><div class="pc-img"><img src="${p.img}" loading="lazy"/>${p.badge?`<div class="pc-badge ${p.badge==='new'?'b-new':'b-hot'}">${p.badge==='new'?'Новинка':'Топ'}</div>`:''}<div class="pc-fav" onclick="event.stopPropagation();this.classList.toggle('on')">♥</div></div><div class="pc-body"><div class="pc-type">${p.typeName} · ${p.cityName}</div><div class="pc-name">${p.name}</div><div class="pc-loc">📍 ${p.cityName} · ${p.dev}</div><div class="pc-specs"><div class="spec">📐 ${p.area} м²</div><div class="spec">🏢 ${p.floor} эт.</div></div><div class="pc-foot"><div class="pc-price">${p.price}</div><div class="pc-status ok">${p.status}</div></div></div></div>`;
   }
-}
-function showProperty(id){
-  const p = PROPERTIES.find(x=>x.id===id);
-  const modal = document.getElementById('propModal');
-  modal.innerHTML = `<div class="modal-inner"><button class="modal-back" onclick="closeModal()">← Назад</button><div style="display:grid;grid-template-columns:2fr 1fr;gap:2px;border-radius:24px;overflow:hidden"><img src="${p.img}" style="width:100%;height:400px;object-fit:cover"/><div><img src="https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=600&q=80" style="width:100%;height:199px;object-fit:cover"/><img src="https://images.unsplash.com/photo-1524230572899-a752b3835840?w=600&q=80" style="width:100%;height:199px;object-fit:cover;margin-top:2px"/></div></div><div style="display:grid;grid-template-columns:1fr 340px;gap:48px;margin-top:40px"><div><h2 style="font-family:var(--fh);font-size:36px;font-weight:800;margin-bottom:16px">${p.name}</h2><div class="pc-price" style="font-size:32px;margin-bottom:24px">${p.price}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px"><div class="spec">📐 Площадь: ${p.area} м²</div><div class="spec">🏢 Этаж: ${p.floor}</div><div class="spec">🛏️ Комнат: ${p.rooms}</div><div class="spec">🏗️ Застройщик: ${p.dev}</div></div><p style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:28px">Современный жилой комплекс от надёжного застройщика в Приморском крае. Продуманная планировка, качественные материалы, удобная транспортная доступность. Возможна покупка по ипотеке, в том числе по программе «ДВ-ипотека» под 2%.</p><button class="btn-fill" onclick="closeModal();goSec('contact')">Оставить заявку</button></div><div style="background:var(--bg2);border:1px solid var(--br);border-radius:24px;padding:28px;position:sticky;top:100px"><div class="pc-price" style="font-size:36px;margin-bottom:8px">${p.price}</div><div style="font-size:13px;color:var(--t3);margin-bottom:24px">${p.area} м² · ${p.cityName}</div><button class="btn-fill" style="width:100%;justify-content:center;margin-bottom:12px" onclick="closeModal();goSec('contact')">Записаться на просмотр</button><a class="btn-outline" href="https://wa.me/79001234567" style="display:flex;justify-content:center;text-decoration:none">WhatsApp →</a></div></div></div>`;
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(){ document.getElementById('propModal').classList.remove('open'); document.body.style.overflow = ''; }
-function toggleFaq(el){ const item = el.closest('.faq-item'); const isOpen = item.classList.contains('open'); document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open')); if(!isOpen) item.classList.add('open'); }
-let wizardData = {};
-function pickWiz(el,key,val){ el.closest('.wiz-opts').querySelectorAll('.wo').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); wizardData[key] = val; }
-function nextWiz(step){ document.querySelectorAll('.wiz-step').forEach(s=>s.classList.remove('active')); document.getElementById(`ws${step}`).classList.add('active'); document.getElementById('wizFill').style.width = step*25 + '%'; }
-function prevWiz(step){ document.querySelectorAll('.wiz-step').forEach(s=>s.classList.remove('active')); document.getElementById(`ws${step}`).classList.add('active'); document.getElementById('wizFill').style.width = step*25 + '%'; }
-function submitForm(e){ e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); const original = btn.textContent; btn.textContent = '✓ Отправлено!'; btn.style.background = '#16a34a'; setTimeout(()=>{btn.textContent=original;btn.style.background='';e.target.reset()}, 3000); }
-function toggleMob(){ const menu = document.getElementById('mobileMenu'); const spans = document.getElementById('burger').querySelectorAll('span'); menu.classList.toggle('open'); if(menu.classList.contains('open')){ spans[0].style.transform='rotate(45deg) translate(6px,6px)'; spans[1].style.opacity='0'; spans[2].style.transform='rotate(-45deg) translate(6px,-6px)'; } else { spans.forEach(s=>{s.style.transform='';s.style.opacity=''}); } }
 
-window.addEventListener('load',()=>{
-  const loader = document.getElementById('loader');
-  const fill = document.getElementById('loaderFill');
-  const percent = document.getElementById('loaderPercent');
-  let w = 0;
-  const int = setInterval(()=>{
-    w += Math.random() * 8 + 2;
-    if(w >= 100){ w = 100; clearInterval(int); fill.style.width = '100%'; percent.textContent = '100%'; setTimeout(()=>{ loader.classList.add('out'); setTimeout(()=>{ loader.style.display = 'none'; }, 800); }, 500); }
-    fill.style.width = w + '%';
-    percent.textContent = Math.floor(w) + '%';
-  }, 50);
-});
-window.addEventListener('scroll',()=>{ const nav = document.getElementById('nav'); if(window.scrollY>60) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); const winScroll = window.scrollY; const height = document.body.scrollHeight - window.innerHeight; const scrolled = (winScroll / height) * 100; const progress = document.getElementById('scrollProgress'); if(progress) progress.style.transform = `scaleX(${scrolled/100})`; });
+  document.getElementById('homeGrid').innerHTML = PROPERTIES.filter(p=>p.badge==='new' || p.badge==='hot').slice(0,6).map(renderCard).join('');
+  document.getElementById('catalogGrid').innerHTML = PROPERTIES.map(renderCard).join('');
 
-function initCounters(){ const observer = new IntersectionObserver(entries=>{ entries.forEach(entry=>{ if(!entry.isIntersecting)return; const el = entry.target.querySelector('.cnt'); if(!el)return; const target = parseInt(el.dataset.n); let curr = 0; const step = target/60; const interval = setInterval(()=>{ curr = Math.min(curr+step,target); el.textContent = Math.floor(curr); if(curr>=target)clearInterval(interval); }, 20); observer.unobserve(entry.target); }); },{threshold:0.5}); document.querySelectorAll('.stat-c').forEach(el=>observer.observe(el)); }
-
-function initGSAP(){
-  gsap.registerPlugin(ScrollTrigger);
-  const title = document.querySelector('.hero-h1');
-  if(title && !title.hasAttribute('data-animated')){
-    const text = title.innerText; let html = '';
-    for(let char of text){ if(char === ' ' || char === '\n') html += char; else html += `<span class="char" style="animation-delay:${Math.random()*0.2}s">${char}</span>`; }
-    title.innerHTML = html; title.setAttribute('data-animated','true');
+  function filterHome(btn, f) {
+    document.querySelectorAll('#featured .chip').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    let list = f==='all' ? PROPERTIES : f==='new' ? PROPERTIES.filter(p=>p.badge==='new') : PROPERTIES.filter(p=>p.city===f);
+    document.getElementById('homeGrid').innerHTML = list.slice(0,6).map(renderCard).join('');
   }
-  gsap.utils.toArray('.srv-card, .city-card, .how-card, .stat-c, .mortgage-card, .stat-card').forEach((el, i) => {
-    gsap.fromTo(el, { opacity: 0, y: 60, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, delay: i * 0.05, scrollTrigger: { trigger: el, start: 'top 85%', end: 'top 70%', toggleActions: 'play none none reverse' } });
+  function filterCatalog() {
+    const city = document.getElementById('catCity').value;
+    const type = document.getElementById('catType').value;
+    const budget = document.getElementById('catBudget').value;
+    const rooms = document.getElementById('catRooms').value;
+    let list = PROPERTIES;
+    if(city) list = list.filter(p=>p.city===city);
+    if(type) list = list.filter(p=>p.type===type);
+    if(budget==='4') list = list.filter(p=>p.priceNum<4000000);
+    else if(budget==='8') list = list.filter(p=>p.priceNum>=4000000 && p.priceNum<8000000);
+    else if(budget==='15') list = list.filter(p=>p.priceNum>=8000000 && p.priceNum<15000000);
+    else if(budget==='20') list = list.filter(p=>p.priceNum>=15000000);
+    if(rooms && rooms !== '') list = list.filter(p=>p.rooms === rooms);
+    document.getElementById('catalogGrid').innerHTML = list.map(renderCard).join('');
+    document.getElementById('catalogEmpty').style.display = list.length ? 'none' : 'flex';
+  }
+  function filterMarket(type) { goPage('catalog'); setTimeout(()=>{ filterCatalog(); }, 100); }
+
+  function goPage(page) {
+    document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+    document.getElementById(`pg-${page}`).classList.add('active');
+    lenis.scrollTo(0, { immediate: true });
+    setTimeout(()=>initScrollReveal(), 100);
+  }
+  function goSec(id) {
+    if(document.querySelector('.pg.active').id !== 'pg-home') {
+      goPage('home');
+      setTimeout(()=>{const el=document.getElementById(id); if(el) lenis.scrollTo(el, { offset: -80 })}, 150);
+    } else {
+      const el=document.getElementById(id);
+      if(el) lenis.scrollTo(el, { offset: -80 });
+    }
+  }
+  function showProperty(id) {
+    const p = PROPERTIES.find(x=>x.id===id);
+    const modal = document.getElementById('propModal');
+    modal.innerHTML = `<div class="modal-inner"><button class="modal-back" onclick="closeModal()">← Назад</button><div style="display:grid;grid-template-columns:2fr 1fr;gap:2px;border-radius:24px;overflow:hidden"><img src="${p.img}" style="width:100%;height:400px;object-fit:cover"/><div><img src="https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=600&q=80" style="width:100%;height:199px;object-fit:cover"/><img src="https://images.unsplash.com/photo-1524230572899-a752b3835840?w=600&q=80" style="width:100%;height:199px;object-fit:cover;margin-top:2px"/></div></div><div style="display:grid;grid-template-columns:1fr 340px;gap:48px;margin-top:40px"><div><h2 style="font-family:var(--fh);font-size:36px;font-weight:800;margin-bottom:16px">${p.name}</h2><div class="pc-price" style="font-size:32px;margin-bottom:24px">${p.price}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px"><div class="spec">📐 Площадь: ${p.area} м²</div><div class="spec">🏢 Этаж: ${p.floor}</div><div class="spec">🛏️ Комнат: ${p.rooms}</div><div class="spec">🏗️ Застройщик: ${p.dev}</div></div><p style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:28px">Современный жилой комплекс от надёжного застройщика в Приморском крае. Продуманная планировка, качественные материалы, удобная транспортная доступность. Возможна покупка по ипотеке, в том числе по программе «ДВ-ипотека» под 2%.</p><button class="btn-fill" onclick="closeModal();goSec('contact')">Оставить заявку</button></div><div style="background:var(--bg2);border:1px solid var(--br);border-radius:24px;padding:28px;position:sticky;top:100px"><div class="pc-price" style="font-size:36px;margin-bottom:8px">${p.price}</div><div style="font-size:13px;color:var(--t3);margin-bottom:24px">${p.area} м² · ${p.cityName}</div><button class="btn-fill" style="width:100%;justify-content:center;margin-bottom:12px" onclick="closeModal();goSec('contact')">Записаться на просмотр</button><a class="btn-outline" href="https://wa.me/79001234567" style="display:flex;justify-content:center;text-decoration:none">WhatsApp →</a></div></div></div>`;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() { document.getElementById('propModal').classList.remove('open'); document.body.style.overflow = ''; }
+  function toggleFaq(el) { const item = el.closest('.faq-item'); const isOpen = item.classList.contains('open'); document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open')); if(!isOpen) item.classList.add('open'); }
+  let wizardData = {};
+  function pickWiz(el,key,val) { el.closest('.wiz-opts').querySelectorAll('.wo').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); wizardData[key] = val; }
+  function nextWiz(step) { document.querySelectorAll('.wiz-step').forEach(s=>s.classList.remove('active')); document.getElementById(`ws${step}`).classList.add('active'); document.getElementById('wizFill').style.width = step*25 + '%'; }
+  function prevWiz(step) { document.querySelectorAll('.wiz-step').forEach(s=>s.classList.remove('active')); document.getElementById(`ws${step}`).classList.add('active'); document.getElementById('wizFill').style.width = step*25 + '%'; }
+  function submitForm(e) { e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); const original = btn.textContent; btn.textContent = '✓ Отправлено!'; btn.style.background = '#16a34a'; setTimeout(()=>{btn.textContent=original;btn.style.background='';e.target.reset()}, 3000); }
+  function toggleMob() { const menu = document.getElementById('mobileMenu'); const spans = document.getElementById('burger').querySelectorAll('span'); menu.classList.toggle('open'); if(menu.classList.contains('open')){ spans[0].style.transform='rotate(45deg) translate(6px,6px)'; spans[1].style.opacity='0'; spans[2].style.transform='rotate(-45deg) translate(6px,-6px)'; } else { spans.forEach(s=>{s.style.transform='';s.style.opacity=''}); } }
+
+  // LOADER
+  window.addEventListener('load',()=>{
+    const loader = document.getElementById('loader');
+    const fill = document.getElementById('loaderFill');
+    const percent = document.getElementById('loaderPercent');
+    let w = 0;
+    const int = setInterval(()=>{
+      w += Math.random() * 8 + 2;
+      if(w >= 100){ w = 100; clearInterval(int); fill.style.width = '100%'; percent.textContent = '100%'; setTimeout(()=>{ loader.classList.add('out'); setTimeout(()=>{ loader.style.display = 'none'; }, 800); }, 500); }
+      fill.style.width = w + '%';
+      percent.textContent = Math.floor(w) + '%';
+    }, 50);
   });
-  gsap.utils.toArray('.pc').forEach((el, i) => { gsap.fromTo(el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, delay: i * 0.03, scrollTrigger: { trigger: el, start: 'top 90%' } }); });
-  gsap.utils.toArray('.faq-item').forEach((el, i) => { gsap.fromTo(el, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5, delay: i * 0.1, scrollTrigger: { trigger: el, start: 'top 85%' } }); });
-}
 
-function init3D(){
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xF8F8FA);
-  scene.fog = new THREE.FogExp2(0xF8F8FA, 0.003);
-  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 1.5, 14);
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.shadowMap.enabled = true;
-  renderer.domElement.style.position = 'fixed';
-  renderer.domElement.style.top = '0';
-  renderer.domElement.style.left = '0';
-  renderer.domElement.style.zIndex = '-1';
-  renderer.domElement.style.pointerEvents = 'none';
-  renderer.domElement.style.opacity = '0.6';
-  document.body.appendChild(renderer.domElement);
-  
-  const ambientLight = new THREE.AmbientLight(0x404060, 0.5);
-  const mainLight = new THREE.DirectionalLight(0xffffff, 1);
-  mainLight.position.set(5, 12, 8); mainLight.castShadow = true;
-  const redLight = new THREE.PointLight(0xE8192C, 0.4); redLight.position.set(2, 2, 4);
-  const blueLight = new THREE.PointLight(0x4488cc, 0.3); blueLight.position.set(-2, 1, 5);
-  scene.add(ambientLight); scene.add(mainLight); scene.add(redLight); scene.add(blueLight);
-  
-  // Мост на остров Русский (детализированная версия)
-  const bridgeGroup = new THREE.Group();
-  
-  // Основные арки
-  const archMaterial = new THREE.MeshStandardMaterial({ color: 0xCCCCDD, metalness: 0.7, roughness: 0.3 });
-  for(let i = -1; i <= 1; i++){
-    const archGeo = new THREE.TorusGeometry(1.3, 0.1, 32, 64, Math.PI);
-    const arch = new THREE.Mesh(archGeo, archMaterial);
-    arch.rotation.x = Math.PI / 2;
-    arch.rotation.z = Math.PI / 2;
-    arch.position.set(i * 2, 0.6, 0);
-    arch.scale.set(1.3, 1.3, 0.8);
-    bridgeGroup.add(arch);
-  }
-  
-  // Пилоны моста
-  const pillarMaterial = new THREE.MeshStandardMaterial({ color: 0xAAAACC, metalness: 0.6, roughness: 0.4 });
-  for(let i = -2.5; i <= 2.5; i+=2.5){
-    const pillarGeo = new THREE.BoxGeometry(0.3, 3, 0.3);
-    const pillar = new THREE.Mesh(pillarGeo, pillarMaterial);
-    pillar.position.set(i, -0.8, 0.5);
-    pillar.castShadow = true;
-    bridgeGroup.add(pillar);
-  }
-  
-  // Ванты (кабели)
-  const cableMaterial = new THREE.LineBasicMaterial({ color: 0xAAAAAA });
-  for(let i = -1.6; i <= 1.6; i+=1.6){
-    const points = [];
-    points.push(new THREE.Vector3(i, 0.7, 0.6));
-    points.push(new THREE.Vector3(i + 1, -0.2, 0.6));
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const line = new THREE.Line(geometry, cableMaterial);
-    bridgeGroup.add(line);
-    const points2 = [];
-    points2.push(new THREE.Vector3(i, 0.7, 0.6));
-    points2.push(new THREE.Vector3(i - 1, -0.2, 0.6));
-    const geometry2 = new THREE.BufferGeometry().setFromPoints(points2);
-    const line2 = new THREE.Line(geometry2, cableMaterial);
-    bridgeGroup.add(line2);
-  }
-  
-  // Декоративные фонари на пилонах
-  const lampMaterial = new THREE.MeshStandardMaterial({ color: 0xFFAA66, emissive: 0xFF4400, emissiveIntensity: 0.3 });
-  for(let i = -2.5; i <= 2.5; i+=2.5){
-    const lampGeo = new THREE.SphereGeometry(0.12, 16, 16);
-    const lamp = new THREE.Mesh(lampGeo, lampMaterial);
-    lamp.position.set(i, 0.9, 0.6);
-    bridgeGroup.add(lamp);
-  }
-  
-  bridgeGroup.position.set(0, -0.3, 0);
-  bridgeGroup.scale.set(0.85, 0.85, 0.85);
-  scene.add(bridgeGroup);
-  
-  // Парящие частицы (небо, облака)
-  const particleCount = 800;
-  const particleGeo = new THREE.BufferGeometry();
-  const particlePositions = new Float32Array(particleCount * 3);
-  for(let i=0; i<particleCount; i++){
-    particlePositions[i*3] = (Math.random() - 0.5) * 12;
-    particlePositions[i*3+1] = (Math.random() - 0.5) * 6 + 1;
-    particlePositions[i*3+2] = (Math.random() - 0.5) * 8 - 2;
-  }
-  particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-  const particleMat = new THREE.PointsMaterial({ color: 0xE8192C, size: 0.045, transparent: true, opacity: 0.25 });
-  const particles = new THREE.Points(particleGeo, particleMat);
-  scene.add(particles);
-  
-  // Водная гладь (плоскость с прозрачностью)
-  const waterGeo = new THREE.PlaneGeometry(14, 8);
-  const waterMat = new THREE.MeshStandardMaterial({ color: 0x4488aa, metalness: 0.9, roughness: 0.2, transparent: true, opacity: 0.15 });
-  const water = new THREE.Mesh(waterGeo, waterMat);
-  water.rotation.x = -Math.PI / 2;
-  water.position.y = -1.2;
-  water.receiveShadow = true;
-  scene.add(water);
-  
-  let mouseX3D=0, mouseY3D=0, targetX3D=0, targetY3D=0;
-  document.addEventListener('mousemove', (e)=>{ mouseX3D=(e.clientX/window.innerWidth)*2-1; mouseY3D=(e.clientY/window.innerHeight)*2-1; });
-  
-  gsap.to({}, { scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 1.8, onUpdate: (self) => { const p = self.progress; bridgeGroup.rotation.y = p * Math.PI * 1.2; bridgeGroup.position.y = -0.3 + p * 0.4; particles.rotation.y = p * 0.6; particles.rotation.x = p * 0.3; redLight.intensity = 0.3 + Math.sin(p * Math.PI * 3) * 0.15; blueLight.intensity = 0.2 + Math.cos(p * Math.PI * 3) * 0.1; } } });
-  
-  let time3D = 0;
-  function animate3D(){
-    requestAnimationFrame(animate3D);
-    time3D += 0.008;
-    targetX3D += (mouseX3D - targetX3D) * 0.05;
-    targetY3D += (mouseY3D - targetY3D) * 0.05;
-    camera.position.x += (targetX3D * 0.6 - camera.position.x) * 0.05;
-    camera.position.y += (targetY3D * 0.4 - camera.position.y) * 0.05;
-    camera.lookAt(0, 0.2, 0);
-    particles.rotation.z = Math.sin(time3D * 0.2) * 0.1;
-    renderer.render(scene, camera);
-  }
-  animate3D();
-  window.addEventListener('resize', ()=>{ camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
-}
+  // SCROLL PROGRESS
+  window.addEventListener('scroll',()=>{ const nav = document.getElementById('nav'); if(window.scrollY>60) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); const winScroll = window.scrollY; const height = document.body.scrollHeight - window.innerHeight; const scrolled = (winScroll / height) * 100; const progress = document.getElementById('scrollProgress'); if(progress) progress.style.transform = `scaleX(${scrolled/100})`; });
 
-setTimeout(()=>{ init3D(); initGSAP(); initCounters(); }, 500);
+  // COUNTERS
+  function initCounters() {
+    const observer = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting)return;
+        const el = entry.target.querySelector('.cnt');
+        if(!el)return;
+        const target = parseInt(el.dataset.n);
+        let curr = 0;
+        const step = target/60;
+        const interval = setInterval(()=>{
+          curr = Math.min(curr+step,target);
+          el.textContent = Math.floor(curr);
+          if(curr>=target)clearInterval(interval);
+        }, 20);
+        observer.unobserve(entry.target);
+      });
+    },{threshold:0.5});
+    document.querySelectorAll('.stat-c').forEach(el=>observer.observe(el));
+  }
+
+  // SCROLL REVEAL
+  function initScrollReveal() {
+    const observer = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    },{threshold:0.12});
+    document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right').forEach(el=>observer.observe(el));
+  }
+
+  // GSAP ANIMATIONS
+  function initGSAP() {
+    gsap.registerPlugin(ScrollTrigger);
+    const title = document.querySelector('.hero-h1');
+    if(title && !title.hasAttribute('data-animated')) {
+      const text = title.innerText;
+      let html = '';
+      for(let char of text){
+        if(char === ' ' || char === '\n') html += char;
+        else html += `<span class="char" style="animation-delay:${Math.random()*0.2}s">${char}</span>`;
+      }
+      title.innerHTML = html;
+      title.setAttribute('data-animated','true');
+    }
+  }
+
+  // PREMIUM CURSOR
+  const dot = document.getElementById('c-dot');
+  const ring = document.getElementById('c-ring');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', (e)=>{ mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
+  function animateRing() { ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12; ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px'; requestAnimationFrame(animateRing); }
+  animateRing();
+  document.querySelectorAll('a, button, .pc, .city-card, .srv-card, .chip, .wo, .stat-card, .mortgage-card').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('active'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('active'));
+    el.addEventListener('mousedown', () => ring.classList.add('click'));
+    el.addEventListener('mouseup', () => ring.classList.remove('click'));
+  });
+
+  // THREE.JS 3D SCENE (ULTRA PREMIUM)
+  function init3D() {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xF8F8FA);
+    scene.fog = new THREE.FogExp2(0xF8F8FA, 0.0025);
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1.5, 14);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.domElement.style.position = 'fixed';
+    renderer.domElement.style.top = '0';
+    renderer.domElement.style.left = '0';
+    renderer.domElement.style.zIndex = '-1';
+    renderer.domElement.style.pointerEvents = 'none';
+    renderer.domElement.style.opacity = '0.55';
+    document.body.appendChild(renderer.domElement);
+
+    const ambientLight = new THREE.AmbientLight(0x404060, 0.55);
+    const mainLight = new THREE.DirectionalLight(0xffffff, 1.1);
+    mainLight.position.set(5, 12, 8);
+    mainLight.castShadow = true;
+    const redLight = new THREE.PointLight(0xE8192C, 0.45);
+    redLight.position.set(2, 2, 4);
+    const blueLight = new THREE.PointLight(0x4488cc, 0.3);
+    blueLight.position.set(-2, 1, 5);
+    scene.add(ambientLight);
+    scene.add(mainLight);
+    scene.add(redLight);
+    scene.add(blueLight);
+
+    // Bridge Group (Russky Island Bridge inspired)
+    const bridgeGroup = new THREE.Group();
+    const archMaterial = new THREE.MeshStandardMaterial({ color: 0xCCCCDD, metalness: 0.72, roughness: 0.28 });
+    for(let i = -1; i <= 1; i++) {
+      const archGeo = new THREE.TorusGeometry(1.32, 0.1, 32, 64, Math.PI);
+      const arch = new THREE.Mesh(archGeo, archMaterial);
+      arch.rotation.x = Math.PI / 2;
+      arch.rotation.z = Math.PI / 2;
+      arch.position.set(i * 2, 0.65, 0);
+      arch.scale.set(1.32, 1.32, 0.8);
+      bridgeGroup.add(arch);
+    }
+    const pillarMaterial = new THREE.MeshStandardMaterial({ color: 0xAAAACC, metalness: 0.62, roughness: 0.38 });
+    for(let i = -2.5; i <= 2.5; i+=2.5) {
+      const pillarGeo = new THREE.BoxGeometry(0.32, 3.1, 0.32);
+      const pillar = new THREE.Mesh(pillarGeo, pillarMaterial);
+      pillar.position.set(i, -0.8, 0.55);
+      pillar.castShadow = true;
+      bridgeGroup.add(pillar);
+    }
+    const cableMaterial = new THREE.LineBasicMaterial({ color: 0xAAAAAA });
+    for(let i = -1.6; i <= 1.6; i+=1.6) {
+      const points = [new THREE.Vector3(i, 0.75, 0.65), new THREE.Vector3(i + 1.05, -0.2, 0.65)];
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const line = new THREE.Line(geometry, cableMaterial);
+      bridgeGroup.add(line);
+      const points2 = [new THREE.Vector3(i, 0.75, 0.65), new THREE.Vector3(i - 1.05, -0.2, 0.65)];
+      const geometry2 = new THREE.BufferGeometry().setFromPoints(points2);
+      const line2 = new THREE.Line(geometry2, cableMaterial);
+      bridgeGroup.add(line2);
+    }
+    const lampMaterial = new THREE.MeshStandardMaterial({ color: 0xFFAA66, emissive: 0xFF4400, emissiveIntensity: 0.35 });
+    for(let i = -2.5; i <= 2.5; i+=2.5) {
+      const lampGeo = new THREE.SphereGeometry(0.13, 16, 16);
+      const lamp = new THREE.Mesh(lampGeo, lampMaterial);
+      lamp.position.set(i, 0.95, 0.65);
+      bridgeGroup.add(lamp);
+    }
+    bridgeGroup.position.set(0, -0.25, 0);
+    bridgeGroup.scale.set(0.88, 0.88, 0.88);
+    scene.add(bridgeGroup);
+
+    // Particles
+    const particleCount = 950;
+    const particleGeo = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+    for(let i = 0; i < particleCount; i++) {
+      particlePositions[i*3] = (Math.random() - 0.5) * 14;
+      particlePositions[i*3+1] = (Math.random() - 0.5) * 7 + 1;
+      particlePositions[i*3+2] = (Math.random() - 0.5) * 9 - 2;
+    }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    const particleMat = new THREE.PointsMaterial({ color: 0xE8192C, size: 0.048, transparent: true, opacity: 0.28 });
+    const particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
+
+    // Water plane
+    const waterGeo = new THREE.PlaneGeometry(15, 9);
+    const waterMat = new THREE.MeshStandardMaterial({ color: 0x4488aa, metalness: 0.92, roughness: 0.18, transparent: true, opacity: 0.12 });
+    const water = new THREE.Mesh(waterGeo, waterMat);
+    water.rotation.x = -Math.PI / 2;
+    water.position.y = -1.25;
+    water.receiveShadow = true;
+    scene.add(water);
+
+    let mouseX3D = 0, mouseY3D = 0, targetX3D = 0, targetY3D = 0;
+    document.addEventListener('mousemove', (e)=>{ mouseX3D = (e.clientX/window.innerWidth)*2-1; mouseY3D = (e.clientY/window.innerHeight)*2-1; });
+
+    gsap.to({}, {
+      scrollTrigger: {
+        trigger: 'body',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1.8,
+        onUpdate: (self) => {
+          const p = self.progress;
+          bridgeGroup.rotation.y = p * Math.PI * 1.25;
+          bridgeGroup.position.y = -0.25 + p * 0.45;
+          particles.rotation.y = p * 0.7;
+          particles.rotation.x = p * 0.35;
+          redLight.intensity = 0.32 + Math.sin(p * Math.PI * 3.5) * 0.18;
+          blueLight.intensity = 0.22 + Math.cos(p * Math.PI * 3.5) * 0.12;
+        }
+      }
+    });
+
+    let time3D = 0;
+    function animate3D() {
+      requestAnimationFrame(animate3D);
+      time3D += 0.008;
+      targetX3D += (mouseX3D - targetX3D) * 0.055;
+      targetY3D += (mouseY3D - targetY3D) * 0.055;
+      camera.position.x += (targetX3D * 0.65 - camera.position.x) * 0.045;
+      camera.position.y += (targetY3D * 0.45 - camera.position.y) * 0.045;
+      camera.lookAt(0, 0.2, 0);
+      particles.rotation.z = Math.sin(time3D * 0.22) * 0.12;
+      renderer.render(scene, camera);
+    }
+    animate3D();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  }
+
+  setTimeout(() => {
+    init3D();
+    initGSAP();
+    initCounters();
+    initScrollReveal();
+  }, 500);
 </script>
 </body>
 </html>
