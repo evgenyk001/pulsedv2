@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>PULSE.DV — Ultimate Premium Real Estate Marketplace</title>
-<meta name="description" content="PULSE.DV — кинематографичный маркетплейс недвижимости Приморского края. 3D-атмосфера, дальневосточная ипотека 2%, премиальный сервис.">
+<title>PULSE.DV — Premium Real Estate | Cinematic 3D Experience</title>
+<meta name="description" content="PULSE.DV — премиальный маркетплейс недвижимости Приморского края. 3D-визуализация, дальневосточная ипотека 2%, кинематографичный скролл.">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" rel="stylesheet">
 <style>
   /* ============================================================
-     PREMIUM DESIGN SYSTEM — 2026 EDITION
+     DESIGN SYSTEM — PREMIUM EDITION 2026
      ============================================================ */
   :root {
     --red: #E8192C;
     --red-bright: #FF3344;
-    --red-dim: rgba(232,25,44,0.08);
+    --red-dim: rgba(232,25,44,0.06);
     --red-glow: rgba(232,25,44,0.25);
     --red-glow-strong: rgba(232,25,44,0.45);
     
     --bg: #FFFFFF;
     --bg2: #F8F8FA;
     --bg3: #F0F0F3;
+    --bg4: #E8E8EC;
     --bg-card: #FFFFFF;
     --bg-glass: rgba(255,255,255,0.72);
     --bg-glass-strong: rgba(255,255,255,0.88);
@@ -40,6 +40,7 @@
     --ease-inout: cubic-bezier(0.77, 0, 0.175, 1);
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-smooth: cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     
     --shadow-sm: 0 4px 20px rgba(0,0,0,0.04);
     --shadow-md: 0 8px 32px rgba(0,0,0,0.08);
@@ -53,7 +54,7 @@
   }
   
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { overflow-x: hidden; }
+  html { overflow-x: hidden; scroll-behavior: smooth; }
   body {
     background: var(--bg);
     color: var(--text);
@@ -68,7 +69,7 @@
   ::-webkit-scrollbar { width: 4px; background: var(--bg2); }
   ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 4px; }
   
-  /* ===== LOADER CINEMATIC ===== */
+  /* ===== CINEMATIC LOADER ===== */
   #loader {
     position: fixed; inset: 0; z-index: 10000;
     background: var(--bg);
@@ -88,9 +89,9 @@
   }
   @keyframes ldPulse {
     from { filter: drop-shadow(0 0 15px rgba(232,25,44,0.25)); transform: scale(0.98); }
-    to   { filter: drop-shadow(0 0 45px rgba(232,25,44,0.55)); transform: scale(1.02); }
+    to   { filter: drop-shadow(0 0 55px rgba(232,25,44,0.6)); transform: scale(1.02); }
   }
-  .ld-track { width: 260px; height: 2px; background: var(--border); border-radius: 2px; position: relative; overflow: hidden; }
+  .ld-track { width: 280px; height: 2px; background: var(--border); border-radius: 2px; position: relative; overflow: hidden; }
   .ld-bar {
     position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
     background: linear-gradient(90deg, transparent, var(--red), var(--red-bright), var(--red), transparent);
@@ -109,7 +110,7 @@
     box-shadow: 0 0 8px var(--red-glow);
   }
   
-  /* ===== GLASS NAVIGATION PREMIUM ===== */
+  /* ===== GLASS NAVIGATION ===== */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 600;
     height: 84px; padding: 0 56px;
@@ -210,12 +211,18 @@
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     z-index: 0;
-    opacity: 0.55;
+    opacity: 0.6;
   }
   .hero-gradient-bottom {
     position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
     background: linear-gradient(to top, var(--bg) 0%, transparent 100%);
     z-index: 1; pointer-events: none;
+  }
+  .hero-grain {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 120px;
+    opacity: 0.02;
   }
   
   .hero-content {
@@ -232,15 +239,14 @@
     margin-bottom: 36px;
     color: var(--text);
   }
-  .hero-title .line { overflow: hidden; display: block; margin-bottom: 0.1em; }
+  .hero-title .line { overflow: hidden; display: block; margin-bottom: 0.05em; }
   .hero-title .char {
     display: inline-block;
     transform: translateY(120%) rotateX(15deg);
     opacity: 0;
-    animation: charReveal 0.65s var(--ease-out) both;
-    text-shadow: 0 0 0px rgba(0,0,0,0);
+    animation: charReveal 0.7s var(--ease-out) both;
   }
-  .hero-title .space { display: inline-block; width: 0.2em; }
+  .hero-title .space { display: inline-block; width: 0.25em; }
   .hero-title .accent { 
     color: var(--red);
     position: relative;
@@ -248,16 +254,16 @@
   }
   .hero-title .accent::after {
     content: '';
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 4px;
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 3px;
     background: var(--red);
     transform: scaleX(0);
     transform-origin: left;
-    animation: underlineReveal 0.6s var(--ease-out) 1s forwards;
+    animation: underlineReveal 0.5s var(--ease-out) 1.1s forwards;
   }
   @keyframes underlineReveal { to { transform: scaleX(1); } }
   @keyframes charReveal { 
-    to { transform: translateY(0) rotateX(0); opacity: 1; text-shadow: 0 10px 30px rgba(0,0,0,0.05); } 
+    to { transform: translateY(0) rotateX(0); opacity: 1; } 
   }
   
   .hero-sub {
@@ -296,7 +302,7 @@
   }
   .btn-primary::before {
     content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
     transition: left 0.5s var(--ease-out);
   }
   .btn-primary:hover { transform: translateY(-4px); box-shadow: var(--shadow-red); background: var(--red-bright); letter-spacing: 0.14em; }
@@ -334,7 +340,7 @@
     opacity: 0; transform: translateY(30px);
     animation: fadeUp 0.7s var(--ease-smooth) 0.8s forwards;
   }
-  .hero-stat:hover { transform: translateY(-6px); border-color: var(--border-red); box-shadow: var(--shadow-md); background: rgba(255,255,255,0.85); }
+  .hero-stat:hover { transform: translateY(-6px); border-color: var(--border-red); box-shadow: var(--shadow-md); background: rgba(255,255,255,0.88); }
   .hero-stat-val {
     font-family: var(--font-display);
     font-size: 34px; font-weight: 800;
@@ -391,6 +397,7 @@
     border-radius: 50%;
     background: radial-gradient(circle, rgba(232,25,44,0.08), transparent);
     pointer-events: none;
+    animation: glowPulse 6s ease-in-out infinite;
   }
   .mortgage-wrap::after {
     content: ''; position: absolute; bottom: -80px; left: -80px;
@@ -398,7 +405,10 @@
     border-radius: 50%;
     background: radial-gradient(circle, rgba(232,25,44,0.05), transparent);
     pointer-events: none;
+    animation: glowPulse 6s ease-in-out infinite reverse;
   }
+  @keyframes glowPulse { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
+  
   .mortgage-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -445,7 +455,7 @@
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 20px 24px;
-    width: 300px;
+    width: 310px;
     opacity: 0; visibility: hidden;
     transition: all 0.35s var(--ease-out);
     pointer-events: none;
@@ -653,7 +663,7 @@
   .how-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; margin-bottom: 14px; }
   .how-txt { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
   
-  /* ===== WIZARD PREMIUM REDESIGN ===== */
+  /* ===== WIZARD PREMIUM ===== */
   #wizard { background: var(--bg2); }
   .wiz-wrap {
     max-width: 860px; margin: 64px auto 0;
@@ -713,7 +723,7 @@
   }
   .faq-item.open .faq-ico { transform: rotate(45deg); border-color: var(--red); color: var(--red); background: rgba(232,25,44,0.08); }
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.55s var(--ease-out); }
-  .faq-item.open .faq-a { max-height: 300px; padding-bottom: 28px; }
+  .faq-item.open .faq-a { max-height: 320px; padding-bottom: 28px; }
   .faq-a p { font-size: 14px; color: var(--text-secondary); line-height: 1.75; }
   
   /* ===== CONTACT ===== */
@@ -899,6 +909,7 @@
   <section id="hero">
     <canvas id="hero-canvas"></canvas>
     <div class="hero-gradient-bottom"></div>
+    <div class="hero-grain"></div>
     <div class="hero-content">
       <h1 class="hero-title" id="heroTitle"></h1>
       <p class="hero-sub">Покупка, продажа, аренда — полный спектр услуг во Владивостоке, Уссурийске, Артёме и по всему Приморскому краю.</p>
@@ -926,25 +937,25 @@
             <div class="mcard-rate">2%</div>
             <div class="mcard-name">Дальневосточная</div>
             <div class="mcard-desc">Для жителей ДФО</div>
-            <div class="tooltip"><strong>🏠 Кому положено:</strong> Молодые семьи (до 35 лет), одинокие родители с детьми, участники «Дальневосточного гектара». Максимальная сумма — 6 млн ₽.<br><strong>✅ Что мы делаем:</strong> Полный пакет документов, подача заявки, отслеживание одобрения, консультация по подбору объекта.</div>
+            <div class="tooltip"><strong>🏠 Кому положено:</strong> Молодые семьи (до 35 лет), одинокие родители с детьми, участники «Дальневосточного гектара». Максимальная сумма — 6 млн ₽.<br><strong>✅ Что мы делаем:</strong> Полный пакет документов, подача заявки, отслеживание одобрения, консультация по подбору объекта под программу.</div>
           </div>
           <div class="mcard sr d2">
             <div class="mcard-rate">6%</div>
             <div class="mcard-name">Семейная</div>
             <div class="mcard-desc">Для семей с детьми</div>
-            <div class="tooltip"><strong>👨‍👩‍👧 Условия:</strong> Семьи с детьми до 6 лет. Ставка 6% на весь срок кредита. Скидка до 1% при повторной сделке.<br><strong>🤝 Наша поддержка:</strong> Подбор банка с максимальным одобрением, помощь с подтверждением семейного статуса.</div>
+            <div class="tooltip"><strong>👨‍👩‍👧 Условия:</strong> Семьи с детьми до 6 лет. Ставка 6% на весь срок кредита. Скидка до 1% при повторной сделке.<br><strong>🤝 Наша поддержка:</strong> Подбор банка с максимальным одобрением, помощь с подтверждением семейного статуса, сопровождение до подписания.</div>
           </div>
           <div class="mcard sr d3">
             <div class="mcard-rate">8%</div>
             <div class="mcard-name">IT-ипотека</div>
             <div class="mcard-desc">Для IT-специалистов</div>
-            <div class="tooltip"><strong>💻 Требования:</strong> Трудоустройство в аккредитованной IT-компании от 3 месяцев. Ставка 8% фиксированная.<br><strong>🚀 Наша услуга:</strong> Проверка соответствия компании аккредитации, подготовка пакета документов, онлайн-подача.</div>
+            <div class="tooltip"><strong>💻 Требования:</strong> Трудоустройство в аккредитованной IT-компании от 3 месяцев. Ставка 8% фиксированная.<br><strong>🚀 Наша услуга:</strong> Проверка соответствия компании аккредитации, подготовка пакета документов, онлайн-подача, полное сопровождение.</div>
           </div>
           <div class="mcard sr d4">
             <div class="mcard-rate">12%</div>
             <div class="mcard-name">Стандартная</div>
             <div class="mcard-desc">Без подтверждения дохода</div>
-            <div class="tooltip"><strong>📄 Для кого:</strong> Самозанятые, ИП, клиенты без официального подтверждения дохода.<br><strong>⚡ Наше решение:</strong> Подбор банка с минимальными требованиями, сопровождение сделки, одобрение до 80% вероятности.</div>
+            <div class="tooltip"><strong>📄 Для кого:</strong> Самозанятые, ИП, клиенты без официального подтверждения дохода.<br><strong>⚡ Наше решение:</strong> Подбор банка с минимальными требованиями, сопровождение сделки, одобрение до 80% вероятности, консультация по повышению кредитного рейтинга.</div>
           </div>
         </div>
         <button class="btn-primary" onclick="scrollTo('contact')">Узнать подробнее <span class="arr">→</span></button>
@@ -1069,10 +1080,10 @@
       <div class="section-eye sr">Вопросы</div>
       <h2 class="section-h2 sr d1">Часто спрашивают</h2>
       <div class="faq-list">
-        <div class="faq-item sr"><div class="faq-q" onclick="toggleFaq(this)">Сколько стоят услуги при покупке новостройки?<span class="faq-ico">+</span></div><div class="faq-a"><p>Для покупателя — абсолютно бесплатно. Мы получаем комиссию от застройщика как аккредитованные партнёры. Вы получаете полное сопровождение: подбор объекта, проверка документов, ипотека, регистрация сделки — без каких-либо скрытых платежей и доплат с вашей стороны.</p></div></div>
-        <div class="faq-item sr d1"><div class="faq-q" onclick="toggleFaq(this)">Какие ипотечные программы вы предлагаете?<span class="faq-ico">+</span></div><div class="faq-a"><p>Мы работаем со всеми банками ДФО и предлагаем полный спектр ипотечных программ: Дальневосточная ипотека 2% (для молодых семей и участников ДВ-гектара), Семейная ипотека 6% (для семей с детьми), IT-ипотека 8% (для специалистов), стандартные программы до 12%. Помогаем с одобрением, сбором документов и выбором лучших условий.</p></div></div>
-        <div class="faq-item sr d2"><div class="faq-q" onclick="toggleFaq(this)">Что такое дальневосточная ипотека и кому она доступна?<span class="faq-ico">+</span></div><div class="faq-a"><p>Дальневосточная ипотека — государственная программа для жителей ДФО со ставкой до 2% годовых. Доступна молодым семьям (возраст супругов до 35 лет), одиноким родителям с детьми, участникам программы «Дальневосточный гектар». Максимальная сумма кредита — до 6 млн ₽ на первичное жильё. Мы помогаем оформить все документы и получить одобрение с первого раза.</p></div></div>
-        <div class="faq-item sr d3"><div class="faq-q" onclick="toggleFaq(this)">Можно купить недвижимость дистанционно?<span class="faq-ico">+</span></div><div class="faq-a"><p>Да, мы организуем онлайн-показы в режиме реального времени, дистанционное оформление с использованием электронной цифровой подписи (ЭЦП) и удалённую регистрацию сделки в Росреестре. Работаем с клиентами из любых регионов России и из-за рубежа. Вы получаете полный пакет документов почтой.</p></div></div>
+        <div class="faq-item sr"><div class="faq-q" onclick="toggleFaq(this)">Сколько стоят услуги при покупке новостройки?<span class="faq-ico">+</span></div><div class="faq-a"><p>Для покупателя — абсолютно бесплатно. Мы получаем комиссию от застройщика как аккредитованные партнёры. Вы получаете полное сопровождение: подбор объекта, проверка документов, ипотека, регистрация сделки — без каких-либо скрытых платежей и доплат с вашей стороны. Это стандарт рынка первичной недвижимости, но мы сопровождаем каждый шаг лично.</p></div></div>
+        <div class="faq-item sr d1"><div class="faq-q" onclick="toggleFaq(this)">Какие ипотечные программы вы предлагаете?<span class="faq-ico">+</span></div><div class="faq-a"><p>Мы работаем со всеми банками ДФО и предлагаем полный спектр ипотечных программ: Дальневосточная ипотека 2% (для молодых семей и участников ДВ-гектара), Семейная ипотека 6% (для семей с детьми), IT-ипотека 8% (для специалистов), стандартные программы до 12%. Помогаем с одобрением, сбором документов и выбором лучших условий под вашу жизненную ситуацию. Более 85% наших клиентов получают одобрение с первого раза.</p></div></div>
+        <div class="faq-item sr d2"><div class="faq-q" onclick="toggleFaq(this)">Что такое дальневосточная ипотека и кому она доступна?<span class="faq-ico">+</span></div><div class="faq-a"><p>Дальневосточная ипотека — государственная программа для жителей ДФО со ставкой до 2% годовых. Доступна молодым семьям (возраст супругов до 35 лет), одиноким родителям с детьми, участникам программы «Дальневосточный гектар». Максимальная сумма кредита — до 6 млн ₽ на первичное жильё. Мы помогаем оформить все документы, подать заявку в банк-партнёр и получить одобрение с первого раза. Срок рассмотрения — от 3 до 7 дней.</p></div></div>
+        <div class="faq-item sr d3"><div class="faq-q" onclick="toggleFaq(this)">Можно купить недвижимость дистанционно?<span class="faq-ico">+</span></div><div class="faq-a"><p>Да, мы организуем онлайн-показы в режиме реального времени (Zoom, Telegram, WhatsApp), дистанционное оформление с использованием электронной цифровой подписи (ЭЦП) и удалённую регистрацию сделки в Росреестре. Работаем с клиентами из любых регионов России и из-за рубежа. Вы получаете полный пакет документов почтой или в электронном виде. Более 30% наших сделок проходят дистанционно.</p></div></div>
       </div>
     </div>
   </section>
@@ -1141,7 +1152,7 @@
 
 <!-- ABOUT PAGE -->
 <div id="pg-about" class="pg">
-  <div style="padding:140px 56px 80px"><div class="container"><div class="section-eye sr">О компании</div><h1 class="section-h2 sr d1">PULSE.DV — это Приморье и <span style="color:var(--red)">недвижимость</span></h1><div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:64px"><div class="sr" style="background:var(--bg3);border-radius:36px;padding:56px"><div class="section-eye" style="margin-bottom:14px">Миссия</div><p style="font-size:16px;color:var(--text-secondary);line-height:1.7">Дать каждому жителю Дальнего Востока возможность решить жилищный вопрос честно и быстро, делая рынок недвижимости прозрачным и доступным.</p></div><div class="sr d1" style="background:var(--bg3);border-radius:36px;padding:56px"><div class="section-eye" style="margin-bottom:14px">Ценности</div><p style="font-size:16px;color:var(--text-secondary);line-height:1.7">Честность, скорость, ответственность. Бесплатно для покупателей новостроек. Работаем на результат, а не на количество сделок.</p></div></div></div></div>
+  <div style="padding:140px 56px 80px"><div class="container"><div class="section-eye sr">О компании</div><h1 class="section-h2 sr d1">PULSE.DV — это Приморье и <span style="color:var(--red)">недвижимость</span></h1><div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:64px"><div class="sr" style="background:var(--bg3);border-radius:36px;padding:56px"><div class="section-eye" style="margin-bottom:14px">Миссия</div><p style="font-size:16px;color:var(--text-secondary);line-height:1.7">Дать каждому жителю Дальнего Востока возможность решить жилищный вопрос честно и быстро, делая рынок недвижимости прозрачным и доступным для всех категорий клиентов.</p></div><div class="sr d1" style="background:var(--bg3);border-radius:36px;padding:56px"><div class="section-eye" style="margin-bottom:14px">Ценности</div><p style="font-size:16px;color:var(--text-secondary);line-height:1.7">Честность, скорость, ответственность. Бесплатно для покупателей новостроек. Работаем на результат, а не на количество сделок. Каждый клиент — наша репутация.</p></div></div></div></div>
   <div style="padding:88px 56px;background:var(--bg2)"><div class="container"><div class="section-eye sr">Команда</div><h2 class="section-h2 sr d1">Люди, которые помогают</h2><div class="team-grid"><div class="tm sr"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=160&q=80" alt=""></div><div class="tm-name">Антон Власов</div><div class="tm-role">Основатель & CEO</div></div><div class="tm sr d1"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=160&q=80" alt=""></div><div class="tm-name">Мария Ли</div><div class="tm-role">Руководитель продаж</div></div><div class="tm sr d2"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=160&q=80" alt=""></div><div class="tm-name">Денис Сорокин</div><div class="tm-role">Юрист</div></div><div class="tm sr d3"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=160&q=80" alt=""></div><div class="tm-name">Алина Кох</div><div class="tm-role">Ипотечный брокер</div></div></div></div></div>
   <footer><div class="foot-bottom container"><p>© 2025 PULSE.DV</p><button class="btn-ghost" onclick="goPage('home')">← Главная</button></div></footer>
 </div>
@@ -1191,7 +1202,6 @@
     if(rooms && rooms !== '') list = list.filter(p=>p.rooms === rooms);
     renderCatalogGrid(list);
   }
-  function filterMarket(type) { goPage('catalog'); setTimeout(()=>{ filterCatalog(); }, 100); }
 
   function goPage(page) { document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active')); document.getElementById(`pg-${page}`).classList.add('active'); window.scrollTo(0,0); setTimeout(initScrollReveal, 100); }
   function scrollTo(id) {
@@ -1228,7 +1238,7 @@
   function initScrollReveal(){ const obs = new IntersectionObserver(entries=>{ entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('vis'); obs.unobserve(entry.target); } }); },{threshold:0.12}); document.querySelectorAll('.sr,.sr-l,.sr-r').forEach(el=>{ el.classList.remove('vis'); obs.observe(el); }); }
   initScrollReveal();
   
-  // HERO TITLE — CINEMATIC SPLIT TEXT
+  // HERO TITLE — PREMIUM CINEMATIC SPLIT TEXT
   function buildHeroTitle(){
     const el = document.getElementById('heroTitle'); if(el.dataset.built) return; el.dataset.built='1';
     const text = "Недвижимость<br>Приморья — <span class='accent'>просто</span><br>и выгодно";
@@ -1247,7 +1257,7 @@
   }
   setTimeout(buildHeroTitle, 100);
   
-  // THREE.JS — CINEMATIC BRIDGE SCENE (LIGHT VERSION)
+  // THREE.JS — CINEMATIC BRIDGE SCENE (RUSSKY ISLAND)
   (function init3D(){
     const canvas = document.getElementById('hero-canvas');
     const W = ()=>window.innerWidth, H = ()=>window.innerHeight;
