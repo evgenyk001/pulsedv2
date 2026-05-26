@@ -3,313 +3,316 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>PULSE.DV — Ultra Premium Real Estate Marketplace</title>
-<meta name="description" content="PULSE.DV — кинематографичный маркетплейс недвижимости Приморского края с WebGL-атмосферой">
+<title>PULSE.DV — Cinematic Real Estate | Awwwards Level Experience</title>
+<meta name="description" content="PULSE.DV — премиальный кинематографичный маркетплейс недвижимости Приморского края с WebGL, 3D-атмосферой и глубокой storytelling анимацией">
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Unbounded:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.css">
 <style>
-  /* ===== RESET & ROOT — ULTRA PREMIUM EDITION ===== */
+  /* ===== RESET & ROOT — ULTRA PREMIUM CINEMATIC EDITION ===== */
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --r: #E8192C; --r2: #FF3344; --rg: rgba(232,25,44,0.12); --rg-glow: rgba(232,25,44,0.3);
+    --r: #E8192C; --r2: #FF3344; --rg: rgba(232,25,44,0.18); --rg-glow: rgba(232,25,44,0.45);
     --bg: #FFFFFF; --bg2: #F7F7F9; --bg3: #EEEEF2; --bg4: #E5E5EA;
-    --br: rgba(0,0,0,0.08); --brr: rgba(232,25,44,0.25);
-    --t: #111111; --t2: rgba(0,0,0,0.6); --t3: rgba(0,0,0,0.4); --t4: rgba(0,0,0,0.2);
+    --br: rgba(0,0,0,0.06); --brr: rgba(232,25,44,0.3);
+    --t: #111111; --t2: rgba(0,0,0,0.55); --t3: rgba(0,0,0,0.35); --t4: rgba(0,0,0,0.18);
     --fh: 'Unbounded', sans-serif; --fb: 'Inter', sans-serif;
     --e1: cubic-bezier(0.19, 1, 0.22, 1); --e2: cubic-bezier(0.76, 0, 0.24, 1); --e3: cubic-bezier(0.33, 1, 0.68, 1);
+    --eOut: cubic-bezier(0.16, 1, 0.3, 1); --eInOut: cubic-bezier(0.77, 0, 0.175, 1);
     --shadow-sm: 0 4px 20px rgba(0,0,0,0.04); --shadow-md: 0 8px 32px rgba(0,0,0,0.08);
     --shadow-lg: 0 20px 48px rgba(0,0,0,0.12); --shadow-xl: 0 32px 64px rgba(0,0,0,0.16);
-    --glass-blur: blur(16px); --glass-bg: rgba(255,255,255,0.72);
+    --glass-blur: blur(20px); --glass-bg: rgba(255,255,255,0.72);
   }
   html { overflow-x: hidden; scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--t); font-family: var(--fb); line-height: 1.5; overflow-x: hidden; cursor: none; }
+  body { background: var(--bg); color: var(--t); font-family: var(--fb); line-height: 1.5; overflow-x: hidden; cursor: none; will-change: transform; }
   a { color: inherit; text-decoration: none; }
   img { display: block; max-width: 100%; }
   ::-webkit-scrollbar { width: 4px; background: var(--bg2); }
   ::-webkit-scrollbar-thumb { background: var(--r); border-radius: 4px; }
 
-  /* ===== PREMIUM CURSOR SYSTEM ===== */
-  #c-dot { position: fixed; width: 8px; height: 8px; background: var(--r); border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%); transition: all 0.1s; filter: blur(0px); }
-  #c-ring { position: fixed; width: 44px; height: 44px; border: 2px solid rgba(232,25,44,0.5); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.4s var(--e1), height 0.4s var(--e1), border-color 0.3s, background 0.3s, backdrop-filter 0.3s; backdrop-filter: blur(4px); background: rgba(232,25,44,0.02); }
-  #c-ring.active { width: 80px; height: 80px; border-color: var(--r); background: rgba(232,25,44,0.12); backdrop-filter: blur(8px); }
-  #c-ring.click { width: 56px; height: 56px; background: rgba(232,25,44,0.2); transform: translate(-50%, -50%) scale(0.9); }
+  /* ===== CINEMATIC CURSOR ===== */
+  #c-dot { position: fixed; width: 8px; height: 8px; background: var(--r); border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%); transition: all 0.08s ease-out; filter: blur(0px); }
+  #c-ring { position: fixed; width: 48px; height: 48px; border: 2px solid rgba(232,25,44,0.55); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.35s var(--eOut), height 0.35s var(--eOut), border-color 0.25s, background 0.25s, backdrop-filter 0.25s; backdrop-filter: blur(6px); background: rgba(232,25,44,0.04); }
+  #c-ring.active { width: 88px; height: 88px; border-color: var(--r); background: rgba(232,25,44,0.15); backdrop-filter: blur(12px); }
+  #c-ring.click { width: 60px; height: 60px; background: rgba(232,25,44,0.25); transform: translate(-50%, -50%) scale(0.88); }
   @media (max-width: 768px) { #c-dot, #c-ring { display: none; } body { cursor: auto; } }
 
-  /* ===== PREMIUM LOADER ===== */
-  #loader { position: fixed; inset: 0; z-index: 10000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.5s; }
-  #loader.out { animation: loaderOut 0.8s var(--e2) forwards; }
+  /* ===== PREMIUM LOADER — CINEMATIC ===== */
+  #loader { position: fixed; inset: 0; z-index: 10000; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.6s; }
+  #loader.out { animation: loaderOut 0.9s var(--eInOut) forwards; }
   @keyframes loaderOut { to { transform: translateY(-100%); opacity: 0; visibility: hidden; } }
-  .loader-logo { font-family: var(--fh); font-size: clamp(48px, 12vw, 140px); font-weight: 900; color: var(--r); letter-spacing: -0.02em; margin-bottom: 24px; animation: loaderLogoPulse 1.5s var(--e3) infinite alternate; }
-  @keyframes loaderLogoPulse { 0% { opacity: 0.5; transform: scale(0.98); letter-spacing: -0.02em; } 100% { opacity: 1; transform: scale(1.02); letter-spacing: 0.02em; } }
-  .loader-slogan { font-family: var(--fh); font-size: clamp(12px, 3vw, 20px); font-weight: 400; color: var(--t2); letter-spacing: 0.3em; text-transform: uppercase; position: relative; overflow: hidden; margin-bottom: 40px; }
-  .loader-slogan span { display: inline-block; opacity: 0; transform: translateY(100%); animation: sloganReveal 0.4s var(--e1) forwards; }
-  @keyframes sloganReveal { to { opacity: 1; transform: translateY(0); } }
-  .loader-bar { width: 240px; height: 2px; background: var(--br); border-radius: 2px; overflow: hidden; }
-  .loader-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--r), var(--r2)); transition: width 2s var(--e3); }
-  .loader-percent { font-family: var(--fh); font-size: 12px; font-weight: 600; color: var(--t3); margin-top: 12px; }
+  .loader-logo { font-family: var(--fh); font-size: clamp(48px, 14vw, 160px); font-weight: 900; color: var(--r); letter-spacing: -0.03em; margin-bottom: 28px; animation: loaderLogoPulse 1.6s var(--e3) infinite alternate; filter: drop-shadow(0 0 20px var(--rg)); }
+  @keyframes loaderLogoPulse { 0% { opacity: 0.6; transform: scale(0.96); letter-spacing: -0.03em; } 100% { opacity: 1; transform: scale(1.02); letter-spacing: 0.02em; } }
+  .loader-slogan { font-family: var(--fh); font-size: clamp(12px, 3vw, 20px); font-weight: 400; color: var(--t2); letter-spacing: 0.4em; text-transform: uppercase; position: relative; overflow: hidden; margin-bottom: 48px; }
+  .loader-slogan span { display: inline-block; opacity: 0; transform: translateY(100%) rotateX(45deg); animation: sloganReveal 0.45s var(--eOut) forwards; }
+  @keyframes sloganReveal { to { opacity: 1; transform: translateY(0) rotateX(0); } }
+  .loader-bar { width: 260px; height: 2px; background: var(--br); border-radius: 2px; overflow: hidden; }
+  .loader-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--r), var(--r2), var(--r)); transition: width 2.2s var(--eOut); box-shadow: 0 0 8px var(--rg); }
+  .loader-percent { font-family: var(--fh); font-size: 12px; font-weight: 600; color: var(--t3); margin-top: 14px; }
 
   /* ===== SCROLL PROGRESS ===== */
   .scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: rgba(232,25,44,0.2); z-index: 1001; transform-origin: 0%; transform: scaleX(0); }
-  .scroll-progress-bar { height: 100%; background: linear-gradient(90deg, var(--r), var(--r2)); width: 100%; }
+  .scroll-progress-bar { height: 100%; background: linear-gradient(90deg, var(--r), var(--r2), var(--r)); width: 100%; box-shadow: 0 0 6px var(--rg); }
 
   /* ===== GLASS NAVIGATION ===== */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; height: 80px; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--br); transition: all 0.3s var(--e3); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 500; height: 80px; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--br); transition: all 0.4s var(--e3); }
   nav.scrolled { box-shadow: var(--shadow-md); background: rgba(255,255,255,0.96); }
-  .nav-logo { font-family: var(--fh); font-size: 22px; font-weight: 800; letter-spacing: 0.1em; cursor: pointer; color: var(--t); transition: all 0.3s; }
-  .nav-logo:hover { letter-spacing: 0.12em; color: var(--r); }
+  .nav-logo { font-family: var(--fh); font-size: 22px; font-weight: 800; letter-spacing: 0.1em; cursor: pointer; color: var(--t); transition: all 0.3s var(--eOut); }
+  .nav-logo:hover { letter-spacing: 0.14em; color: var(--r); text-shadow: 0 0 12px var(--rg); }
   .nl-dot { color: var(--r); }
-  .nav-links { display: flex; gap: 40px; align-items: center; }
-  .nav-links a { font-family: var(--fh); font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3); transition: all 0.25s; cursor: pointer; position: relative; }
-  .nav-links a::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 2px; background: var(--r); transition: width 0.3s var(--e1); }
-  .nav-links a:hover { color: var(--t); }
+  .nav-links { display: flex; gap: 44px; align-items: center; }
+  .nav-links a { font-family: var(--fh); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--t3); transition: all 0.3s; cursor: pointer; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 2px; background: var(--r); transition: width 0.4s var(--eOut); }
+  .nav-links a:hover { color: var(--t); letter-spacing: 0.18em; }
   .nav-links a:hover::after { width: 100%; }
   .nav-market-dropdown { position: relative; }
-  .dropdown-content { position: absolute; top: 100%; left: 0; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 20px; padding: 16px 0; min-width: 260px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s; z-index: 501; box-shadow: var(--shadow-md); }
-  .nav-market-dropdown:hover .dropdown-content { opacity: 1; visibility: visible; transform: translateY(0); }
-  .dropdown-content a { display: flex; align-items: center; gap: 12px; padding: 12px 24px; font-family: var(--fh); font-size: 10px; letter-spacing: 0.08em; color: var(--t2); transition: all 0.2s; }
-  .dropdown-content a:hover { color: var(--r); background: rgba(232,25,44,0.05); padding-left: 32px; }
+  .dropdown-content { position: absolute; top: 100%; left: 0; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 24px; padding: 16px 0; min-width: 280px; opacity: 0; visibility: hidden; transform: translateY(-12px) scale(0.96); transition: all 0.35s var(--eOut); z-index: 501; box-shadow: var(--shadow-lg); }
+  .nav-market-dropdown:hover .dropdown-content { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+  .dropdown-content a { display: flex; align-items: center; gap: 14px; padding: 12px 28px; font-family: var(--fh); font-size: 10px; letter-spacing: 0.08em; color: var(--t2); transition: all 0.25s; }
+  .dropdown-content a:hover { color: var(--r); background: rgba(232,25,44,0.05); padding-left: 38px; letter-spacing: 0.12em; }
   .dropdown-content svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.5; }
-  .nav-btn { font-family: var(--fh); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 28px; border: 1.5px solid var(--r); border-radius: 100px; color: var(--r); background: transparent; transition: all 0.3s var(--e3); cursor: pointer; position: relative; overflow: hidden; }
-  .nav-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--r); transition: left 0.4s var(--e1); z-index: -1; }
-  .nav-btn:hover { color: #fff; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .nav-btn { font-family: var(--fh); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 12px 32px; border: 1.5px solid var(--r); border-radius: 100px; color: var(--r); background: transparent; transition: all 0.35s var(--eOut); cursor: pointer; position: relative; overflow: hidden; }
+  .nav-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--r); transition: left 0.45s var(--eOut); z-index: -1; }
+  .nav-btn:hover { color: #fff; transform: translateY(-3px); box-shadow: var(--shadow-md); letter-spacing: 0.18em; }
   .nav-btn:hover::before { left: 0; }
   .nav-burger { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
-  .nav-burger span { display: block; width: 24px; height: 2px; background: var(--t); transition: all 0.3s; border-radius: 2px; }
+  .nav-burger span { display: block; width: 26px; height: 2px; background: var(--t); transition: all 0.3s; border-radius: 2px; }
   @media (max-width: 900px) { nav { padding: 0 24px; height: 70px; } .nav-links, .nav-btn { display: none; } .nav-burger { display: flex; } }
-  .mob { position: fixed; inset: 0; z-index: 499; background: var(--bg); backdrop-filter: blur(20px); padding: 100px 32px; transform: translateX(100%); transition: transform 0.55s var(--e2); }
+  .mob { position: fixed; inset: 0; z-index: 499; background: var(--bg); backdrop-filter: blur(28px); padding: 110px 32px; transform: translateX(100%); transition: transform 0.6s var(--eInOut); }
   .mob.open { transform: none; }
-  .mob a { font-family: var(--fh); font-size: 28px; font-weight: 700; padding: 20px 0; border-bottom: 1px solid var(--br); color: var(--t2); display: block; cursor: pointer; transition: all 0.2s; }
-  .mob a:hover { color: var(--r); padding-left: 10px; }
+  .mob a { font-family: var(--fh); font-size: 32px; font-weight: 700; padding: 22px 0; border-bottom: 1px solid var(--br); color: var(--t2); display: block; cursor: pointer; transition: all 0.25s; }
+  .mob a:hover { color: var(--r); padding-left: 14px; letter-spacing: 0.02em; }
 
-  /* ===== CINEMATIC HERO ===== */
-  #hero { position: relative; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; padding: 0 48px; background: radial-gradient(ellipse at 20% 30%, #FFFFFF, #F2F2F5); }
-  @media (max-width: 768px) { #hero { padding: 0 24px; } }
-  .hero-content { max-width: 1200px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
-  .hero-h1 { font-family: var(--fh); font-size: clamp(40px, 7vw, 80px); font-weight: 800; line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 28px; color: var(--t); }
-  .hero-h1 .char { display: inline-block; opacity: 0; transform: translateY(100%) rotateX(90deg); animation: charReveal 0.5s var(--e1) forwards; }
+  /* ===== CINEMATIC HERO — LAYERED DEPTH ===== */
+  #hero { position: relative; min-height: 92vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; padding: 0 56px; background: radial-gradient(ellipse at 20% 30%, #FFFFFF, #F0F0F5); }
+  @media (max-width: 768px) { #hero { padding: 0 28px; } }
+  .hero-content { max-width: 1250px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+  .hero-h1 { font-family: var(--fh); font-size: clamp(42px, 7.5vw, 88px); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 32px; color: var(--t); }
+  .hero-h1 .char { display: inline-block; opacity: 0; transform: translateY(110%) rotateX(95deg); animation: charReveal 0.55s var(--eOut) forwards; }
   @keyframes charReveal { to { opacity: 1; transform: translateY(0) rotateX(0); } }
-  .red-t { color: var(--r); text-shadow: 0 0 20px var(--rg); }
-  .hero-sub { font-size: 18px; color: var(--t2); max-width: 540px; line-height: 1.6; margin-bottom: 40px; opacity: 0; transform: translateY(30px); animation: fadeUp 0.6s var(--e3) 0.2s forwards; }
+  .red-t { color: var(--r); text-shadow: 0 0 28px var(--rg); display: inline-block; animation: softGlow 2.2s infinite alternate; }
+  @keyframes softGlow { 0% { text-shadow: 0 0 0px var(--rg); } 100% { text-shadow: 0 0 18px var(--rg); } }
+  .hero-sub { font-size: 18px; color: var(--t2); max-width: 580px; line-height: 1.65; margin-bottom: 44px; opacity: 0; transform: translateY(36px); animation: fadeUp 0.7s var(--eOut) 0.25s forwards; }
   @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-  .btn-fill { display: inline-flex; align-items: center; gap: 12px; padding: 14px 36px; border-radius: 100px; background: var(--r); color: #fff; border: none; font-family: var(--fh); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.3s var(--e3); cursor: pointer; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
-  .btn-fill::after { content: '→'; transition: transform 0.3s; display: inline-block; }
-  .btn-fill:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); background: var(--r2); }
-  .btn-fill:hover::after { transform: translateX(6px); }
-  .btn-outline { display: inline-flex; align-items: center; gap: 12px; padding: 13px 36px; border-radius: 100px; background: transparent; border: 1.5px solid var(--br); color: var(--t); font-family: var(--fh); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.3s var(--e3); cursor: pointer; backdrop-filter: blur(4px); }
-  .btn-outline:hover { border-color: var(--r); background: rgba(232,25,44,0.05); transform: translateX(6px); box-shadow: var(--shadow-sm); }
-  .hero-stats { display: flex; gap: 24px; margin-top: 48px; flex-wrap: wrap; }
-  .stat-card { background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 28px; padding: 20px 28px; min-width: 140px; transition: all 0.3s; box-shadow: var(--shadow-sm); cursor: pointer; position: relative; overflow: hidden; }
-  .stat-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 20%, rgba(232,25,44,0.06), transparent); opacity: 0; transition: opacity 0.4s; }
-  .stat-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--brr); }
+  .btn-fill { display: inline-flex; align-items: center; gap: 14px; padding: 15px 40px; border-radius: 100px; background: var(--r); color: #fff; border: none; font-family: var(--fh); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; transition: all 0.4s var(--eOut); cursor: pointer; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+  .btn-fill::after { content: '→'; transition: transform 0.35s var(--eOut); display: inline-block; }
+  .btn-fill:hover { transform: translateY(-4px) scale(1.02); box-shadow: var(--shadow-lg); background: var(--r2); letter-spacing: 0.16em; padding-right: 48px; }
+  .btn-fill:hover::after { transform: translateX(8px); }
+  .btn-outline { display: inline-flex; align-items: center; gap: 12px; padding: 14px 40px; border-radius: 100px; background: transparent; border: 1.5px solid var(--br); color: var(--t); font-family: var(--fh); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; transition: all 0.35s var(--eOut); cursor: pointer; backdrop-filter: blur(4px); }
+  .btn-outline:hover { border-color: var(--r); background: rgba(232,25,44,0.06); transform: translateX(8px); letter-spacing: 0.14em; box-shadow: var(--shadow-sm); }
+  .hero-stats { display: flex; gap: 28px; margin-top: 56px; flex-wrap: wrap; }
+  .stat-card { background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 32px; padding: 22px 32px; min-width: 150px; transition: all 0.4s var(--eOut); box-shadow: var(--shadow-sm); cursor: pointer; position: relative; overflow: hidden; }
+  .stat-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 20%, rgba(232,25,44,0.08), transparent); opacity: 0; transition: opacity 0.5s; }
+  .stat-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: var(--shadow-xl); border-color: var(--brr); backdrop-filter: blur(28px); }
   .stat-card:hover::before { opacity: 1; }
-  .stat-val { font-family: var(--fh); font-size: 34px; font-weight: 800; color: var(--t); background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .stat-val { font-family: var(--fh); font-size: 36px; font-weight: 800; color: var(--t); background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .stat-val .r { color: var(--r); background: none; -webkit-background-clip: unset; background-clip: unset; color: var(--r); }
-  .stat-lbl { font-family: var(--fh); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3); margin-top: 8px; }
-  @media (max-width: 768px) { .hero-stats { gap: 12px; } .stat-card { padding: 12px 20px; min-width: 110px; } .stat-val { font-size: 22px; } }
+  .stat-lbl { font-family: var(--fh); font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3); margin-top: 10px; }
+  @media (max-width: 768px) { .hero-stats { gap: 14px; } .stat-card { padding: 14px 22px; min-width: 120px; } .stat-val { font-size: 24px; } }
 
   /* ===== MORTGAGE BANNER ===== */
-  .mortgage-banner { background: linear-gradient(135deg, var(--bg2), var(--bg3)); border: 1px solid var(--br); border-radius: 40px; padding: 48px 48px; margin: 40px 0; box-shadow: var(--shadow-md); position: relative; overflow: hidden; transition: all 0.4s; }
-  .mortgage-banner::before { content: ''; position: absolute; top: -50%; right: -20%; width: 60%; height: 200%; background: radial-gradient(circle, rgba(232,25,44,0.06), transparent); pointer-events: none; }
-  .mortgage-banner:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--brr); }
-  .mortgage-banner h3 { font-family: var(--fh); font-size: clamp(22px, 3.5vw, 30px); font-weight: 800; margin-bottom: 12px; }
-  .mortgage-banner p { font-size: 15px; color: var(--t2); margin-bottom: 32px; }
-  .mortgage-grid { display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 32px; }
-  .mortgage-card { background: var(--bg); border-radius: 24px; padding: 24px 32px; flex: 1; min-width: 160px; transition: all 0.4s var(--e3); cursor: pointer; border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
-  .mortgage-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(232,25,44,0.03), transparent); opacity: 0; transition: opacity 0.4s; }
-  .mortgage-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--brr); }
+  .mortgage-banner { background: linear-gradient(135deg, var(--bg2), var(--bg3)); border: 1px solid var(--br); border-radius: 48px; padding: 52px 56px; margin: 48px 0; box-shadow: var(--shadow-md); position: relative; overflow: hidden; transition: all 0.45s var(--eOut); }
+  .mortgage-banner::before { content: ''; position: absolute; top: -50%; right: -20%; width: 60%; height: 200%; background: radial-gradient(circle, rgba(232,25,44,0.08), transparent); pointer-events: none; animation: slowRotate 18s infinite linear; }
+  @keyframes slowRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .mortgage-banner:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); border-color: var(--brr); }
+  .mortgage-banner h3 { font-family: var(--fh); font-size: clamp(24px, 4vw, 32px); font-weight: 800; margin-bottom: 14px; }
+  .mortgage-banner p { font-size: 15px; color: var(--t2); margin-bottom: 36px; }
+  .mortgage-grid { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 36px; }
+  .mortgage-card { background: var(--bg); border-radius: 28px; padding: 26px 36px; flex: 1; min-width: 170px; transition: all 0.45s var(--eOut); cursor: pointer; border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+  .mortgage-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(232,25,44,0.04), transparent); opacity: 0; transition: opacity 0.45s; }
+  .mortgage-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: var(--shadow-xl); border-color: var(--brr); }
   .mortgage-card:hover::before { opacity: 1; }
-  .mortgage-rate { font-family: var(--fh); font-size: clamp(42px, 7vw, 64px); font-weight: 900; color: var(--r); line-height: 1; text-shadow: 0 0 20px var(--rg); }
-  .mortgage-title { font-family: var(--fh); font-size: 15px; font-weight: 700; margin-top: 14px; }
-  .mortgage-desc { font-size: 12px; color: var(--t3); margin-top: 6px; }
-  @media (max-width: 900px) { .mortgage-banner { padding: 32px 24px; } .mortgage-grid { gap: 16px; } }
+  .mortgage-rate { font-family: var(--fh); font-size: clamp(46px, 8vw, 72px); font-weight: 900; color: var(--r); line-height: 1; text-shadow: 0 0 24px var(--rg); transition: transform 0.3s; }
+  .mortgage-card:hover .mortgage-rate { transform: scale(1.04); }
+  .mortgage-title { font-family: var(--fh); font-size: 16px; font-weight: 700; margin-top: 16px; }
+  .mortgage-desc { font-size: 12px; color: var(--t3); margin-top: 8px; }
+  @media (max-width: 900px) { .mortgage-banner { padding: 36px 28px; } .mortgage-grid { gap: 18px; } }
 
   /* ===== SECTIONS BASE ===== */
-  section { padding: 100px 48px; position: relative; }
-  .w { max-width: 1400px; margin: 0 auto; width: 100%; }
-  .s-eye { font-family: var(--fh); font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--r); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-  .s-eye::before { content: ''; width: 36px; height: 2px; background: linear-gradient(90deg, var(--r), var(--r2)); border-radius: 2px; }
-  .s-h2 { font-family: var(--fh); font-size: clamp(34px, 5.5vw, 58px); font-weight: 800; line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 20px; }
-  .s-sub { font-size: 16px; color: var(--t2); max-width: 560px; line-height: 1.7; }
-  @media (max-width: 768px) { section { padding: 60px 24px; } }
+  section { padding: 110px 56px; position: relative; }
+  .w { max-width: 1440px; margin: 0 auto; width: 100%; }
+  .s-eye { font-family: var(--fh); font-size: 10px; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; color: var(--r); margin-bottom: 18px; display: flex; align-items: center; gap: 14px; }
+  .s-eye::before { content: ''; width: 42px; height: 2px; background: linear-gradient(90deg, var(--r), var(--r2)); border-radius: 2px; }
+  .s-h2 { font-family: var(--fh); font-size: clamp(36px, 6vw, 62px); font-weight: 800; line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 22px; }
+  .s-sub { font-size: 16px; color: var(--t2); max-width: 580px; line-height: 1.7; }
+  @media (max-width: 768px) { section { padding: 70px 28px; } }
 
   /* ===== SERVICES GRID ===== */
   #services { background: var(--bg2); }
-  .srv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+  .srv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 64px; }
   @media (max-width: 1000px) { .srv-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .srv-grid { grid-template-columns: 1fr; } }
-  .srv-card { background: var(--bg); border-radius: 28px; padding: 36px 28px; transition: all 0.5s var(--e3); cursor: pointer; position: relative; border: 1px solid var(--br); box-shadow: var(--shadow-sm); overflow: hidden; }
-  .srv-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(232,25,44,0.06), transparent); opacity: 0; transition: opacity 0.5s; }
-  .srv-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-xl); border-color: var(--brr); }
+  .srv-card { background: var(--bg); border-radius: 32px; padding: 42px 32px; transition: all 0.5s var(--eOut); cursor: pointer; position: relative; border: 1px solid var(--br); box-shadow: var(--shadow-sm); overflow: hidden; }
+  .srv-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(232,25,44,0.08), transparent); opacity: 0; transition: opacity 0.55s; }
+  .srv-card:hover { transform: translateY(-12px); box-shadow: var(--shadow-xl); border-color: var(--brr); }
   .srv-card:hover::before { opacity: 1; }
-  .srv-icon { font-size: 48px; margin-bottom: 24px; display: block; transition: transform 0.4s var(--e3); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.04)); }
-  .srv-card:hover .srv-icon { transform: scale(1.12) translateY(-6px); }
-  .srv-name { font-family: var(--fh); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
-  .srv-txt { font-size: 13px; color: var(--t2); line-height: 1.65; }
+  .srv-icon { font-size: 52px; margin-bottom: 28px; display: block; transition: transform 0.45s var(--eOut); filter: drop-shadow(0 6px 10px rgba(0,0,0,0.04)); }
+  .srv-card:hover .srv-icon { transform: scale(1.12) translateY(-6px) rotate(2deg); }
+  .srv-name { font-family: var(--fh); font-size: 17px; font-weight: 700; margin-bottom: 14px; }
+  .srv-txt { font-size: 13px; color: var(--t2); line-height: 1.7; }
 
   /* ===== STATS ROW ===== */
-  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; background: var(--bg2); border-radius: 40px; padding: 48px; }
-  @media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 32px; } }
-  .stat-c { background: var(--bg); border-radius: 24px; padding: 36px 24px; text-align: center; transition: all 0.4s; border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
-  .stat-c::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, var(--r), var(--r2)); transition: width 0.5s var(--e1); }
-  .stat-c:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--brr); }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; background: var(--bg2); border-radius: 48px; padding: 56px; }
+  @media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); gap: 18px; padding: 36px; } }
+  .stat-c { background: var(--bg); border-radius: 28px; padding: 42px 28px; text-align: center; transition: all 0.45s var(--eOut); border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+  .stat-c::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 4px; background: linear-gradient(90deg, var(--r), var(--r2)); transition: width 0.55s var(--eOut); }
+  .stat-c:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--brr); }
   .stat-c:hover::after { width: 100%; }
-  .stat-n { font-family: var(--fh); font-size: clamp(48px, 7vw, 72px); font-weight: 900; color: var(--t); margin-bottom: 8px; background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .stat-n { font-family: var(--fh); font-size: clamp(52px, 7vw, 78px); font-weight: 900; color: var(--t); margin-bottom: 12px; background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .stat-suf { color: var(--r); background: none; -webkit-background-clip: unset; background-clip: unset; color: var(--r); }
-  .stat-lbl { font-family: var(--fh); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3); }
+  .stat-lbl { font-family: var(--fh); font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t3); }
 
   /* ===== CITIES GRID ===== */
-  #cities { background: var(--bg); }
-  .city-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .city-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 64px; }
   @media (max-width: 900px) { .city-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .city-grid { grid-template-columns: 1fr; } }
-  .city-card { aspect-ratio: 4/3; position: relative; overflow: hidden; border-radius: 28px; cursor: pointer; box-shadow: var(--shadow-sm); transition: all 0.5s var(--e3); }
-  .city-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-xl); }
-  .city-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--e3); }
-  .city-card:hover img { transform: scale(1.1); filter: brightness(0.85); }
-  .city-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%); }
-  .city-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px; transform: translateY(0); transition: transform 0.3s; }
-  .city-card:hover .city-info { transform: translateY(-5px); }
-  .city-name { font-family: var(--fh); font-size: 24px; font-weight: 700; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-  .city-count { font-family: var(--fh); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--r); margin-top: 6px; }
-  .city-hover { position: absolute; top: 0; left: 0; right: 0; padding: 28px; color: #fff; font-size: 14px; opacity: 0; transform: translateY(-15px); transition: all 0.4s var(--e3); background: linear-gradient(135deg, rgba(0,0,0,0.6), transparent); }
+  .city-card { aspect-ratio: 4/3; position: relative; overflow: hidden; border-radius: 32px; cursor: pointer; box-shadow: var(--shadow-md); transition: all 0.55s var(--eOut); }
+  .city-card:hover { transform: translateY(-12px) scale(1.01); box-shadow: var(--shadow-xl); }
+  .city-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.85s var(--eOut); }
+  .city-card:hover img { transform: scale(1.12); filter: brightness(0.88); }
+  .city-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 65%); }
+  .city-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 32px; transform: translateY(0); transition: transform 0.4s; }
+  .city-card:hover .city-info { transform: translateY(-6px); }
+  .city-name { font-family: var(--fh); font-size: 26px; font-weight: 700; color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.2); }
+  .city-count { font-family: var(--fh); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--r); margin-top: 8px; }
+  .city-hover { position: absolute; top: 0; left: 0; right: 0; padding: 32px; color: #fff; font-size: 14px; opacity: 0; transform: translateY(-20px); transition: all 0.45s var(--eOut); background: linear-gradient(135deg, rgba(0,0,0,0.65), transparent); }
   .city-card:hover .city-hover { opacity: 1; transform: translateY(0); }
-  .city-arrow { position: absolute; top: 24px; right: 24px; width: 42px; height: 42px; border: 1.5px solid rgba(255,255,255,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; opacity: 0; transform: scale(0.7); transition: all 0.3s; color: #fff; backdrop-filter: blur(4px); }
+  .city-arrow { position: absolute; top: 28px; right: 28px; width: 44px; height: 44px; border: 1.5px solid rgba(255,255,255,0.45); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; opacity: 0; transform: scale(0.7); transition: all 0.35s; color: #fff; backdrop-filter: blur(6px); }
   .city-card:hover .city-arrow { opacity: 1; transform: scale(1); }
 
   /* ===== PROPERTIES GRID ===== */
-  .props-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .props-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 64px; }
   @media (max-width: 960px) { .props-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .props-grid { grid-template-columns: 1fr; } }
-  .pc { background: var(--bg); border-radius: 28px; overflow: hidden; cursor: pointer; transition: all 0.5s var(--e3); border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; }
-  .pc:hover { transform: translateY(-12px); box-shadow: var(--shadow-xl); border-color: var(--brr); }
+  .pc { background: var(--bg); border-radius: 32px; overflow: hidden; cursor: pointer; transition: all 0.55s var(--eOut); border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; }
+  .pc:hover { transform: translateY(-14px); box-shadow: var(--shadow-xl); border-color: var(--brr); }
   .pc-img { aspect-ratio: 16/11; overflow: hidden; position: relative; }
-  .pc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--e3); }
-  .pc:hover .pc-img img { transform: scale(1.08); }
-  .pc-badge { position: absolute; top: 16px; left: 16px; font-family: var(--fh); font-size: 9px; font-weight: 800; padding: 6px 14px; border-radius: 100px; z-index: 2; backdrop-filter: blur(8px); }
-  .b-new { background: var(--r); color: #fff; box-shadow: 0 0 15px var(--rg); }
+  .pc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.85s var(--eOut); }
+  .pc:hover .pc-img img { transform: scale(1.1); }
+  .pc-badge { position: absolute; top: 18px; left: 18px; font-family: var(--fh); font-size: 9px; font-weight: 800; padding: 7px 16px; border-radius: 100px; z-index: 2; backdrop-filter: blur(10px); box-shadow: var(--shadow-sm); }
+  .b-new { background: var(--r); color: #fff; box-shadow: 0 0 18px var(--rg); }
   .b-hot { background: #fff; color: #000; box-shadow: var(--shadow-sm); }
-  .pc-fav { position: absolute; top: 16px; right: 16px; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.85); border: 1px solid var(--br); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(4px); z-index: 2; font-size: 16px; }
-  .pc-fav:hover { background: var(--r); color: #fff; border-color: var(--r); transform: scale(1.12); }
-  .pc-body { padding: 24px; }
-  .pc-type { font-family: var(--fh); font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--r); margin-bottom: 10px; }
-  .pc-name { font-family: var(--fh); font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-  .pc-loc { font-size: 12px; color: var(--t3); margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
-  .pc-specs { display: flex; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--br); margin-bottom: 16px; }
+  .pc-fav { position: absolute; top: 18px; right: 18px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.88); border: 1px solid var(--br); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.35s; backdrop-filter: blur(6px); z-index: 2; font-size: 18px; }
+  .pc-fav:hover { background: var(--r); color: #fff; border-color: var(--r); transform: scale(1.15); }
+  .pc-body { padding: 28px; }
+  .pc-type { font-family: var(--fh); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--r); margin-bottom: 12px; }
+  .pc-name { font-family: var(--fh); font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+  .pc-loc { font-size: 12px; color: var(--t3); margin-bottom: 18px; display: flex; align-items: center; gap: 6px; }
+  .pc-specs { display: flex; gap: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--br); margin-bottom: 18px; }
   .spec { font-size: 12px; color: var(--t2); display: flex; align-items: center; gap: 6px; }
   .pc-foot { display: flex; justify-content: space-between; align-items: center; }
-  .pc-price { font-family: var(--fh); font-size: 22px; font-weight: 800; background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .pc-status { padding: 5px 12px; border: 1px solid var(--br); border-radius: 100px; font-size: 9px; font-weight: 600; }
-  .pc-status.ok { border-color: #4ADE80; color: #4ADE80; background: rgba(74,222,128,0.05); }
+  .pc-price { font-family: var(--fh); font-size: 24px; font-weight: 800; background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .pc-status { padding: 6px 14px; border: 1px solid var(--br); border-radius: 100px; font-size: 9px; font-weight: 600; backdrop-filter: blur(4px); }
+  .pc-status.ok { border-color: #4ADE80; color: #4ADE80; background: rgba(74,222,128,0.08); }
 
   /* ===== FILTER CHIPS ===== */
-  .chips { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
-  .chip { font-family: var(--fh); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 26px; border: 1px solid var(--br); border-radius: 100px; background: var(--bg); color: var(--t3); cursor: pointer; transition: all 0.3s; }
-  .chip:hover, .chip.active { border-color: var(--r); color: var(--r); background: rgba(232,25,44,0.05); transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+  .chips { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+  .chip { font-family: var(--fh); font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 11px 30px; border: 1px solid var(--br); border-radius: 100px; background: var(--bg); color: var(--t3); cursor: pointer; transition: all 0.3s var(--eOut); }
+  .chip:hover, .chip.active { border-color: var(--r); color: var(--r); background: rgba(232,25,44,0.06); transform: translateY(-4px); box-shadow: var(--shadow-md); letter-spacing: 0.18em; }
 
   /* ===== HOW STEPS ===== */
-  .how-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+  .how-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 64px; }
   @media (max-width: 900px) { .how-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .how-grid { grid-template-columns: 1fr; } }
-  .how-card { background: var(--bg); border-radius: 28px; padding: 36px 28px; transition: all 0.5s var(--e3); border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
-  .how-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 4px; background: linear-gradient(90deg, var(--r), var(--r2)); transition: width 0.5s var(--e1); }
-  .how-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: var(--brr); }
+  .how-card { background: var(--bg); border-radius: 32px; padding: 42px 32px; transition: all 0.5s var(--eOut); border: 1px solid var(--br); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+  .how-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 4px; background: linear-gradient(90deg, var(--r), var(--r2)); transition: width 0.6s var(--eOut); }
+  .how-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: var(--brr); }
   .how-card:hover::after { width: 100%; }
-  .how-n { font-family: var(--fh); font-size: 68px; font-weight: 900; color: rgba(232,25,44,0.08); margin-bottom: 20px; transition: all 0.3s; }
-  .how-card:hover .how-n { color: rgba(232,25,44,0.2); transform: scale(1.05); }
-  .how-title { font-family: var(--fh); font-size: 16px; font-weight: 700; margin-bottom: 12px; }
-  .how-txt { font-size: 13px; color: var(--t2); line-height: 1.65; }
+  .how-n { font-family: var(--fh); font-size: 72px; font-weight: 900; color: rgba(232,25,44,0.08); margin-bottom: 24px; transition: all 0.35s; }
+  .how-card:hover .how-n { color: rgba(232,25,44,0.22); transform: scale(1.06); }
+  .how-title { font-family: var(--fh); font-size: 17px; font-weight: 700; margin-bottom: 14px; }
+  .how-txt { font-size: 13px; color: var(--t2); line-height: 1.7; }
 
   /* ===== WIZARD ===== */
-  .wiz-wrap { max-width: 820px; margin: 56px auto 0; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 48px; overflow: hidden; box-shadow: var(--shadow-md); transition: all 0.3s; }
+  .wiz-wrap { max-width: 860px; margin: 64px auto 0; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 56px; overflow: hidden; box-shadow: var(--shadow-md); transition: all 0.35s; }
   .wiz-prog { height: 4px; background: var(--br); }
-  .wiz-fill { height: 100%; background: linear-gradient(90deg, var(--r), var(--r2)); transition: width 0.5s var(--e3); width: 25%; }
-  .wiz-step { padding: 52px; display: none; }
-  .wiz-step.active { display: block; animation: fadeInScale 0.5s var(--e3); }
-  @keyframes fadeInScale { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
-  .wiz-q { font-family: var(--fh); font-size: clamp(22px, 4.5vw, 30px); font-weight: 700; text-align: center; margin-bottom: 40px; background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .wiz-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 36px; }
-  .wo { padding: 24px 20px; border: 1px solid var(--br); border-radius: 24px; background: var(--bg); cursor: pointer; transition: all 0.3s; text-align: center; }
-  .wo:hover, .wo.selected { border-color: var(--r); background: rgba(232,25,44,0.05); transform: translateY(-6px) scale(1.02); box-shadow: var(--shadow-md); }
-  .wo-icon { font-size: 34px; margin-bottom: 12px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); }
-  .wo-lbl { font-family: var(--fh); font-size: 13px; font-weight: 700; }
-  .wiz-nav { display: flex; gap: 16px; justify-content: center; }
-  .w-next { padding: 15px 44px; background: linear-gradient(135deg, var(--r), var(--r2)); color: #fff; border: none; border-radius: 100px; font-family: var(--fh); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; cursor: pointer; transition: all 0.3s; box-shadow: var(--shadow-sm); }
-  .w-next:hover { transform: scale(1.03); box-shadow: var(--shadow-md); }
-  .w-back { padding: 14px 36px; background: transparent; border: 1.5px solid var(--br); border-radius: 100px; font-family: var(--fh); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--t2); cursor: pointer; transition: all 0.3s; }
-  .w-back:hover { border-color: var(--r); color: var(--r); transform: translateX(-5px); }
+  .wiz-fill { height: 100%; background: linear-gradient(90deg, var(--r), var(--r2), var(--r)); transition: width 0.55s var(--eOut); width: 25%; box-shadow: 0 0 6px var(--rg); }
+  .wiz-step { padding: 56px; display: none; animation: fadeScale 0.55s var(--eOut); }
+  @keyframes fadeScale { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+  .wiz-step.active { display: block; }
+  .wiz-q { font-family: var(--fh); font-size: clamp(24px, 4.5vw, 32px); font-weight: 700; text-align: center; margin-bottom: 48px; background: linear-gradient(135deg, var(--t), var(--t2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .wiz-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 18px; margin-bottom: 44px; }
+  .wo { padding: 28px 20px; border: 1px solid var(--br); border-radius: 28px; background: var(--bg); cursor: pointer; transition: all 0.35s var(--eOut); text-align: center; }
+  .wo:hover, .wo.selected { border-color: var(--r); background: rgba(232,25,44,0.06); transform: translateY(-8px) scale(1.02); box-shadow: var(--shadow-lg); }
+  .wo-icon { font-size: 38px; margin-bottom: 14px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.04)); }
+  .wo-lbl { font-family: var(--fh); font-size: 14px; font-weight: 700; }
+  .wiz-nav { display: flex; gap: 20px; justify-content: center; }
+  .w-next { padding: 16px 48px; background: linear-gradient(135deg, var(--r), var(--r2)); color: #fff; border: none; border-radius: 100px; font-family: var(--fh); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; cursor: pointer; transition: all 0.35s; box-shadow: var(--shadow-sm); }
+  .w-next:hover { transform: scale(1.04); box-shadow: var(--shadow-lg); letter-spacing: 0.18em; }
+  .w-back { padding: 15px 42px; background: transparent; border: 1.5px solid var(--br); border-radius: 100px; font-family: var(--fh); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: var(--t2); cursor: pointer; transition: all 0.35s; }
+  .w-back:hover { border-color: var(--r); color: var(--r); transform: translateX(-6px); letter-spacing: 0.16em; }
 
   /* ===== FAQ ===== */
-  .faq-list { margin-top: 56px; border-top: 1px solid var(--br); }
+  .faq-list { margin-top: 64px; border-top: 1px solid var(--br); }
   .faq-item { border-bottom: 1px solid var(--br); transition: all 0.3s; }
-  .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; cursor: pointer; font-family: var(--fh); font-size: 16px; font-weight: 600; gap: 20px; transition: color 0.3s; }
+  .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 26px 0; cursor: pointer; font-family: var(--fh); font-size: 16px; font-weight: 600; gap: 24px; transition: color 0.3s; }
   .faq-item.open .faq-q { color: var(--r); }
-  .faq-ico { width: 32px; height: 32px; border: 1.5px solid var(--br); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; font-size: 16px; }
-  .faq-item.open .faq-ico { transform: rotate(45deg); border-color: var(--r); color: var(--r); background: rgba(232,25,44,0.05); }
-  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.5s var(--e3); }
-  .faq-item.open .faq-a { max-height: 200px; padding-bottom: 24px; }
+  .faq-ico { width: 34px; height: 34px; border: 1.5px solid var(--br); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.35s; font-size: 18px; }
+  .faq-item.open .faq-ico { transform: rotate(45deg); border-color: var(--r); color: var(--r); background: rgba(232,25,44,0.08); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.55s var(--eOut); }
+  .faq-item.open .faq-a { max-height: 220px; padding-bottom: 26px; }
   .faq-a p { font-size: 14px; color: var(--t2); line-height: 1.7; }
 
   /* ===== CONTACT ===== */
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
-  @media (max-width: 1000px) { .contact-grid { grid-template-columns: 1fr; gap: 56px; } }
-  .cont-form { display: flex; flex-direction: column; gap: 18px; }
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 88px; }
+  @media (max-width: 1000px) { .contact-grid { grid-template-columns: 1fr; gap: 60px; } }
+  .cont-form { display: flex; flex-direction: column; gap: 20px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
-  .fi { background: var(--bg2); border: 1px solid var(--br); border-radius: 20px; padding: 15px 20px; font-size: 14px; outline: none; transition: all 0.3s; }
-  .fi:focus { border-color: var(--r); box-shadow: 0 0 0 3px var(--rg); transform: scale(1.01); }
-  .ch-list { display: flex; flex-direction: column; gap: 14px; margin-top: 32px; }
-  .ch { display: flex; align-items: center; gap: 16px; padding: 16px 24px; border: 1px solid var(--br); border-radius: 24px; transition: all 0.3s; cursor: pointer; background: var(--bg2); }
-  .ch:hover { border-color: var(--r); background: rgba(232,25,44,0.04); transform: translateX(10px); }
-  .ch-ico { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; background: rgba(232,25,44,0.05); }
-  .ch-info strong { font-family: var(--fh); font-size: 14px; font-weight: 700; display: block; }
+  .fi { background: var(--bg2); border: 1px solid var(--br); border-radius: 24px; padding: 16px 22px; font-size: 14px; outline: none; transition: all 0.35s; }
+  .fi:focus { border-color: var(--r); box-shadow: 0 0 0 4px var(--rg); transform: scale(1.01); }
+  .ch-list { display: flex; flex-direction: column; gap: 16px; margin-top: 36px; }
+  .ch { display: flex; align-items: center; gap: 18px; padding: 18px 28px; border: 1px solid var(--br); border-radius: 28px; transition: all 0.35s var(--eOut); cursor: pointer; background: var(--bg2); }
+  .ch:hover { border-color: var(--r); background: rgba(232,25,44,0.05); transform: translateX(12px); box-shadow: var(--shadow-md); }
+  .ch-ico { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; background: rgba(232,25,44,0.06); }
+  .ch-info strong { font-family: var(--fh); font-size: 15px; font-weight: 700; display: block; }
   .ch-info span { font-size: 12px; color: var(--t3); }
 
   /* ===== FOOTER ===== */
-  footer { background: var(--bg2); border-top: 1px solid var(--br); padding: 80px 48px 48px; margin-top: 80px; }
-  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 56px; }
-  @media (max-width: 900px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 40px; } }
-  .foot-brand p { font-size: 13px; color: var(--t3); max-width: 280px; margin-top: 18px; line-height: 1.7; }
-  .foot-col h5 { font-family: var(--fh); font-size: 9px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--r); margin-bottom: 22px; }
-  .foot-col a { display: block; font-size: 13px; color: var(--t3); margin-bottom: 12px; cursor: pointer; transition: all 0.2s; }
-  .foot-col a:hover { color: var(--r); transform: translateX(6px); }
-  .foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 32px; border-top: 1px solid var(--br); margin-top: 56px; flex-wrap: wrap; gap: 16px; }
-  .socs { display: flex; gap: 14px; }
-  .soc { width: 40px; height: 40px; border: 1px solid var(--br); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
-  .soc:hover { border-color: var(--r); color: var(--r); transform: translateY(-5px) rotate(360deg); background: rgba(232,25,44,0.05); }
+  footer { background: var(--bg2); border-top: 1px solid var(--br); padding: 88px 56px 56px; margin-top: 88px; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 64px; }
+  @media (max-width: 900px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 48px; } }
+  .foot-brand p { font-size: 13px; color: var(--t3); max-width: 300px; margin-top: 20px; line-height: 1.7; }
+  .foot-col h5 { font-family: var(--fh); font-size: 9px; font-weight: 800; letter-spacing: 0.26em; text-transform: uppercase; color: var(--r); margin-bottom: 26px; }
+  .foot-col a { display: block; font-size: 13px; color: var(--t3); margin-bottom: 14px; cursor: pointer; transition: all 0.25s; }
+  .foot-col a:hover { color: var(--r); transform: translateX(8px); letter-spacing: 0.02em; }
+  .foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 36px; border-top: 1px solid var(--br); margin-top: 64px; flex-wrap: wrap; gap: 20px; }
+  .socs { display: flex; gap: 16px; }
+  .soc { width: 42px; height: 42px; border: 1px solid var(--br); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.35s; }
+  .soc:hover { border-color: var(--r); color: var(--r); transform: translateY(-6px) rotate(360deg); background: rgba(232,25,44,0.06); box-shadow: var(--shadow-sm); }
 
   /* ===== FLOATING BUTTONS ===== */
-  .floats { position: fixed; bottom: 30px; right: 30px; z-index: 300; display: flex; flex-direction: column; gap: 14px; }
-  .flt { width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: var(--shadow-md); transition: all 0.3s; cursor: pointer; backdrop-filter: blur(8px); }
-  .flt:hover { transform: scale(1.12) rotate(8deg); box-shadow: var(--shadow-lg); }
+  .floats { position: fixed; bottom: 32px; right: 32px; z-index: 300; display: flex; flex-direction: column; gap: 16px; }
+  .flt { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: var(--shadow-md); transition: all 0.35s var(--eOut); cursor: pointer; backdrop-filter: blur(8px); }
+  .flt:hover { transform: scale(1.14) rotate(12deg); box-shadow: var(--shadow-xl); }
   .flt-wa { background: #25D366; color: #fff; }
   .flt-tg { background: #2AABEE; color: #fff; }
 
   /* ===== MODAL ===== */
-  .modal { position: fixed; inset: 0; z-index: 800; background: rgba(255,255,255,0.98); backdrop-filter: blur(24px); overflow-y: auto; transform: translateX(100%); transition: transform 0.55s var(--e2); }
+  .modal { position: fixed; inset: 0; z-index: 800; background: rgba(255,255,255,0.98); backdrop-filter: blur(28px); overflow-y: auto; transform: translateX(100%); transition: transform 0.65s var(--eInOut); }
   .modal.open { transform: none; }
-  .modal-inner { max-width: 1280px; margin: 0 auto; padding: 80px 40px; }
-  .modal-back { background: none; border: none; font-family: var(--fh); font-size: 10px; font-weight: 600; margin-bottom: 36px; cursor: pointer; color: var(--t3); transition: all 0.2s; }
-  .modal-back:hover { color: var(--r); transform: translateX(-6px); }
+  .modal-inner { max-width: 1300px; margin: 0 auto; padding: 88px 48px; }
+  .modal-back { background: none; border: none; font-family: var(--fh); font-size: 10px; font-weight: 600; margin-bottom: 42px; cursor: pointer; color: var(--t3); transition: all 0.25s; }
+  .modal-back:hover { color: var(--r); transform: translateX(-8px); letter-spacing: 0.02em; }
 
   /* ===== PAGES ===== */
   .pg { display: none; }
   .pg.active { display: block; }
-  #pg-catalog { padding: 100px 48px 80px; }
-  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+  #pg-catalog { padding: 110px 56px 88px; }
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 64px; }
   @media (max-width: 800px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
-  .tm { background: var(--bg); border-radius: 28px; padding: 36px; text-align: center; transition: all 0.3s; border: 1px solid var(--br); box-shadow: var(--shadow-sm); }
-  .tm:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: var(--brr); }
-  .tm-ava { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; margin: 0 auto 20px; border: 2px solid var(--brr); transition: transform 0.3s; }
-  .tm:hover .tm-ava { transform: scale(1.02); }
-  .tm-name { font-family: var(--fh); font-size: 17px; font-weight: 700; margin-bottom: 6px; }
-  .tm-role { font-family: var(--fh); font-size: 9px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--r); }
+  .tm { background: var(--bg); border-radius: 32px; padding: 42px; text-align: center; transition: all 0.4s; border: 1px solid var(--br); box-shadow: var(--shadow-sm); }
+  .tm:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: var(--brr); }
+  .tm-ava { width: 110px; height: 110px; border-radius: 50%; overflow: hidden; margin: 0 auto 22px; border: 2px solid var(--brr); transition: transform 0.35s; }
+  .tm:hover .tm-ava { transform: scale(1.03); }
+  .tm-name { font-family: var(--fh); font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .tm-role { font-family: var(--fh); font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--r); }
 
-  /* ===== ANIMATION UTILITIES ===== */
-  .scroll-reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: all 0.8s var(--e1); }
+  /* ===== SCROLL REVEAL ANIMATIONS ===== */
+  .scroll-reveal { opacity: 0; transform: translateY(50px) scale(0.96); transition: all 0.9s var(--eOut); will-change: transform, opacity; }
   .scroll-reveal.revealed { opacity: 1; transform: translateY(0) scale(1); }
-  .scroll-reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.7s var(--e1); }
+  .scroll-reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.85s var(--eOut); }
   .scroll-reveal-left.revealed { opacity: 1; transform: translateX(0); }
-  .scroll-reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.7s var(--e1); }
+  .scroll-reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.85s var(--eOut); }
   .scroll-reveal-right.revealed { opacity: 1; transform: translateX(0); }
   .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; } .delay-4 { transition-delay: 0.4s; }
 </style>
@@ -348,7 +351,7 @@
   <a onclick="goSec('services');toggleMob()">Услуги</a>
   <a onclick="goPage('about');toggleMob()">О нас</a>
   <a onclick="goSec('contact');toggleMob()">Контакты</a>
-  <div style="margin-top: 36px;"><button class="btn-fill" style="width: 100%;" onclick="goSec('contact');toggleMob()">Консультация →</button></div>
+  <div style="margin-top: 42px;"><button class="btn-fill" style="width: 100%;" onclick="goSec('contact');toggleMob()">Консультация →</button></div>
 </div>
 
 <!-- HOME PAGE -->
@@ -357,7 +360,7 @@
     <div class="hero-content">
       <h1 class="hero-h1" id="heroTitle">Недвижимость<br>Приморья — <span class="red-t">просто</span><br>и выгодно</h1>
       <p class="hero-sub">Покупка, продажа, аренда — полный спектр услуг во Владивостоке, Уссурийске, Артёме и по всему Приморскому краю.</p>
-      <div class="hero-buttons" style="display: flex; gap: 20px; flex-wrap: wrap;">
+      <div class="hero-buttons" style="display: flex; gap: 24px; flex-wrap: wrap;">
         <button class="btn-fill" onclick="goPage('catalog')">Смотреть новостройки →</button>
         <button class="btn-outline" onclick="goSec('wizard')">Подобрать за 2 минуты</button>
       </div>
@@ -369,7 +372,7 @@
     </div>
   </section>
 
-  <div class="w" style="padding: 0 48px;">
+  <div class="w" style="padding: 0 56px;">
     <div class="mortgage-banner scroll-reveal">
       <h3>🏦 Ипотечные программы Дальнего Востока</h3>
       <p>Помогаем оформить под ключ с лучшими условиями. Работаем со всеми банками.</p>
@@ -387,26 +390,26 @@
 
   <div class="w"><div class="stats-row"><div class="stat-c scroll-reveal"><div class="stat-n"><span class="cnt" data-n="500">0</span><span class="stat-suf">+</span></div><div class="stat-lbl">Сделок с 2021</div></div><div class="stat-c scroll-reveal delay-1"><div class="stat-n"><span class="cnt" data-n="4">0</span></div><div class="stat-lbl">Города</div></div><div class="stat-c scroll-reveal delay-2"><div class="stat-n"><span class="cnt" data-n="98">0</span><span class="stat-suf">%</span></div><div class="stat-lbl">Довольных клиентов</div></div><div class="stat-c scroll-reveal delay-3"><div class="stat-n"><span class="cnt" data-n="3">0</span></div><div class="stat-lbl">Года на рынке</div></div></div></div>
 
-  <section id="cities"><div class="w"><div class="s-eye scroll-reveal">Приморский край</div><h2 class="s-h2 scroll-reveal delay-1">Работаем по всему региону</h2><div class="city-grid"><div class="city-card scroll-reveal"><img src="https://images.unsplash.com/photo-1573747806894-09f8f5bfc3a3?w=700&q=80" alt="Владивосток"><div class="city-hover">Деловая столица Дальнего Востока</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Владивосток</div><div class="city-count">120+ объектов</div></div></div><div class="city-card scroll-reveal delay-1"><img src="https://images.unsplash.com/photo-1546449377-80f9cdfe4900?w=700&q=80" alt="Уссурийск"><div class="city-hover">Крупный транспортный узел</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Уссурийск</div><div class="city-count">48+ объектов</div></div></div><div class="city-card scroll-reveal delay-2"><img src="https://images.unsplash.com/photo-1555636222-cae831e670b3?w=700&q=80" alt="Артём"><div class="city-hover">Спутник Владивостока</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Артём</div><div class="city-count">35+ объектов</div></div></div><div class="city-card scroll-reveal"><img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=700&q=80" alt="Находка"><div class="city-hover">Портовый город</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Находка</div><div class="city-count">22+ объекта</div></div></div><div class="city-card scroll-reveal delay-1"><img src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=700&q=80" alt="Арсеньев"><div class="city-hover">Доступные цены</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Арсеньев</div><div class="city-count">14+ объектов</div></div></div><div class="city-card scroll-reveal delay-2" style="background: linear-gradient(135deg, rgba(232,25,44,0.08), rgba(232,25,44,0.02)); cursor: pointer;" onclick="goSec('contact')"><div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;"><div style="font-size: 44px; margin-bottom: 14px;">🗺️</div><div class="city-name" style="font-size: 20px; color: var(--t);">Другие города</div><div class="city-count">Работаем везде</div></div></div></div></div></section>
+  <section id="cities"><div class="w"><div class="s-eye scroll-reveal">Приморский край</div><h2 class="s-h2 scroll-reveal delay-1">Работаем по всему региону</h2><div class="city-grid"><div class="city-card scroll-reveal"><img src="https://images.unsplash.com/photo-1573747806894-09f8f5bfc3a3?w=700&q=80" alt="Владивосток"><div class="city-hover">Деловая столица Дальнего Востока</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Владивосток</div><div class="city-count">120+ объектов</div></div></div><div class="city-card scroll-reveal delay-1"><img src="https://images.unsplash.com/photo-1546449377-80f9cdfe4900?w=700&q=80" alt="Уссурийск"><div class="city-hover">Крупный транспортный узел</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Уссурийск</div><div class="city-count">48+ объектов</div></div></div><div class="city-card scroll-reveal delay-2"><img src="https://images.unsplash.com/photo-1555636222-cae831e670b3?w=700&q=80" alt="Артём"><div class="city-hover">Спутник Владивостока</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Артём</div><div class="city-count">35+ объектов</div></div></div><div class="city-card scroll-reveal"><img src="https://images.unsplash.com/photo-1464207687429-7505649dae38?w=700&q=80" alt="Находка"><div class="city-hover">Портовый город</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Находка</div><div class="city-count">22+ объекта</div></div></div><div class="city-card scroll-reveal delay-1"><img src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=700&q=80" alt="Арсеньев"><div class="city-hover">Доступные цены</div><div class="city-arrow">→</div><div class="city-overlay"></div><div class="city-info"><div class="city-name">Арсеньев</div><div class="city-count">14+ объектов</div></div></div><div class="city-card scroll-reveal delay-2" style="background: linear-gradient(135deg, rgba(232,25,44,0.1), rgba(232,25,44,0.03)); cursor: pointer;" onclick="goSec('contact')"><div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;"><div style="font-size: 48px; margin-bottom: 16px;">🗺️</div><div class="city-name" style="font-size: 22px; color: var(--t);">Другие города</div><div class="city-count">Работаем везде</div></div></div></div></div></section>
 
-  <section id="featured"><div class="w"><div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 32px;"><div><div class="s-eye scroll-reveal">Новостройки</div><h2 class="s-h2 scroll-reveal delay-1">Актуальные объекты</h2></div><button class="btn-outline scroll-reveal" onclick="goPage('catalog')">Весь каталог →</button></div><div class="chips scroll-reveal"><button class="chip active" onclick="filterHome(this,'all')">Все</button><button class="chip" onclick="filterHome(this,'vlad')">Владивосток</button><button class="chip" onclick="filterHome(this,'uss')">Уссурийск</button><button class="chip" onclick="filterHome(this,'art')">Артём</button><button class="chip" onclick="filterHome(this,'new')">Новинки</button></div><div class="props-grid" id="homeGrid"></div></div></section>
+  <section id="featured"><div class="w"><div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 28px; margin-bottom: 36px;"><div><div class="s-eye scroll-reveal">Новостройки</div><h2 class="s-h2 scroll-reveal delay-1">Актуальные объекты</h2></div><button class="btn-outline scroll-reveal" onclick="goPage('catalog')">Весь каталог →</button></div><div class="chips scroll-reveal"><button class="chip active" onclick="filterHome(this,'all')">Все</button><button class="chip" onclick="filterHome(this,'vlad')">Владивосток</button><button class="chip" onclick="filterHome(this,'uss')">Уссурийск</button><button class="chip" onclick="filterHome(this,'art')">Артём</button><button class="chip" onclick="filterHome(this,'new')">Новинки</button></div><div class="props-grid" id="homeGrid"></div></div></section>
 
   <section id="how"><div class="w"><div class="s-eye scroll-reveal">Как мы работаем</div><h2 class="s-h2 scroll-reveal delay-1">Покупка без лишних шагов</h2><div class="how-grid"><div class="how-card scroll-reveal"><div class="how-n">01</div><div class="how-title">Заявка</div><div class="how-txt">Оставляете запрос — менеджер перезвонит за 15 минут</div></div><div class="how-card scroll-reveal delay-1"><div class="how-n">02</div><div class="how-title">Подборка</div><div class="how-txt">Готовим объекты под ваш бюджет</div></div><div class="how-card scroll-reveal delay-2"><div class="how-n">03</div><div class="how-title">Просмотр</div><div class="how-txt">Очные или видео-туры</div></div><div class="how-card scroll-reveal delay-3"><div class="how-n">04</div><div class="how-title">Сделка</div><div class="how-txt">Юридическое сопровождение</div></div></div></div></section>
 
-  <section id="wizard"><div class="w"><div class="s-eye scroll-reveal" style="justify-content: center;">Подбор объекта</div><h2 class="s-h2 scroll-reveal delay-1" style="text-align: center;">За 2 минуты — ваш вариант</h2><div class="wiz-wrap scroll-reveal"><div class="wiz-prog"><div class="wiz-fill" id="wizFill"></div></div><div class="wiz-step active" id="ws1"><div class="wiz-q">Что вам нужно?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'goal','buy')"><div class="wo-icon">🏠</div><div class="wo-lbl">Купить</div></div><div class="wo" onclick="pickWiz(this,'goal','invest')"><div class="wo-icon">📈</div><div class="wo-lbl">Инвестиция</div></div><div class="wo" onclick="pickWiz(this,'goal','rent')"><div class="wo-icon">🔑</div><div class="wo-lbl">Аренда</div></div><div class="wo" onclick="pickWiz(this,'goal','sell')"><div class="wo-icon">💸</div><div class="wo-lbl">Продать</div></div></div><div class="wiz-nav"><button class="w-next" onclick="nextWiz(2)">Далее →</button></div></div><div class="wiz-step" id="ws2"><div class="wiz-q">Город?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'city','vlad')"><div class="wo-icon">🌊</div><div class="wo-lbl">Владивосток</div></div><div class="wo" onclick="pickWiz(this,'city','uss')"><div class="wo-icon">🏙️</div><div class="wo-lbl">Уссурийск</div></div><div class="wo" onclick="pickWiz(this,'city','art')"><div class="wo-icon">✈️</div><div class="wo-lbl">Артём</div></div><div class="wo" onclick="pickWiz(this,'city','other')"><div class="wo-icon">🗺️</div><div class="wo-lbl">Другой</div></div></div><div class="wiz-nav"><button class="w-back" onclick="prevWiz(1)">← Назад</button><button class="w-next" onclick="nextWiz(3)">Далее →</button></div></div><div class="wiz-step" id="ws3"><div class="wiz-q">Бюджет?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'budget','<5')"><div class="wo-icon">💰</div><div class="wo-lbl">до ₽5M</div></div><div class="wo" onclick="pickWiz(this,'budget','5-8')"><div class="wo-icon">💎</div><div class="wo-lbl">₽5–8M</div></div><div class="wo" onclick="pickWiz(this,'budget','8-15')"><div class="wo-icon">🏆</div><div class="wo-lbl">₽8–15M</div></div><div class="wo" onclick="pickWiz(this,'budget','>15')"><div class="wo-icon">👑</div><div class="wo-lbl">от ₽15M</div></div></div><div class="wiz-nav"><button class="w-back" onclick="prevWiz(2)">← Назад</button><button class="w-next" onclick="nextWiz(4)">Далее →</button></div></div><div class="wiz-step" id="ws4" style="text-align: center;"><div style="font-size: 64px; margin-bottom: 24px;">🎯</div><div class="wiz-q" style="margin-bottom: 20px;">Готово!</div><p style="margin-bottom: 32px;">По вашим параметрам есть <strong style="color: var(--r);">8 объектов</strong>. Менеджер свяжется.</p><div class="wiz-nav"><button class="btn-fill" onclick="goSec('contact')">Получить подборку →</button><button class="btn-outline" onclick="goPage('catalog')">Смотреть каталог</button></div></div></div></div></section>
+  <section id="wizard"><div class="w"><div class="s-eye scroll-reveal" style="justify-content: center;">Подбор объекта</div><h2 class="s-h2 scroll-reveal delay-1" style="text-align: center;">За 2 минуты — ваш вариант</h2><div class="wiz-wrap scroll-reveal"><div class="wiz-prog"><div class="wiz-fill" id="wizFill"></div></div><div class="wiz-step active" id="ws1"><div class="wiz-q">Что вам нужно?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'goal','buy')"><div class="wo-icon">🏠</div><div class="wo-lbl">Купить</div></div><div class="wo" onclick="pickWiz(this,'goal','invest')"><div class="wo-icon">📈</div><div class="wo-lbl">Инвестиция</div></div><div class="wo" onclick="pickWiz(this,'goal','rent')"><div class="wo-icon">🔑</div><div class="wo-lbl">Аренда</div></div><div class="wo" onclick="pickWiz(this,'goal','sell')"><div class="wo-icon">💸</div><div class="wo-lbl">Продать</div></div></div><div class="wiz-nav"><button class="w-next" onclick="nextWiz(2)">Далее →</button></div></div><div class="wiz-step" id="ws2"><div class="wiz-q">Город?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'city','vlad')"><div class="wo-icon">🌊</div><div class="wo-lbl">Владивосток</div></div><div class="wo" onclick="pickWiz(this,'city','uss')"><div class="wo-icon">🏙️</div><div class="wo-lbl">Уссурийск</div></div><div class="wo" onclick="pickWiz(this,'city','art')"><div class="wo-icon">✈️</div><div class="wo-lbl">Артём</div></div><div class="wo" onclick="pickWiz(this,'city','other')"><div class="wo-icon">🗺️</div><div class="wo-lbl">Другой</div></div></div><div class="wiz-nav"><button class="w-back" onclick="prevWiz(1)">← Назад</button><button class="w-next" onclick="nextWiz(3)">Далее →</button></div></div><div class="wiz-step" id="ws3"><div class="wiz-q">Бюджет?</div><div class="wiz-opts"><div class="wo" onclick="pickWiz(this,'budget','<5')"><div class="wo-icon">💰</div><div class="wo-lbl">до ₽5M</div></div><div class="wo" onclick="pickWiz(this,'budget','5-8')"><div class="wo-icon">💎</div><div class="wo-lbl">₽5–8M</div></div><div class="wo" onclick="pickWiz(this,'budget','8-15')"><div class="wo-icon">🏆</div><div class="wo-lbl">₽8–15M</div></div><div class="wo" onclick="pickWiz(this,'budget','>15')"><div class="wo-icon">👑</div><div class="wo-lbl">от ₽15M</div></div></div><div class="wiz-nav"><button class="w-back" onclick="prevWiz(2)">← Назад</button><button class="w-next" onclick="nextWiz(4)">Далее →</button></div></div><div class="wiz-step" id="ws4" style="text-align: center;"><div style="font-size: 68px; margin-bottom: 28px;">🎯</div><div class="wiz-q" style="margin-bottom: 24px;">Готово!</div><p style="margin-bottom: 36px;">По вашим параметрам есть <strong style="color: var(--r);">8 объектов</strong>. Менеджер свяжется.</p><div class="wiz-nav"><button class="btn-fill" onclick="goSec('contact')">Получить подборку →</button><button class="btn-outline" onclick="goPage('catalog')">Смотреть каталог</button></div></div></div></div></section>
 
   <section id="faq"><div class="w"><div class="s-eye scroll-reveal">Вопросы</div><h2 class="s-h2 scroll-reveal delay-1">Часто спрашивают</h2><div class="faq-list"><div class="faq-item scroll-reveal"><div class="faq-q" onclick="toggleFaq(this)">Сколько стоят услуги при покупке новостройки?<span class="faq-ico">+</span></div><div class="faq-a"><p>Бесплатно для покупателя. Комиссия оплачивается застройщиком.</p></div></div><div class="faq-item scroll-reveal delay-1"><div class="faq-q" onclick="toggleFaq(this)">Работаете с ипотекой?<span class="faq-ico">+</span></div><div class="faq-a"><p>Да. ДВ-ипотека 2%, Семейная 6%, IT-ипотека 8%, стандартная до 12%.</p></div></div><div class="faq-item scroll-reveal delay-2"><div class="faq-q" onclick="toggleFaq(this)">Что такое дальневосточная ипотека?<span class="faq-ico">+</span></div><div class="faq-a"><p>Госпрограмма для жителей ДФО со ставкой до 2%.</p></div></div><div class="faq-item scroll-reveal delay-3"><div class="faq-q" onclick="toggleFaq(this)">Можно купить дистанционно?<span class="faq-ico">+</span></div><div class="faq-a"><p>Да. Онлайн-показы и сделки с ЭЦП.</p></div></div></div></div></section>
 
-  <section id="contact"><div class="w"><div class="contact-grid"><div class="scroll-reveal-left"><div class="s-eye">Контакты</div><h2 class="s-h2">Напишите нам сейчас</h2><p class="s-sub" style="margin-bottom: 36px;">Ответим за 15 минут. Консультация бесплатно.</p><div class="ch-list"><div class="ch" onclick="window.open('https://wa.me/79001234567')"><div class="ch-ico" style="background: rgba(37,211,102,0.1); color: #25D366;">💬</div><div class="ch-info"><strong>WhatsApp</strong><span>Написать сейчас</span></div><span style="margin-left: auto;">→</span></div><div class="ch" onclick="window.open('https://t.me/pulsedv')"><div class="ch-ico" style="background: rgba(42,171,238,0.1); color: #2AABEE;">✈️</div><div class="ch-info"><strong>Telegram</strong><span>@pulsedv</span></div><span style="margin-left: auto;">→</span></div><div class="ch" onclick="window.location.href='tel:+74232123456'"><div class="ch-ico" style="background: rgba(232,25,44,0.1); color: var(--r);">📞</div><div class="ch-info"><strong>+7 (423) 212-34-56</strong><span>Ежедневно 9–21</span></div><span style="margin-left: auto;">→</span></div></div><div style="margin-top: 28px; padding: 24px; border: 1px solid var(--br); border-radius: 28px; background: var(--glass-bg); backdrop-filter: var(--glass-blur);"><div class="s-eye" style="margin-bottom: 10px;">Офис</div><p>г. Владивосток, ул. Светланская, 123<br>Пн–Вс 9:00–21:00</p></div></div><div class="scroll-reveal-right"><form class="cont-form" onsubmit="submitForm(event)"><div class="row2"><input class="fi" type="text" placeholder="Ваше имя" required><input class="fi" type="tel" placeholder="+7 (___) ___-__-__" required></div><input class="fi" type="email" placeholder="Email"><select class="fi"><option>Что интересует?</option><option>Покупка новостройки</option><option>Вторичный рынок</option><option>Аренда</option><option>Ипотека</option></select><textarea class="fi" placeholder="Комментарий" rows="3"></textarea><button type="submit" class="btn-fill" style="width: 100%; justify-content: center;">Отправить заявку</button></form></div></div></div></section>
+  <section id="contact"><div class="w"><div class="contact-grid"><div class="scroll-reveal-left"><div class="s-eye">Контакты</div><h2 class="s-h2">Напишите нам сейчас</h2><p class="s-sub" style="margin-bottom: 40px;">Ответим за 15 минут. Консультация бесплатно.</p><div class="ch-list"><div class="ch" onclick="window.open('https://wa.me/79001234567')"><div class="ch-ico" style="background: rgba(37,211,102,0.12); color: #25D366;">💬</div><div class="ch-info"><strong>WhatsApp</strong><span>Написать сейчас</span></div><span style="margin-left: auto;">→</span></div><div class="ch" onclick="window.open('https://t.me/pulsedv')"><div class="ch-ico" style="background: rgba(42,171,238,0.12); color: #2AABEE;">✈️</div><div class="ch-info"><strong>Telegram</strong><span>@pulsedv</span></div><span style="margin-left: auto;">→</span></div><div class="ch" onclick="window.location.href='tel:+74232123456'"><div class="ch-ico" style="background: rgba(232,25,44,0.12); color: var(--r);">📞</div><div class="ch-info"><strong>+7 (423) 212-34-56</strong><span>Ежедневно 9–21</span></div><span style="margin-left: auto;">→</span></div></div><div style="margin-top: 32px; padding: 26px; border: 1px solid var(--br); border-radius: 32px; background: var(--glass-bg); backdrop-filter: var(--glass-blur);"><div class="s-eye" style="margin-bottom: 12px;">Офис</div><p>г. Владивосток, ул. Светланская, 123<br>Пн–Вс 9:00–21:00</p></div></div><div class="scroll-reveal-right"><form class="cont-form" onsubmit="submitForm(event)"><div class="row2"><input class="fi" type="text" placeholder="Ваше имя" required><input class="fi" type="tel" placeholder="+7 (___) ___-__-__" required></div><input class="fi" type="email" placeholder="Email"><select class="fi"><option>Что интересует?</option><option>Покупка новостройки</option><option>Вторичный рынок</option><option>Аренда</option><option>Ипотека</option></select><textarea class="fi" placeholder="Комментарий" rows="3"></textarea><button type="submit" class="btn-fill" style="width: 100%; justify-content: center;">Отправить заявку</button></form></div></div></div></section>
 
   <footer><div class="foot-grid"><div class="foot-brand"><div class="nav-logo">PULSE<span class="nl-dot">.</span>DV</div><p>Агентство недвижимости Приморского края. Работаем с 2021 года.</p></div><div class="foot-col"><h5>Маркет</h5><a onclick="goPage('catalog')">Новостройки</a><a onclick="goPage('catalog')">Вторичный рынок</a><a onclick="goPage('catalog')">Аренда</a><a onclick="goPage('catalog')">Земельные участки</a></div><div class="foot-col"><h5>Компания</h5><a onclick="goPage('about')">О нас</a><a onclick="goPage('about')">Команда</a><a href="#">Блог</a></div><div class="foot-col"><h5>Услуги</h5><a href="#">Ипотека</a><a href="#">ДВ-ипотека 2%</a><a href="#">Юр. сопровождение</a></div></div><div class="foot-bottom"><p>© 2025 PULSE.DV — Все права защищены</p><div class="socs"><a class="soc" href="#">vk</a><a class="soc" href="#">tg</a><a class="soc" href="#">wa</a></div></div></footer>
 </div>
 
 <!-- CATALOG PAGE -->
-<div id="pg-catalog" class="pg"><div><div class="w" style="margin-bottom: 48px;"><button class="modal-back" onclick="goPage('home')">← На главную</button><div class="s-eye">Каталог</div><h1 class="s-h2">Новостройки Приморского края</h1><p class="s-sub">Актуальная база объектов. Обновляется регулярно.</p></div><div class="w" style="margin-bottom: 40px;"><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; padding: 32px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 32px;"><div><div class="s-eye" style="margin-bottom: 10px;">Город</div><select class="fi" id="catCity" onchange="filterCatalog()"><option value="">Все города</option><option value="vlad">Владивосток</option><option value="uss">Уссурийск</option><option value="art">Артём</option></select></div><div><div class="s-eye" style="margin-bottom: 10px;">Тип</div><select class="fi" id="catType" onchange="filterCatalog()"><option value="">Все типы</option><option value="studio">Студия</option><option value="1k">1-комн.</option><option value="2k">2-комн.</option><option value="3k">3-комн.</option></select></div><div><div class="s-eye" style="margin-bottom: 10px;">Бюджет</div><select class="fi" id="catBudget" onchange="filterCatalog()"><option value="">Любой</option><option value="4">до ₽4M</option><option value="8">₽4–8M</option><option value="15">₽8–15M</option><option value="20">от ₽15M</option></select></div><div><div class="s-eye" style="margin-bottom: 10px;">Комнаты</div><select class="fi" id="catRooms" onchange="filterCatalog()"><option value="">Любое</option><option value="1">1 комната</option><option value="2">2 комнаты</option><option value="3">3+ комнаты</option></select></div><div style="display: flex; align-items: flex-end;"><button class="btn-fill" style="width: 100%; justify-content: center;" onclick="filterCatalog()">Применить</button></div></div></div><div class="props-grid w" id="catalogGrid"></div><div id="catalogEmpty" style="display: none; text-align: center; padding: 80px;"><div style="font-size: 52px; margin-bottom: 20px;">🔍</div><p>Ничего не найдено. Попробуйте изменить фильтры.</p></div></div><footer><div class="foot-bottom"><p>© 2025 PULSE.DV</p><button class="btn-outline" onclick="goPage('home')">← Главная</button></div></footer></div>
+<div id="pg-catalog" class="pg"><div><div class="w" style="margin-bottom: 52px;"><button class="modal-back" onclick="goPage('home')">← На главную</button><div class="s-eye">Каталог</div><h1 class="s-h2">Новостройки Приморского края</h1><p class="s-sub">Актуальная база объектов. Обновляется регулярно.</p></div><div class="w" style="margin-bottom: 44px;"><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; padding: 36px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--br); border-radius: 36px;"><div><div class="s-eye" style="margin-bottom: 12px;">Город</div><select class="fi" id="catCity" onchange="filterCatalog()"><option value="">Все города</option><option value="vlad">Владивосток</option><option value="uss">Уссурийск</option><option value="art">Артём</option></select></div><div><div class="s-eye" style="margin-bottom: 12px;">Тип</div><select class="fi" id="catType" onchange="filterCatalog()"><option value="">Все типы</option><option value="studio">Студия</option><option value="1k">1-комн.</option><option value="2k">2-комн.</option><option value="3k">3-комн.</option></select></div><div><div class="s-eye" style="margin-bottom: 12px;">Бюджет</div><select class="fi" id="catBudget" onchange="filterCatalog()"><option value="">Любой</option><option value="4">до ₽4M</option><option value="8">₽4–8M</option><option value="15">₽8–15M</option><option value="20">от ₽15M</option></select></div><div><div class="s-eye" style="margin-bottom: 12px;">Комнаты</div><select class="fi" id="catRooms" onchange="filterCatalog()"><option value="">Любое</option><option value="1">1 комната</option><option value="2">2 комнаты</option><option value="3">3+ комнаты</option></select></div><div style="display: flex; align-items: flex-end;"><button class="btn-fill" style="width: 100%; justify-content: center;" onclick="filterCatalog()">Применить</button></div></div></div><div class="props-grid w" id="catalogGrid"></div><div id="catalogEmpty" style="display: none; text-align: center; padding: 88px;"><div style="font-size: 56px; margin-bottom: 24px;">🔍</div><p>Ничего не найдено. Попробуйте изменить фильтры.</p></div></div><footer><div class="foot-bottom"><p>© 2025 PULSE.DV</p><button class="btn-outline" onclick="goPage('home')">← Главная</button></div></footer></div>
 
 <!-- ABOUT PAGE -->
-<div id="pg-about" class="pg"><div style="padding: 120px 48px 80px;"><div class="w"><div class="s-eye scroll-reveal">О компании</div><h1 class="s-h2 scroll-reveal delay-1">PULSE.DV — это Приморье и <span style="color: var(--r);">недвижимость</span></h1><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 60px;"><div class="scroll-reveal" style="background: var(--bg2); border-radius: 32px; padding: 52px;"><div class="s-eye">Миссия</div><p style="font-size: 16px; color: var(--t2); line-height: 1.7;">Дать каждому жителю Дальнего Востока решить жилищный вопрос.</p></div><div class="scroll-reveal delay-1" style="background: var(--bg2); border-radius: 32px; padding: 52px;"><div class="s-eye">Ценности</div><p style="font-size: 16px; color: var(--t2); line-height: 1.7;">Честность, скорость, ответственность. Бесплатно для покупателей новостроек.</p></div></div></div></div><div style="padding: 80px 48px; background: var(--bg2);"><div class="w"><div class="s-eye scroll-reveal">Команда</div><h2 class="s-h2 scroll-reveal delay-1">Люди которые помогают</h2><div class="team-grid"><div class="tm scroll-reveal"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=160&q=80" alt=""></div><div class="tm-name">Антон Власов</div><div class="tm-role">Основатель & CEO</div></div><div class="tm scroll-reveal delay-1"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=160&q=80" alt=""></div><div class="tm-name">Мария Ли</div><div class="tm-role">Руководитель продаж</div></div><div class="tm scroll-reveal delay-2"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=160&q=80" alt=""></div><div class="tm-name">Денис Сорокин</div><div class="tm-role">Юрист</div></div><div class="tm scroll-reveal delay-3"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=160&q=80" alt=""></div><div class="tm-name">Алина Кох</div><div class="tm-role">Ипотечный брокер</div></div></div></div></div><footer><div class="foot-bottom"><p>© 2025 PULSE.DV</p><button class="btn-outline" onclick="goPage('home')">← Главная</button></div></footer></div>
+<div id="pg-about" class="pg"><div style="padding: 130px 56px 88px;"><div class="w"><div class="s-eye scroll-reveal">О компании</div><h1 class="s-h2 scroll-reveal delay-1">PULSE.DV — это Приморье и <span style="color: var(--r);">недвижимость</span></h1><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 70px;"><div class="scroll-reveal" style="background: var(--bg2); border-radius: 36px; padding: 56px;"><div class="s-eye">Миссия</div><p style="font-size: 16px; color: var(--t2); line-height: 1.7;">Дать каждому жителю Дальнего Востока решить жилищный вопрос.</p></div><div class="scroll-reveal delay-1" style="background: var(--bg2); border-radius: 36px; padding: 56px;"><div class="s-eye">Ценности</div><p style="font-size: 16px; color: var(--t2); line-height: 1.7;">Честность, скорость, ответственность. Бесплатно для покупателей новостроек.</p></div></div></div></div><div style="padding: 88px 56px; background: var(--bg2);"><div class="w"><div class="s-eye scroll-reveal">Команда</div><h2 class="s-h2 scroll-reveal delay-1">Люди которые помогают</h2><div class="team-grid"><div class="tm scroll-reveal"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=160&q=80" alt=""></div><div class="tm-name">Антон Власов</div><div class="tm-role">Основатель & CEO</div></div><div class="tm scroll-reveal delay-1"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=160&q=80" alt=""></div><div class="tm-name">Мария Ли</div><div class="tm-role">Руководитель продаж</div></div><div class="tm scroll-reveal delay-2"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=160&q=80" alt=""></div><div class="tm-name">Денис Сорокин</div><div class="tm-role">Юрист</div></div><div class="tm scroll-reveal delay-3"><div class="tm-ava"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=160&q=80" alt=""></div><div class="tm-name">Алина Кох</div><div class="tm-role">Ипотечный брокер</div></div></div></div></div><footer><div class="foot-bottom"><p>© 2025 PULSE.DV</p><button class="btn-outline" onclick="goPage('home')">← Главная</button></div></footer></div>
 
 <div class="floats"><a class="flt flt-wa" href="https://wa.me/79001234567">💬</a><a class="flt flt-tg" href="https://t.me/pulsedv">✈️</a></div>
 <div class="modal" id="propModal"></div>
@@ -483,7 +486,7 @@
   function showProperty(id) {
     const p = PROPERTIES.find(x=>x.id===id);
     const modal = document.getElementById('propModal');
-    modal.innerHTML = `<div class="modal-inner"><button class="modal-back" onclick="closeModal()">← Назад</button><div style="display:grid;grid-template-columns:2fr 1fr;gap:2px;border-radius:24px;overflow:hidden"><img src="${p.img}" style="width:100%;height:400px;object-fit:cover"/><div><img src="https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=600&q=80" style="width:100%;height:199px;object-fit:cover"/><img src="https://images.unsplash.com/photo-1524230572899-a752b3835840?w=600&q=80" style="width:100%;height:199px;object-fit:cover;margin-top:2px"/></div></div><div style="display:grid;grid-template-columns:1fr 340px;gap:48px;margin-top:40px"><div><h2 style="font-family:var(--fh);font-size:36px;font-weight:800;margin-bottom:16px">${p.name}</h2><div class="pc-price" style="font-size:32px;margin-bottom:24px">${p.price}</div><div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px"><div class="spec">📐 Площадь: ${p.area} м²</div><div class="spec">🏢 Этаж: ${p.floor}</div><div class="spec">🛏️ Комнат: ${p.rooms}</div><div class="spec">🏗️ Застройщик: ${p.dev}</div></div><p style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:28px">Современный жилой комплекс от надёжного застройщика в Приморском крае. Продуманная планировка, качественные материалы, удобная транспортная доступность. Возможна покупка по ипотеке, в том числе по программе «ДВ-ипотека» под 2%.</p><button class="btn-fill" onclick="closeModal();goSec('contact')">Оставить заявку</button></div><div style="background:var(--bg2);border:1px solid var(--br);border-radius:24px;padding:28px;position:sticky;top:100px"><div class="pc-price" style="font-size:36px;margin-bottom:8px">${p.price}</div><div style="font-size:13px;color:var(--t3);margin-bottom:24px">${p.area} м² · ${p.cityName}</div><button class="btn-fill" style="width:100%;justify-content:center;margin-bottom:12px" onclick="closeModal();goSec('contact')">Записаться на просмотр</button><a class="btn-outline" href="https://wa.me/79001234567" style="display:flex;justify-content:center;text-decoration:none">WhatsApp →</a></div></div></div>`;
+    modal.innerHTML = `<div class="modal-inner"><button class="modal-back" onclick="closeModal()">← Назад</button><div style="display:grid;grid-template-columns:2fr 1fr;gap:2px;border-radius:28px;overflow:hidden"><img src="${p.img}" style="width:100%;height:420px;object-fit:cover"/><div><img src="https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=600&q=80" style="width:100%;height:209px;object-fit:cover"/><img src="https://images.unsplash.com/photo-1524230572899-a752b3835840?w=600&q=80" style="width:100%;height:209px;object-fit:cover;margin-top:2px"/></div></div><div style="display:grid;grid-template-columns:1fr 360px;gap:52px;margin-top:48px"><div><h2 style="font-family:var(--fh);font-size:38px;font-weight:800;margin-bottom:18px">${p.name}</h2><div class="pc-price" style="font-size:34px;margin-bottom:28px">${p.price}</div><div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px"><div class="spec">📐 Площадь: ${p.area} м²</div><div class="spec">🏢 Этаж: ${p.floor}</div><div class="spec">🛏️ Комнат: ${p.rooms}</div><div class="spec">🏗️ Застройщик: ${p.dev}</div></div><p style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:32px">Современный жилой комплекс от надёжного застройщика в Приморском крае. Продуманная планировка, качественные материалы, удобная транспортная доступность. Возможна покупка по ипотеке, в том числе по программе «ДВ-ипотека» под 2%.</p><button class="btn-fill" onclick="closeModal();goSec('contact')">Оставить заявку</button></div><div style="background:var(--bg2);border:1px solid var(--br);border-radius:28px;padding:32px;position:sticky;top:100px"><div class="pc-price" style="font-size:38px;margin-bottom:12px">${p.price}</div><div style="font-size:13px;color:var(--t3);margin-bottom:28px">${p.area} м² · ${p.cityName}</div><button class="btn-fill" style="width:100%;justify-content:center;margin-bottom:14px" onclick="closeModal();goSec('contact')">Записаться на просмотр</button><a class="btn-outline" href="https://wa.me/79001234567" style="display:flex;justify-content:center;text-decoration:none">WhatsApp →</a></div></div></div>`;
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -494,7 +497,7 @@
   function nextWiz(step) { document.querySelectorAll('.wiz-step').forEach(s=>s.classList.remove('active')); document.getElementById(`ws${step}`).classList.add('active'); document.getElementById('wizFill').style.width = step*25 + '%'; }
   function prevWiz(step) { document.querySelectorAll('.wiz-step').forEach(s=>s.classList.remove('active')); document.getElementById(`ws${step}`).classList.add('active'); document.getElementById('wizFill').style.width = step*25 + '%'; }
   function submitForm(e) { e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); const original = btn.textContent; btn.textContent = '✓ Отправлено!'; btn.style.background = '#16a34a'; setTimeout(()=>{btn.textContent=original;btn.style.background='';e.target.reset()}, 3000); }
-  function toggleMob() { const menu = document.getElementById('mobileMenu'); const spans = document.getElementById('burger').querySelectorAll('span'); menu.classList.toggle('open'); if(menu.classList.contains('open')){ spans[0].style.transform='rotate(45deg) translate(6px,6px)'; spans[1].style.opacity='0'; spans[2].style.transform='rotate(-45deg) translate(6px,-6px)'; } else { spans.forEach(s=>{s.style.transform='';s.style.opacity=''}); } }
+  function toggleMob() { const menu = document.getElementById('mobileMenu'); const spans = document.getElementById('burger').querySelectorAll('span'); menu.classList.toggle('open'); if(menu.classList.contains('open')){ spans[0].style.transform='rotate(45deg) translate(7px,7px)'; spans[1].style.opacity='0'; spans[2].style.transform='rotate(-45deg) translate(7px,-7px)'; } else { spans.forEach(s=>{s.style.transform='';s.style.opacity=''}); } }
 
   // LOADER
   window.addEventListener('load',()=>{
@@ -581,7 +584,7 @@
   function init3D() {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xF8F8FA);
-    scene.fog = new THREE.FogExp2(0xF8F8FA, 0.0025);
+    scene.fog = new THREE.FogExp2(0xF8F8FA, 0.0022);
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 1.5, 14);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
@@ -640,7 +643,7 @@
       const line2 = new THREE.Line(geometry2, cableMaterial);
       bridgeGroup.add(line2);
     }
-    const lampMaterial = new THREE.MeshStandardMaterial({ color: 0xFFAA66, emissive: 0xFF4400, emissiveIntensity: 0.35 });
+    const lampMaterial = new THREE.MeshStandardMaterial({ color: 0xFFAA66, emissive: 0xFF4400, emissiveIntensity: 0.38 });
     for(let i = -2.5; i <= 2.5; i+=2.5) {
       const lampGeo = new THREE.SphereGeometry(0.13, 16, 16);
       const lamp = new THREE.Mesh(lampGeo, lampMaterial);
@@ -652,13 +655,13 @@
     scene.add(bridgeGroup);
 
     // Particles
-    const particleCount = 950;
+    const particleCount = 1050;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     for(let i = 0; i < particleCount; i++) {
-      particlePositions[i*3] = (Math.random() - 0.5) * 14;
-      particlePositions[i*3+1] = (Math.random() - 0.5) * 7 + 1;
-      particlePositions[i*3+2] = (Math.random() - 0.5) * 9 - 2;
+      particlePositions[i*3] = (Math.random() - 0.5) * 15;
+      particlePositions[i*3+1] = (Math.random() - 0.5) * 7.5 + 1;
+      particlePositions[i*3+2] = (Math.random() - 0.5) * 10 - 2;
     }
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
     const particleMat = new THREE.PointsMaterial({ color: 0xE8192C, size: 0.048, transparent: true, opacity: 0.28 });
@@ -666,7 +669,7 @@
     scene.add(particles);
 
     // Water plane
-    const waterGeo = new THREE.PlaneGeometry(15, 9);
+    const waterGeo = new THREE.PlaneGeometry(16, 10);
     const waterMat = new THREE.MeshStandardMaterial({ color: 0x4488aa, metalness: 0.92, roughness: 0.18, transparent: true, opacity: 0.12 });
     const water = new THREE.Mesh(waterGeo, waterMat);
     water.rotation.x = -Math.PI / 2;
